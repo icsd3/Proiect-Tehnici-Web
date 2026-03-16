@@ -1,0 +1,105 @@
+
+
+body{
+    --culoare-fundal:rgb(255, 255, 255);
+    --culoare-contur:rgb(255, 0, 0);
+    --margine-pagina:80px;
+    background-color: var(--culoare-fundal);
+}
+
+p{
+    border: 1px solid var(--culoare-fundal);
+}
+
+img, picture{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+iframe{
+    max-width: 100%;
+}
+
+main{
+    margin-left: var(--margine-pagina);
+    margin-right: var(--margine-pagina);
+}
+
+#grid-pagina{
+    display: grid;
+    grid-template-columns: 2fr 2fr 3fr;
+    grid-template-areas: "acasa acasa acasa" 
+                         "promotii promotii anunturi" 
+                         "fig1 fig2 catalog" 
+                         "fig3 fig4 produs" 
+                         "galerie checkout checkout"
+                         "galerie suport suport"
+                         "galerie index-intrebari index-intrebari"
+                         "ghiduri ghiduri evenimente";
+}
+
+#grid-pagina > *{
+    border: 1px solid var(--culoare-contur);
+    padding: 20px;
+}
+ 
+#acasa{
+    grid-area: acasa;
+}
+#promotii{
+    grid-area: promotii;
+}
+#anunturi{
+    grid-area: anunturi;
+}
+#fig1{
+    grid-area: fig1;
+}
+#fig2{
+    grid-area: fig2;
+}
+#fig3{
+    grid-area: fig3;
+}
+#fig4{
+    grid-area: fig4;
+}
+#catalog{
+    grid-area: catalog;
+}
+#produs{
+    grid-area: produs;
+}
+#galerie{
+    grid-area: galerie;
+}
+#checkout{
+    grid-area: checkout;
+}
+#suport{
+    grid-area: suport;
+}
+#index-intrebari{
+    grid-area: index-intrebari;
+}
+#ghiduri{
+    grid-area: ghiduri;
+}
+#evenimente{
+    grid-area: evenimente;
+}
+@media screen and (max-width:1200px) {
+
+    body{
+        --margine-pagina:50px;
+    }
+}
+
+@media screen and (max-width:700px) {
+
+    body{
+        --margine-pagina:20px;
+    }
+}
+

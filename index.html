@@ -1,0 +1,406 @@
+<!-- Task 1.1: doctype + limba documentului -->
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <!-- Task 1.2: title + meta relevante -->
+    <meta charset="UTF-8">
+    <meta name="author" content="Ungureanu Robert">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="TheMetalVault - magazin online de merch metal și rock: tricouri, hanorace, patch-uri, vinyl/CD/casete și accesorii.">
+    <meta name="keywords"
+        content="metal merch, band merch, vinyl metal, tricouri metal, tricouri trupe, hanorace metal, hanorace trupe, CD metal, casete metal, patch-uri metal, accesorii metal, colectii metal, magazin merch metal online, produse oficiale trupe, vinyl metal editie speciala, merch exclusiv, articole populare metal, noutati merch">
+    <title>TheMetalVault</title>
+
+    <!-- Task 1.4: favicon -->
+    <link rel="icon" type="image/png" href="resurse/imagini/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="resurse/imagini/favicon/favicon.svg">
+    <link rel="shortcut icon" href="resurse/imagini/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="resurse/imagini/favicon/apple-touch-icon.png">
+    <meta name="msapplication-TileColor" content="#111111">
+    <meta name="apple-mobile-web-app-title" content="TheMetalVault">
+    <link rel="manifest" href="resurse/imagini/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="resurse/css/general.css" type="text/css">
+</head>
+
+<body id="top">
+    <!-- Task 1.5: structura header/main/footer -->
+    <header>
+        <h1>TheMetalVault</h1>
+        <!-- Task 1.8: navigare cu opțiuni principale și subopțiuni pentru "Acasă" (listă imbricată) -->
+        <nav>
+            <ul>
+                <li>
+                    <a href="#acasa">Acasă</a>
+                    <ul>
+                        <li><a href="#promotii">Promoții</a></li>
+                        <li><a href="#evenimente">Evenimente</a></li>
+                        <li><a href="#anunturi">Anunțuri</a></li>
+                        <li><a href="#galerie">Colecții recomandate</a></li>
+                    </ul>
+                </li>
+                <li><a href="#catalog">Catalog</a></li>
+                <li><a href="#produs">Pagină Produs</a></li>
+                <li><a href="#checkout">Coș &amp; Checkout</a></li>
+                <li><a href="#suport">Suport</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="grid-pagina">
+            <section id="acasa">
+                <!-- Task 1.7: heading + subtitlu cu hgroup -->
+                <hgroup>
+                    <h2>Magazin merch metal &amp; rock</h2>
+                    <p class="subtitlu">Colecții oficiale, independente și ediții limitate</p>
+                </hgroup>
+
+                <!-- Task 1.3 + Task 1.9: cuvinte cheie in text + tag de grupare p -->
+                <p class="intro">TheMetalVault este un magazin merch metal online dedicat fanilor heavy, death, black,
+                    thrash, doom si metalcore. Aici gasesti produse oficiale trupe, merch exclusiv si colectii noi
+                    metal pentru concerte, festivaluri si colectii personale.</p>
+                <p>In catalog gasesti frecvent <b>metal merch</b>, <b>band merch</b>, <b>vinyl metal</b>, tricouri
+                    metal, tricouri trupe, hanorace metal, hanorace trupe, CD metal, casete metal, patch-uri metal,
+                    accesorii metal si colectii metal.</p>
+                <p class="anunt">Highlight-uri: vinyl metal editie speciala, articole populare metal, noutati merch,
+                    lansari noi trupe si oferte merch metal. Vezi si colectii recomandate pentru fani.</p>
+
+                <!-- Task 1.9: folosire minim 2 taguri de grupare dintre p / blockquote / dl -->
+                <dl>
+                    <dt>Drop săptămânal</dt>
+                    <dd>Lansare nouă în fiecare vineri, cu stoc limitat pentru articole selectate.</dd>
+                    <dt>Precomandă album</dt>
+                    <dd>Rezervi edițiile speciale înainte de intrarea în stocul general.</dd>
+                </dl>
+
+                <div class="intro-oferte">
+                    <div>Tricouri</div>
+                    <div>Hanorace</div>
+                    <div>Patch-uri</div>
+                    <div>Vinyl / CD / Casete</div>
+                    <div>Accesorii</div>
+                </div>
+
+                <p class="anunt intro">Platforma pune accent pe navigare rapidă, filtre clare și colecții pe
+                    sub-genuri, label-uri și disponibilitate în stoc.</p>
+
+                <div id="dv-prezentare-1">
+                    <div id="dv-prezentare">
+                        <!-- Task 1.11: figure + picture + figcaption -->
+                        <figure>
+                            <picture>
+                                <source srcset="./resurse/imagini/imagine_1_700.jpg" media="(max-width:700px)">
+                                <source srcset="./resurse/imagini/imagine_1_1200.jpg" media="(max-width:1200px)">
+                                <img src="./resurse/imagini/imagine_1_max.jpg" alt="TheMetalVault colecție merch" title="Colecție TheMetalVault - merch metal">
+                            </picture>
+                            <figcaption>TheMetalVault - merch oficial și independent pentru scena metal</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <section id="promotii">
+                <h2>Promoții și noutăți</h2>
+                <p>Noutati merch si lansari noi trupe apar constant, cu oferte merch metal pentru articole populare metal                  si merch exclusiv, inclusiv vinyl metal editie speciala.</p>
+                <!-- Task 1.6: section/article imbricate + heading corespunzator -->
+                <article>
+                    <h3 class="titlu">Tour Drops săptămânale</h3>
+                    <!-- Task 1.12: b + s + ins -->
+                    <p><b>TheMetalVault</b> lansează colecții speciale inspirate de turnee, cu reduceri de
+                        <b><s>10%</s> <ins>15%</ins></b> în primele 48 de ore.</p>
+                    <p><strong>Important:</strong> stocurile pentru edițiile limitate se epuizează rapid; verifică
+                        imediat secțiunea de precomenzi și produsele oficiale.</p>
+                </article>
+
+                <article>
+                    <h3>Aniversări de albume</h3>
+                    <p>Promoții dedicate albumelor clasice cu pachete care includ:</p>
+                    <ol>
+                        <li>Vinyl ediție color (limited)</li>
+                        <li>CD deluxe edition</li>
+                        <li>Poster art print A2</li>
+                        <li>Set pin-uri + patch oficial</li>
+                    </ol>
+                </article>
+
+                <article>
+                    <h3>Recomandări pe sub-gen</h3>
+                    <p>Descoperă colecții curate pe genuri pentru o experiență de browsing mai rapidă:</p>
+                    <ol>
+                        <li>Heavy / Traditional</li>
+                        <li>Death / Black</li>
+                        <li>Thrash / Groove</li>
+                        <li>Doom / Sludge</li>
+                        <li>Metalcore / Modern</li>
+                    </ol>
+                </article>
+            </section>
+
+            <section id="catalog">
+                <h2>Catalog</h2>
+                <p>Toate produsele pot fi filtrate după mărime, format, preț, sub-gen, label și disponibilitate.</p>
+                <p>Catalogul include tricouri metal oficiale, hanorace trupe, vinyl metal limited edition, merch pe sub-gen, accesorii metal, patch-uri si pin-uri, colectii pe artisti si labeluri, plus produse metal in stoc.</p>
+                <p>Gasesti metal merch si band merch actualizate saptamanal, alaturi de vinyl metal, tricouri metal, tricouri trupe, hanorace metal, hanorace trupe, CD metal, casete metal, patch-uri metal, accesorii metal si colectii metal.</p>
+                <!-- Task 1.13: link extern care se deschide în tab nou -->
+                <p>Resursă externă recomandată: <a href="https://www.metal-archives.com/" target="_blank" rel="noopener noreferrer">Encyclopaedia Metallum</a>.</p>
+                <!-- Task 1.13: link extern către element cu #id, text lung fragmentat cu wbr -->
+                <p><a href="https://en.wikipedia.org/wiki/Heavy_metal_music#History" target="_blank" rel="noopener noreferrer">https://en.<wbr>wikipedia.<wbr>org/wiki/Heavy_<wbr>metal_<wbr>music#History</a></p>
+
+                <section>
+                    <h3>Merch</h3>
+                    <ul>
+                        <li>Tricouri (unisex, damă, oversize)</li>
+                        <li>Hanorace / Jachete</li>
+                        <li>Accesorii (beanies, curele, pin-uri)</li>
+                        <li>Postere &amp; Art Prints</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Muzică</h3>
+                    <ul>
+                        <li>Vinyl (LP, ediții color, limited)</li>
+                        <li>CD</li>
+                        <li>Casete</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Colecții</h3>
+                    <ul>
+                        <li>Sub-genuri: Heavy / Death / Black / Thrash / Doom / Metalcore</li>
+                        <li>Brand/Label: Nuclear Blast, Metal Blade, Indie</li>
+                        <li>Exclusives &amp; Licensed Editions</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section id="produs">
+                <h2>Pagină produs</h2>
+                <article>
+                    <h3>Exemplu produs: Hanorac oficial "Blackened Riffs"</h3>
+                    <p>Material premium, print rezistent, mărimi XS-3XL. Disponibil în variante standard și oversized.</p>
+                    <p>Conține galerie foto, recomandări pentru fani ai sub-genului, produse similare și status de stoc în timp real.</p>
+                    <p>Pentru pagini individuale: tricou oficial [Trupa], hanorac [Trupa], vinyl [Album] editie colorata, detalii produs metal, materiale si marimi, recomandari pentru fanii [Sub-gen], pret si disponibilitate, produse similare metal.</p>
+                </article>
+            </section>
+
+            <section id="checkout">
+                <h2>Coș &amp; Checkout</h2>
+                <p>Fluxul include finalizare comanda rapida, plata securizata, livrare internationala, sumar comanda, optiuni de livrare, metode de plata sigure, costuri si estimari livrare, plus retur rapid.</p>
+                <!-- Task 1.15: tabel complet cu caption, minim 4 coloane, minim 5 rânduri în tbody și colspan -->
+                <table id="tab-orar">
+                    <caption>Etapele procesării unei comenzi în TheMetalVault</caption>
+                    <thead>
+                        <tr>
+                            <th>Etapă</th>
+                            <th>Detalii</th>
+                            <th>Opțiuni</th>
+                            <th>Durată estimată</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Coș</td>
+                            <td>Verificare produse, cantitate, cod promoțional</td>
+                            <td>Update rapid</td>
+                            <td>2-5 minute</td>
+                        </tr>
+                        <tr>
+                            <td>Livrare</td>
+                            <td>Adresă și metodă de transport</td>
+                            <td>Național / Internațional</td>
+                            <td>3-6 minute</td>
+                        </tr>
+                        <tr>
+                            <td>Plată</td>
+                            <td>Finalizare comandă securizată</td>
+                            <td>Card / Ramburs</td>
+                            <td>1-3 minute</td>
+                        </tr>
+                        <tr>
+                            <td>Confirmare</td>
+                            <td>Rezumat comandă și estimare livrare</td>
+                            <td>Email + status</td>
+                            <td>Instant</td>
+                        </tr>
+                        <tr>
+                            <td>Post-comandă</td>
+                            <td>Suport pentru modificări și retur</td>
+                            <td>Ticket / Email / WhatsApp</td>
+                            <td>24-48 ore</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">Retur rapid și suport pentru modificări de comandă conform politicii magazinului.</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <!-- Task 1.17: două taguri meter cu min/max/low/high/optimum; una low, una high -->
+                <p>Grad ocupare showroom (interval calm):
+                    <meter min="0" max="100" low="30" high="80" optimum="65" value="20">20 din 100</meter>
+                </p>
+                <p>Grad ocupare showroom (seară de lansare):
+                    <meter min="0" max="100" low="30" high="80" optimum="65" value="92">92 din 100</meter>
+                </p>
+            </section>
+
+            <!-- Task 1.10: secțiune evenimente în listă, cu nume în b și time cu dată + oră -->
+            <section id="evenimente">
+                <h2>Evenimente</h2>
+                <ol>
+                    <li><time datetime="2026-04-12T19:00">12 aprilie 2026, ora 19:00</time> — <b>Listening Party Thrash</b> - auditie de album nou și coduri promo limitate pentru participanți.</li>
+                    <li><time datetime="2026-05-03T12:00">3 mai 2026, ora 12:00</time> — <b>Patch Day</b> - reducere pe patch-uri oficiale și consultanță pentru personalizarea jachetelor.</li>
+                    <li><time datetime="2026-06-15T18:30">15 iunie 2026, ora 18:30</time> — <b>Vinyl Care Workshop</b> - ghid practic pentru curățare, depozitare și protejare vinyl.</li>
+                </ol>
+            </section>
+
+            <!-- Task 1.13: link care conține imagine și deschide versiunea mai mare în tabul curent -->
+            <figure id="fig1" class="fg-img">
+                <a href="resurse/imagini/imagine_1_max.jpg">
+                    <img src="resurse/imagini/imagine_2.jpg" alt="tricou metal">
+                </a>
+                <figcaption>Tricouri oficiale</figcaption>
+            </figure>
+            <figure id="fig2" class="fg-img">
+                <img src="resurse/imagini/imagine_3.jpg" alt="hanorac metal">
+                <figcaption>Hanorace &amp; jachete</figcaption>
+            </figure>
+            <figure id="fig3" class="fg-img">
+                <img src="resurse/imagini/imagine_4.jpg" alt="vinyl metal">
+                <figcaption>Vinyl ediții limitate</figcaption>
+            </figure>
+            <figure id="fig4">
+                <img src="resurse/imagini/imagine_5.jpg" alt="patchuri si accesorii">
+                <figcaption>Patch-uri &amp; accesorii</figcaption>
+            </figure>
+
+            <section id="anunturi">
+                <h2 class="fg-img">Anunțuri</h2>
+                <!-- Task 1.10: date in time/datetime -->
+                <p><time datetime="2026-03-02">2 martie 2026</time> Lansăm categoria "Tour Drops" cu stoc limitat pentru 5 trupe.</p>
+                <p><time datetime="2025-11-10">10 noiembrie 2025</time> Au revenit în stoc vinyl-urile color pentru colecția Thrash Essentials.</p>
+                <p><time datetime="2025-05-15">15 mai 2025</time> Secțiunea de precomenzi include acum alerte automate pe email.</p>
+                <p><time datetime="2025-04-05">5 aprilie 2025</time> Am adăugat filtre noi după label, format și disponibilitate.</p>
+                <p><time datetime="2024-07-05">5 iulie 2024</time> Produsele sold-out pot fi ascunse din rezultate printr-un singur click.</p>
+            </section>
+
+            <section id="index-intrebari">
+                <h2>Întrebări frecvente</h2>
+                <!-- Task 1.16: details + summary -->
+                <details>
+                    <summary>Produsele sunt oficiale?</summary>
+                    <p>Da, marcăm clar produsele oficiale/licențiate și cele independente.</p>
+                </details>
+                <details>
+                    <summary>Cum aleg corect mărimea?</summary>
+                    <p>Consultă ghidul de mărimi din secțiunea Suport înainte de checkout.</p>
+                </details>
+                <details>
+                    <summary>Faceți livrare internațională?</summary>
+                    <p>Da, cu opțiuni de transport și estimări afișate înainte de plată.</p>
+                </details>
+                <details>
+                    <summary>Pot returna un produs?</summary>
+                    <p>Da, returul este disponibil conform politicii afișate în pagina Suport.</p>
+                </details>
+            </section>
+
+            <section id="suport">
+                <h2>Suport &amp; Politici</h2>
+                <ul>
+                    <li>Ghid marimi si materiale</li>
+                    <li>Intrebari frecvente merch metal</li>
+                    <li>Politica retur si schimb</li>
+                    <li>Informatii livrare</li>
+                    <li>Termeni si conditii</li>
+                    <li>Protectia datelor</li>
+                    <li>Suport clienti</li>
+                    <li>Detalii despre plati</li>
+                    <li>Procedura retur</li>
+                    <li>Ajutor pentru status comanda</li>
+                    <li>Autentificare / Inregistrare</li>
+                    <li>Comenzile mele / Wishlist</li>
+                    <li>Contact suport clienti</li>
+                </ul>
+            </section>
+
+            <section id="galerie">
+                <h2>Colecții recomandate</h2>
+                <p>Magazin merch metal online cu produse oficiale trupe si colectii noi metal, plus colectii recomandate pentru fani.</p>
+                <!-- Task 1.13: link de tip download cu nume nou pentru fișier -->
+                <p><a href="resurse/imagini/imagine_2.jpg" download="tricou_oficial_themetalvault.jpg">Descarcă preview-ul tricoului cu nume personalizat</a></p>
+                <div id="galerie-foto">
+                    <figure>
+                        <img src="resurse/imagini/imagine_6.jpg" alt="heavy essentials">
+                        <figcaption>Heavy Essentials</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="resurse/imagini/imagine_7.jpg" alt="death collection">
+                        <figcaption>Death Collection</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="resurse/imagini/imagine_8.jpg" alt="black metal archive">
+                        <figcaption>Black Metal Archive</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="resurse/imagini/imagine_9.jpg" alt="thrash classics">
+                        <figcaption>Thrash Classics</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="resurse/imagini/imagine_10.jpg" alt="doom rituals">
+                        <figcaption>Doom Rituals</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="resurse/imagini/imagine_11.jpg" alt="metalcore picks">
+                        <figcaption>Metalcore Picks</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="resurse/imagini/imagine_12.jpg" alt="vinyl exclusives">
+                        <figcaption>Vinyl Exclusives</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <section id="ghiduri">
+                <h2>Media &amp; Ghiduri</h2>
+                <p>Resurse utile pentru întreținerea si alegerea merch-ului.</p>
+                <div class="container-iframe">
+                    <!-- Task 1.14: linkuri care deschid videoclipuri in iframe -->
+                    <div class="taburi-iframe">
+                        <a href="https://www.youtube.com/embed/cXMRS-4k5Zs?si=lCdQgkvNWe7B89jc" target="nume_iframe">Ghid vinyl vs CD</a><br>
+                        <a href="https://www.youtube.com/embed/0FDfOR7QaMM?si=RqD51Z2sFvxXsy2O" target="nume_iframe">Îngrijirea print-urilor de merch</a><br>
+                        <a href="https://www.youtube.com/embed/aK6D3PcJjNo?si=wNrPQWioGHyRuMFj" target="nume_iframe">Cum alegi mărimea potrivită</a><br>
+                    </div>
+                    <iframe width="640" height="360" src="https://www.youtube.com/embed/aK6D3PcJjNo?si=wNrPQWioGHyRuMFj" name="nume_iframe"
+                        title="Video TheMetalVault"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Task 1.18: footer cu address și contacte (telefon, adresă map cu br, email, WhatsApp) -->
+        <!-- Task 1.19: copyright in footer -->
+        <address>
+            <a href="tel:+40700111222">Telefon:&nbsp;+40&nbsp;700&nbsp;111&nbsp;222</a><br>
+            <a href="https://maps.google.com/?q=Facultatea+de+Matematica+si+Informatica+Bucuresti" target="_blank" rel="noopener noreferrer">Str. Metalului nr. 13, Corp B<br>Sector 1, București</a><br>
+            <a href="mailto:contact@themetalvault.ro">Email: contact@themetalvault.ro</a><br>
+            <a href="https://wa.me/40700111222" target="_blank" rel="noopener noreferrer">Chat pe WhatsApp</a>
+        </address>
+        <!-- Task 1.13: link în footer către începutul paginii -->
+        <p><a href="#top">Înapoi la începutul paginii</a></p>
+        <p>
+            <small>TheMetalVault &copy; <time datetime="2026-03-16">16 martie 2026</time> — merch pentru comunitatea metal &amp; rock</small>
+        </p>
+    </footer>
+</body>
+
+</html>
