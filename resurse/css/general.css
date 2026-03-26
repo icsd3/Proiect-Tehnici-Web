@@ -1,3 +1,6 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
 
 body{
@@ -10,10 +13,11 @@ body{
     --margine-pagina: 80px;
     background-color: var(--culoare-fundal);
     color: var(--culoare-text);
+    margin: 0;
 }
 
-p{
-    border: 1px solid var(--culoare-contur);
+p {
+    margin-bottom: 1em;
 }
 
 img, picture{
@@ -31,80 +35,110 @@ main{
     margin-right: var(--margine-pagina);
 }
 
-#grid-pagina{
-    display: grid;
-    grid-template-columns: 2fr 2fr 3fr;
-    grid-template-areas: "acasa acasa acasa" 
-                         "promotii promotii anunturi" 
-                         "fig1 fig2 catalog" 
-                         "fig3 fig4 produs" 
-                         "galerie checkout checkout"
-                         "galerie suport suport"
-                         "galerie index-intrebari index-intrebari"
-                         "ghiduri ghiduri evenimente";
+html {
+    font-size: 18px;
+    transition: font-size 0.5s ease;
 }
 
-#grid-pagina > *{
+#grid-pagina {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+        "acasa acasa acasa acasa"
+        "checkout checkout diverse diverse"
+        "evenimente statistici diverse diverse"
+        "utilizatori statistici diverse diverse"
+        "utilizatori anunturi anunturi server";
+    gap: 15px;
+}
+
+#grid-pagina > * {
     border: 1px solid var(--culoare-contur);
     padding: 20px;
+    min-width: 0;
+    overflow-x: hidden;
+    background-color: var(--culoare-tertiara);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
 }
- 
-#acasa{
-    grid-area: acasa;
-}
-#promotii{
-    grid-area: promotii;
-}
-#anunturi{
-    grid-area: anunturi;
-}
-#fig1{
-    grid-area: fig1;
-}
-#fig2{
-    grid-area: fig2;
-}
-#fig3{
-    grid-area: fig3;
-}
-#fig4{
-    grid-area: fig4;
-}
-#catalog{
-    grid-area: catalog;
-}
-#produs{
-    grid-area: produs;
-}
-#galerie{
-    grid-area: galerie;
-}
-#checkout{
-    grid-area: checkout;
-}
-#suport{
-    grid-area: suport;
-}
-#index-intrebari{
-    grid-area: index-intrebari;
-}
-#ghiduri{
-    grid-area: ghiduri;
-}
-#evenimente{
-    grid-area: evenimente;
-}
-@media screen and (max-width:1200px) {
 
-    body{
-        --margine-pagina:50px;
+#acasa { 
+    grid-area: acasa; 
+    /* Layout F-pattern */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#acasa > * {
+    text-align: left;
+    width: 100%;
+}
+#checkout { grid-area: checkout; }
+#evenimente { grid-area: evenimente; }
+#anunturi { grid-area: anunturi; }
+#utilizatori { grid-area: utilizatori; }
+#suport { grid-area: statistici; }
+#server { grid-area: server; }
+#diverse { grid-area: diverse; }
+
+/* Zone 8 acts as a single robust card matching the diagram */
+#diverse {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 1000px;
+    overflow-y: auto;
+}
+
+/* Internal components become nested cards */
+#diverse > * {
+    margin: 0;
+    border: 1px solid var(--culoare-contur);
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent to overlay on the card background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+@media screen and (max-width:1200px) {
+    html {
+        font-size: 16px;
+    }
+    body {
+        --margine-pagina: 50px;
+    }
+    #grid-pagina {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "acasa acasa"
+            "checkout diverse"
+            "statistici diverse"
+            "evenimente utilizatori"
+            "anunturi server";
     }
 }
 
 @media screen and (max-width:700px) {
-
-    body{
-        --margine-pagina:20px;
+    html {
+        font-size: 14px;
+    }
+    body {
+        --margine-pagina: 20px;
+    }
+    #grid-pagina {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "acasa"
+            "checkout"
+            "evenimente"
+            "statistici"
+            "utilizatori"
+            "anunturi"
+            "server"
+            "diverse";
+    }
+    * {
+        animation: none !important;
     }
 }
 
