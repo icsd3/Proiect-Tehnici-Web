@@ -1,0 +1,13 @@
+Schema cromatică aleasă
+Culoarea de bază (principală): Verde Lime (#92E000)
+
+Cele 6 culori din schema cromatică (generate folosind Adobe Color Wheel):
+1. Magenta: #E0008B
+2. Violet: #6200E0
+3. Verde Lime: #92E000 (Culoarea principală)
+4. Verde Măsliniu / Închis: #384422
+5. Mov Închis / Prună: #4A223E
+6. Negru Închis / Violet Foarte Închis: #0F001A (Folosită ca fundal principal)
+
+Motivul alegerii:
+Am ales această schemă cromatică pornind de la verdele lime vibrant (#92E000), o culoare electrică și non-conformistă ce se potrivește perfect cu estetica rebelă și energică a muzicii rock/metal de pe TheMetalVault. Schema oferă contraste puternice (magenta și violet), care amintesc de luminile dinamice ale concertelor live și de afișele artistice ale trupelor. Noul fundal adăugat, un violet aproape negru (#0F001A), asigură contrastul perfect și oferă lizibilitate maximă elementelor neon, amintind de atmosfera "dark" a festivalurilor, permițând culorilor electrice să iasă în evidență excepțional. Acest paletar iese din tiparele clasice (negru/roșu) și conferă magazinului online o identitate vizuală memorabilă și modernă.

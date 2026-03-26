@@ -1,14 +1,19 @@
 
 
 body{
-    --culoare-fundal:rgb(255, 255, 255);
-    --culoare-contur:rgb(255, 0, 0);
-    --margine-pagina:80px;
+    --culoare-fundal: #0F001A;
+    --culoare-text: #92E000;
+    --culoare-contur: #6200E0;
+    --culoare-highlight: #E0008B;
+    --culoare-secundara: #384422;
+    --culoare-tertiara: #4A223E;
+    --margine-pagina: 80px;
     background-color: var(--culoare-fundal);
+    color: var(--culoare-text);
 }
 
 p{
-    border: 1px solid var(--culoare-fundal);
+    border: 1px solid var(--culoare-contur);
 }
 
 img, picture{
