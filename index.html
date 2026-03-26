@@ -14,13 +14,13 @@
     <title>TheMetalVault</title>
 
     <!-- Task 1.4: favicon -->
-    <link rel="icon" type="image/png" href="/resurse/imagini/favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/resurse/imagini/favicon/favicon.svg">
-    <link rel="shortcut icon" href="/resurse/imagini/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/resurse/imagini/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/resurse/ico/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/resurse/ico/favicon.svg">
+    <link rel="shortcut icon" href="/resurse/ico/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/resurse/ico/apple-touch-icon.png">
     <meta name="msapplication-TileColor" content="#111111">
     <meta name="apple-mobile-web-app-title" content="TheMetalVault">
-    <link rel="manifest" href="/resurse/imagini/favicon/site.webmanifest">
+    <link rel="manifest" href="/resurse/ico/site.webmanifest">
 
     <link rel="stylesheet" href="/resurse/css/general.css" type="text/css">
 </head>
@@ -58,7 +58,7 @@
                     <p class="subtitlu">Colecții oficiale, independente și ediții limitate</p>
                 </hgroup>
 
-                <!-- Task 1.3 + Task 1.9: cuvinte cheie in text + tag de grupare p -->
+                <!-- Task 1.3: cuvinte cheie in text -->
                 <p class="intro">TheMetalVault este un magazin merch metal online dedicat fanilor heavy, death, black,
                     thrash, doom si metalcore. Aici gasesti produse oficiale trupe, merch exclusiv si colectii noi
                     metal pentru concerte, festivaluri si colectii personale.</p>
@@ -108,11 +108,10 @@
                 <!-- Task 1.6: section/article imbricate + heading corespunzator -->
                 <article>
                     <h3 class="titlu">Tour Drops săptămânale</h3>
-                    <!-- Task 1.12: b + s + ins -->
+                    <!-- Task 1.12: b + s + ins + strong -->
                     <p><b>TheMetalVault</b> lansează colecții speciale inspirate de turnee, cu reduceri de
                         <b><s>10%</s> <ins>15%</ins></b> în primele 48 de ore.</p>
-                    <p><strong>Important:</strong> stocurile pentru edițiile limitate se epuizează rapid; verifică
-                        imediat secțiunea de precomenzi și produsele oficiale.</p>
+                    <p><strong>Atenție: stocurile pentru edițiile limitate se epuizează rapid — verifică imediat secțiunea de precomenzi!</strong></p>
                 </article>
 
                 <article>
@@ -144,9 +143,9 @@
                 <p>Toate produsele pot fi filtrate după mărime, format, preț, sub-gen, label și disponibilitate.</p>
                 <p>Catalogul include tricouri metal oficiale, hanorace trupe, vinyl metal limited edition, merch pe sub-gen, accesorii metal, patch-uri si pin-uri, colectii pe artisti si labeluri, plus produse metal in stoc.</p>
                 <p>Gasesti metal merch si band merch actualizate saptamanal, alaturi de vinyl metal, tricouri metal, tricouri trupe, hanorace metal, hanorace trupe, CD metal, casete metal, patch-uri metal, accesorii metal si colectii metal.</p>
-                <!-- Task 1.13: link extern care se deschide în tab nou -->
+                <!-- Task 1.13a: link extern care se deschide în tab nou -->
                 <p>Resursă externă recomandată: <a href="https://www.metal-archives.com/" target="_blank" rel="noopener noreferrer">Encyclopaedia Metallum</a>.</p>
-                <!-- Task 1.13: link extern către element cu #id, text lung fragmentat cu wbr -->
+                <!-- Task 1.13b: link extern către element cu #id, text lung fragmentat cu wbr -->
                 <p><a href="https://en.wikipedia.org/wiki/Heavy_metal_music#History" target="_blank" rel="noopener noreferrer">https://en.<wbr>wikipedia.<wbr>org/wiki/Heavy_<wbr>metal_<wbr>music#History</a></p>
 
                 <section>
@@ -248,6 +247,52 @@
                 <p>Grad ocupare showroom (seară de lansare):
                     <meter min="0" max="100" low="30" high="80" optimum="65" value="92">92 din 100</meter>
                 </p>
+
+                <!-- Bonus: MathML — formula calcul total comandă -->
+                <h3>Calculul totalului comenzii</h3>
+                <p>Prețul final se calculează conform formulei:</p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <mrow>
+                        <mi>Total</mi>
+                        <mo>=</mo>
+                        <mrow>
+                            <mo>(</mo>
+                            <munderover>
+                                <mo>∑</mo>
+                                <mrow>
+                                    <mi>i</mi>
+                                    <mo>=</mo>
+                                    <mn>1</mn>
+                                </mrow>
+                                <mi>n</mi>
+                            </munderover>
+                            <msub>
+                                <mi>Preț</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mo>×</mo>
+                            <msub>
+                                <mi>Cant</mi>
+                                <mi>i</mi>
+                            </msub>
+                            <mo>)</mo>
+                        </mrow>
+                        <mo>×</mo>
+                        <mrow>
+                            <mo>(</mo>
+                            <mn>1</mn>
+                            <mo>−</mo>
+                            <mfrac>
+                                <mi>Reducere</mi>
+                                <mn>100</mn>
+                            </mfrac>
+                            <mo>)</mo>
+                        </mrow>
+                        <mo>+</mo>
+                        <mi>Transport</mi>
+                    </mrow>
+                </math>
+                <p>Unde <b>n</b> = numărul de produse din coș, <b>Preț<sub>i</sub></b> = prețul unitar, <b>Cant<sub>i</sub></b> = cantitatea, <b>Reducere</b> = procentul de discount aplicat (dacă există cod promoțional), iar <b>Transport</b> = costul de livrare selectat.</p>
             </section>
 
             <!-- Task 1.10: secțiune evenimente în listă, cu nume în b și time cu dată + oră -->
@@ -260,9 +305,9 @@
                 </ol>
             </section>
 
-            <!-- Task 1.13: link care conține imagine și deschide versiunea mai mare în tabul curent -->
+            <!-- Task 1.13d: link care conține imagine și deschide versiunea mai mare în tabul curent -->
             <figure id="fig1" class="fg-img">
-                <a href="/resurse/imagini/imagine_1_max.jpg">
+                <a href="/resurse/imagini/imagine_2.jpg">
                     <img src="/resurse/imagini/imagine_2.jpg" alt="tricou metal">
                 </a>
                 <figcaption>Tricouri oficiale</figcaption>
@@ -333,37 +378,20 @@
             <section id="galerie">
                 <h2>Colecții recomandate</h2>
                 <p>Magazin merch metal online cu produse oficiale trupe si colectii noi metal, plus colectii recomandate pentru fani.</p>
-                <!-- Task 1.13: link de tip download cu nume nou pentru fișier -->
+                <!-- Task 1.13e: link de tip download cu nume nou pentru fișier -->
                 <p><a href="/resurse/imagini/imagine_2.jpg" download="tricou_oficial_themetalvault.jpg">Descarcă preview-ul tricoului cu nume personalizat</a></p>
                 <div id="galerie-foto">
-                    <figure>
-                        <img src="/resurse/imagini/imagine_6.jpg" alt="heavy essentials">
-                        <figcaption>Heavy Essentials</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/resurse/imagini/imagine_7.jpg" alt="death collection">
-                        <figcaption>Death Collection</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/resurse/imagini/imagine_8.jpg" alt="black metal archive">
-                        <figcaption>Black Metal Archive</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/resurse/imagini/imagine_9.jpg" alt="thrash classics">
-                        <figcaption>Thrash Classics</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/resurse/imagini/imagine_10.jpg" alt="doom rituals">
-                        <figcaption>Doom Rituals</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/resurse/imagini/imagine_11.jpg" alt="metalcore picks">
-                        <figcaption>Metalcore Picks</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/resurse/imagini/imagine_12.jpg" alt="vinyl exclusives">
-                        <figcaption>Vinyl Exclusives</figcaption>
-                    </figure>
+                    <!-- Bonus: Hartă de imagini (Image Map) cu tagurile <map> și <area> -->
+                    <img id="map-img" src="/resurse/imagini/ImageMap.png" alt="Colecții TheMetalVault" usemap="#metalmap" width="1000" height="1000">
+                    
+                    <map name="metalmap">
+                        <area shape="rect" coords="0,0,500,375" href="#catalog" alt="Heavy Essentials" title="Heavy Essentials - mergi la catalog">
+                        <area shape="rect" coords="500,0,1000,375" href="#produs" alt="Black Metal Archive" title="Black Metal Archive - mergi la produs">
+                        <area shape="rect" coords="0,375,500,666" href="#promotii" alt="Thrash Classics" title="Thrash Classics - mergi la promoții">
+                        <area shape="rect" coords="500,375,1000,666" href="#acasa" alt="Death Collection" title="Death Collection - mergi acasă">                       
+                        <area shape="rect" coords="0,666,500,1000" href="#evenimente" alt="Metalcore Picks" title="Metalcore Picks - mergi la evenimente">
+                        <area shape="rect" coords="500,666,1000,1000" href="#suport" alt="Vinyl Exclusives" title="Vinyl Exclusives - mergi la suport">
+                    </map>
                 </div>
             </section>
 
@@ -382,6 +410,24 @@
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
+
+                <!-- Bonus: YouTube playlist iframe cu autoplay, loop și control buttons -->
+                <h3>Playlist Metal Essentials</h3>
+                <p>Ascultă selecția noastră de metal în timp ce navighezi catalogul:</p>
+                <div class="container-iframe">
+                    <iframe id="playlist-iframe" width="640" height="360"
+                        src="https://www.youtube.com/embed/videoseries?list=PLxMj79Y3YKfxBLeV0IIHkApLQA0s1P-Bo&autoplay=0&loop=1&rel=0&controls=1"
+                        title="Playlist Metal Essentials"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <!-- Bonus: PDF embed — Ghid de mărimi -->
+                <h3>Ghid de mărimi (PDF)</h3>
+                <p>Consultă ghidul de mărimi înainte de a plasa o comandă:</p>
+                <object data="/resurse/pdf/ghid_marimi.pdf#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" width="100%" height="500">
+                    <p>Browserul tău nu suportă vizualizarea PDF inline. <a href="/resurse/pdf/ghid_marimi.pdf" download>Descarcă ghidul de mărimi</a>.</p>
+                </object>
             </section>
         </div>
     </main>
@@ -394,22 +440,57 @@
             <a href="mailto:contact@themetalvault.ro">Email: contact@themetalvault.ro</a><br>
             <a href="https://wa.me/40700000000" target="_blank" rel="noopener noreferrer">Chat pe WhatsApp</a><br>
             <a href="https://maps.google.com/?q=Facultatea+de+Matematica+si+Informatica+Bucuresti" target="_blank" rel="noopener noreferrer">Str. Academiei nr. 14, Sector 1, București</a><br>
-            <!-- Bonus: iframe cu locația adresei pe Google Maps (FMI București) -->
-            <iframe
-                src="https://maps.google.com/maps?q=Facultatea%20de%20Matematica%20si%20Informatica%20Bucuresti&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                width="640"
-                height="360"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Locație Facultatea de Matematică și Informatică București">
-            </iframe>
         </address>
-        <!-- Task 1.13: link în footer către începutul paginii -->
+
+        <!-- Bonus: iframe cu locația adresei pe Google Maps (FMI București) -->
+        <div id="map-container">
+            <h3>Locația noastră</h3>
+            <iframe id="google-map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8843011393146!2d26.097011776218338!3d44.43553547107579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFaculty%20of%20Mathematics%20and%20Computer%20Science!5e0!3m2!1sen!2sro!4v1774472054951!5m2!1sen!2sro"
+                width="400" height="300" style="border:0;"
+                allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Locația TheMetalVault pe Google Maps">
+            </iframe>
+        </div>
+        <!-- Task 1.13c: link în footer către începutul paginii -->
         <p><a href="#top">Înapoi la începutul paginii</a></p>
         <p>
             <small>TheMetalVault &copy; <time datetime="2026-03-16">16 martie 2026</time> — merch pentru comunitatea metal &amp; rock</small>
         </p>
     </footer>
+
+    <!-- Script pentru a face harta de imagini responsive -->
+    <script>
+        function resizeMap() {
+            const img = document.getElementById('map-img');
+            const map = document.getElementsByName('metalmap')[0];
+            if (!img || !map) return;
+
+            const originalWidth = 1000;
+            
+            const scale = img.clientWidth / originalWidth;
+            const baseCoords = [
+                [0, 0, 500, 375],       
+                [500, 0, 1000, 375],    
+                [0, 375, 500, 666],     
+                [500, 375, 1000, 666],  
+                [0, 666, 500, 1000],    
+                [500, 666, 1000, 1000]  
+            ];
+
+            const areas = map.getElementsByTagName('area');
+            for (let i = 0; i < areas.length; i++) {
+                if(baseCoords[i]) {
+                    const scaledCoords = baseCoords[i].map(coord => Math.round(coord * scale));
+                    areas[i].coords = scaledCoords.join(',');
+                }
+            }
+        }
+
+        window.addEventListener('load', resizeMap);
+        window.addEventListener('resize', resizeMap);
+    </script>
 </body>
 
 </html>

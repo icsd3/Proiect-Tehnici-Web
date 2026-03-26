@@ -103,3 +103,29 @@ main{
     }
 }
 
+/* Bonus: MathML formula */
+math[display="block"] {
+    margin: 15px 0;
+    font-size: 1.2em;
+}
+
+/* Bonus: PDF embed */
+#ghiduri object {
+    max-width: 100%;
+    border: 1px solid var(--culoare-contur);
+}
+
+/* Bonus: Google Maps iframe in footer */
+#map-container {
+    margin: 15px 0;
+}
+
+#google-map {
+    max-width: 100%;
+    border: 1px solid var(--culoare-contur);
+}
+
+/* Bonus: YouTube playlist iframe */
+#playlist-iframe {
+    max-width: 100%;
+}
