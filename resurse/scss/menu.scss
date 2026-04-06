@@ -223,6 +223,11 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
     }
 }
 
+// Dedicated menu used only for small screens (burger mode).
+.meniu-mobile {
+    display: none;
+}
+
 // Staggered animation timing for each submenu item.
 @for $i from 1 through $submenu-count {
     .submenu li:nth-child(#{$i}) {
@@ -263,6 +268,20 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
 
 // Mobile breakpoint: switch to hamburger + vertical expandable menu.
 @media screen and (max-width: $breakpoint-small) {
+    @keyframes mobile-menu-arrow-to-rect {
+        0% {
+            clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
+        }
+
+        65% {
+            clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
+        }
+
+        100% {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+    }
+
     .menu-site {
         // Show the burger control only in mobile layout.
         &__burger {
@@ -275,37 +294,46 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
             color: var(--culoare-text);
         }
 
-        // Reveals the collapsed menu when checkbox is active.
-        &__toggle:checked ~ .meniu {
+        // Keep desktop/tablet menu hidden on small screens.
+        &__toggle ~ .meniu {
+            display: none;
+        }
+
+        // Reveals only the dedicated mobile menu when checkbox is active.
+        &__toggle:checked ~ .meniu-mobile {
             transform: translateX(0);
-            opacity: 1;
             pointer-events: auto;
+            animation: mobile-menu-arrow-to-rect 0.6s ease forwards;
 
             // Stagger top-level items in after the panel slides in.
-            .meniu__item {
+            .meniu-mobile__item {
                 transform: translateX(0);
-                opacity: 1;
             }
         }
     } 
 
-    // Turn the top-level menu into a vertical dropdown panel.
-    .meniu {
+    // Dedicated mobile panel that slides in as an arrow-shaped block.
+    .meniu-mobile {
+        @include flex-center(flex-start, stretch);
+        list-style: none;
         position: absolute;
         top: calc(100% + var(--spatiu-xs));
         left: 50%;
         width: 100vw;
         max-width: 100vw;
         margin-left: -50vw;
+        display: flex;
         flex-direction: column;
         padding: 0;
         border-radius: 0;
         overflow: hidden;
-        clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
+        background: color-mix(in srgb, var(--culoare-tertiara) 82%, black);
+        border: var(--bordura-medie) solid var(--culoare-contur);
+        clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
         transform: translateX(calc(-100% - var(--spatiu-xs)));
-        opacity: 0;
+        opacity: 1;
         pointer-events: none;
-        transition: transform 0.42s cubic-bezier(0.22, 0.8, 0.25, 1), opacity 0.28s ease;
+        transition: transform 0.6s cubic-bezier(0.22, 0.8, 0.25, 1);
 
         // Stack items vertically and replace right border with bottom separators.
         &__item {
@@ -313,12 +341,12 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
             border-bottom: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 45%, transparent);
             flex: none;
             transform: translateX(-0.85rem);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+            transition: transform 0.3s ease;
 
 
             // Round top corners of the first visible item.
-            &:first-child > .meniu__link {
+            &:first-child > .meniu-mobile__link {
                 border-radius: 0;
             }
 
@@ -328,43 +356,76 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
             }
 
             // Round bottom corners of the last visible item.
-            &:last-child > .meniu__link {
+            &:last-child > .meniu-mobile__link {
                 border-radius: 0;
             }
         }
 
         // Larger tap-friendly row style for mobile links.
         &__link {
+            position: relative;
+            color: var(--culoare-highlight);
+            text-decoration: none;
+            border-bottom: none;
+            overflow: hidden;
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease,
+                text-shadow 0.3s ease,
+                transform 0.35s ease,
+                opacity 0.35s ease,
+                clip-path 0.35s ease,
+                max-height 0.35s ease;
+            @include flex-center(center, center, 0.85rem);
             justify-content: center;
             min-height: 3.25rem;
             padding: 0.9rem 1rem;
-            gap: 0.85rem;
+            font-weight: 700;
             text-align: center;
+            background-color: transparent;
+
+            i {
+                font-size: 1.05rem;
+                position: relative;
+                z-index: 1;
+            }
         }
 
         // Bring back text labels on mobile for clarity.
         &__label {
             display: inline;
+            position: relative;
+            z-index: 1;
+            white-space: nowrap;
         }
 
         // Keep home icon centered in its row.
-        &__item--home .meniu__link {
+        &__item--home .meniu-mobile__link {
             justify-content: center;
         }
 
         // Hide home label so only the icon is shown.
-        &__item--home .meniu__label {
+        &__item--home .meniu-mobile__label {
             display: none;
+        }
+
+        // Highlight effect on hover/focus to keep existing menu transitions feel.
+        &__item:hover > .meniu-mobile__link,
+        &__item:focus-within > .meniu-mobile__link {
+            color: var(--culoare-text);
+            text-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.35), 0 0 0.15rem var(--culoare-fundal);
         }
     }
 
-    // Mobile dropdown behaves like an accordion section under each item.
-    .submenu {
+    // Mobile submenu behaves like an accordion section under each item.
+    .submenu-mobile {
         position: static;
+        list-style: none;
         min-width: 100%;
         margin: 0;
         padding: 0;
-        border-top: none;
+        background: color-mix(in srgb, var(--culoare-fundal) 82%, black);
+        border-top: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 45%, transparent);
         border-radius: 0;
         box-shadow: none;
         transform: none;
@@ -373,8 +434,36 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
         max-height: 0;
         overflow: hidden;
         pointer-events: none;
-        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
         transition: max-height 0.35s ease, clip-path 0.35s ease;
+
+        a {
+            position: relative;
+            color: var(--culoare-highlight);
+            text-decoration: none;
+            border-bottom: none;
+            overflow: hidden;
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease,
+                text-shadow 0.3s ease,
+                transform 0.35s ease,
+                opacity 0.35s ease,
+                clip-path 0.35s ease,
+                max-height 0.35s ease;
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--culoare-highlight);
+            background-color: transparent;
+            text-align: center;
+
+            &:hover,
+            &:focus-visible {
+                background-color: color-mix(in srgb, var(--culoare-contur) 55%, black);
+                color: var(--culoare-text);
+                text-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.45), 0 0 0.15rem var(--culoare-text);
+            }
+        }
 
         // Disable vertical slide animation in mobile accordion mode.
         li {
@@ -384,11 +473,10 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
     }
 
     // Expand current submenu on hover/focus within item.
-    .meniu__item:hover > .submenu,
-    .meniu__item:focus-within > .submenu {
+    .meniu-mobile__item:hover > .submenu-mobile,
+    .meniu-mobile__item:focus-within > .submenu-mobile {
         max-height: 20rem;
         pointer-events: auto;
-        // Arrow-like polygon reveal requested for mobile submenu appearance.
-        clip-path: polygon(0 0, 84% 0, 100% 50%, 84% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 }
