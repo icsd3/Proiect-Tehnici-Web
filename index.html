@@ -32,6 +32,7 @@
 
     <link rel="stylesheet" href="/resurse/css/reset.css" type="text/css">
     <link rel="stylesheet" href="/resurse/css/general.css" type="text/css">
+    <link rel="stylesheet" href="/resurse/css/menu.css" type="text/css">
 </head>
 
 <body id="top">
@@ -40,22 +41,54 @@
         <!-- Task 2.5: icon animat -->
         <h1>TheMetalVault <i class="fa-solid fa-compact-disc fa-spin"></i></h1>
         <!-- Task 1.8: navigare cu opțiuni principale și subopțiuni pentru "Acasă" (listă imbricată) -->
-        <nav>
-            <ul>
-                <li>
-                    <a href="#acasa">Acasă</a>
-                    <ul>
+        <nav class="menu-site" aria-label="Meniu principal">
+            <input id="menu-toggle" class="menu-site__toggle" type="checkbox">
+            <label for="menu-toggle" class="menu-site__burger" aria-label="Deschide meniul principal">
+                <i class="fa-solid fa-bars"></i>
+            </label>
+            <ul class="meniu" id="meniu-principal">
+                <li class="meniu__item meniu__item--home">
+                    <a class="meniu__link" href="#acasa">
+                        <i class="fa-solid fa-house"></i>
+                        <span class="meniu__label">Acasă</span>
+                    </a>
+                </li>
+                <li class="meniu__item meniu__item--dropdown">
+                    <a class="meniu__link" href="/index.html">
+                        <i class="fa-solid fa-folder-tree"></i>
+                        <span class="meniu__label">Pagini</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="/catalog.html">Catalog</a></li>
+                        <li><a href="/produs.html">Pagină produs</a></li>
+                        <li><a href="/checkout.html">Checkout</a></li>
+                        <li><a href="/suport.html">Suport</a></li>
+                    </ul>
+                </li>
+                <li class="meniu__item meniu__item--dropdown">
+                    <a class="meniu__link" href="#acasa">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span class="meniu__label">Index</span>
+                    </a>
+                    <ul class="submenu">
                         <li><a href="#promotii">Promoții</a></li>
                         <li><a href="#evenimente">Evenimente</a></li>
                         <li><a href="#ghiduri">Media &amp; Ghiduri</a></li>
                         <li><a href="#galerie">Colecții recomandate</a></li>
                     </ul>
                 </li>
-                <li><a href="#catalog">Catalog</a></li>
-                <!-- <li><a href="#produs">Pagină Produs</a></li> -->
-                <!-- Task 2.5: icon static -->
-                <li><a href="#checkout"><i class="fa-solid fa-cart-shopping"></i> Coș &amp; Checkout</a></li>
-                <li><a href="#suport">Suport</a></li>
+                <li class="meniu__item">
+                    <a class="meniu__link" href="#catalog">
+                        <i class="fa-solid fa-record-vinyl"></i>
+                        <span class="meniu__label">Catalog</span>
+                    </a>
+                </li>
+                <li class="meniu__item">
+                    <a class="meniu__link" href="#suport">
+                        <i class="fa-solid fa-headset"></i>
+                        <span class="meniu__label">Suport</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
