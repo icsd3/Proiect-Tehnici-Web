@@ -6,7 +6,7 @@ main{
 /* Izolare vizuală zone - header, footer */
 header, footer {
     background-color: var(--culoare-secundara);
-    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border: var(--bordura-medie) solid var(--culoare-contur);
     border-radius: var(--raza-medie);
     box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.4);
     padding: var(--padding-sectiuni);
@@ -26,7 +26,7 @@ header, footer {
 }
 
 #grid-pagina > * {
-    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border: var(--bordura-medie) solid var(--culoare-contur);
     padding: var(--padding-sectiuni);
     /* setarea 'min-width: 0' previne ca elementele flex/grid să refuze constrângerile de lățime atunci când conțin 
        elemente interne mari (ex: imagini sau tabele prea late), forțându-le să respecte grid-ul. */
@@ -69,7 +69,7 @@ header, footer {
 /* Componentele interne devin carduri imbricate unele în altele */
 #diverse > * {
     margin: 0;
-    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border: var(--bordura-medie) solid var(--culoare-contur);
     padding: var(--padding-sectiuni);
     background-color: rgba(0, 0, 0, 0.3); /* Culoare ușor transparentă pentru a lăsa fundalul cardului părinte să se vadă */
     border-radius: var(--raza-mica);

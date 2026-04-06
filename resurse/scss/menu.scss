@@ -1,7 +1,9 @@
-$breakpoint-medium: 75rem;
-$breakpoint-small: 43.75rem;
-$submenu-count: 6;
+// Breakpoints used to switch the menu between desktop, compact, and mobile layouts.
+$breakpoint-medium: 75rem; // Menu becomes compact below this width.
+$breakpoint-small: 43.75rem; // Mobile hamburger layout starts here.
+$submenu-count: 6; // Number of submenu items that get staggered timing.
 
+// Shared flex helper for centering and spacing menu elements.
 @mixin flex-center($justify: center, $align: center, $gap: 0) {
     display: flex;
     justify-content: $justify;
@@ -9,14 +11,16 @@ $submenu-count: 6;
     gap: $gap;
 }
 
+// Shared spacing helper for clickable menu targets.
 @mixin menu-button($min-height: 4rem, $padding-y: 0.9rem, $padding-x: 1.1rem) {
     min-height: $min-height;
     padding: $padding-y $padding-x;
 }
 
+// Base surface styles reused by the burger, main links, and submenu links.
 %menu-surface {
     position: relative;
-    color: var(--culoare-text);
+    color: var(--culoare-highlight);
     text-decoration: none;
     border-bottom: none;
     overflow: hidden;
@@ -30,11 +34,13 @@ $submenu-count: 6;
         max-height 0.35s ease;
 }
 
+// Wrapper for the whole navigation block and its mobile toggle controls.
 .menu-site {
     position: relative;
     width: 100%;
     margin-top: var(--spatiu-s);
 
+    // Hidden checkbox that stores whether the mobile menu is open.
     &__toggle {
         position: absolute;
         inline-size: 1px;
@@ -43,6 +49,7 @@ $submenu-count: 6;
         pointer-events: none;
     }
 
+    // Hamburger button shown only on smaller screens.
     &__burger {
         @extend %menu-surface;
         @include flex-center(center, center);
@@ -55,46 +62,61 @@ $submenu-count: 6;
         box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.25);
         cursor: pointer;
 
+        // Font Awesome icon inside the burger button.
         i {
             font-size: 1.4rem;
         }
     }
 }
 
+// Main horizontal menu container used on desktop and tablet.
 .meniu {
     @include flex-center(flex-start, stretch);
     list-style: none;
     margin: 0;
     padding: 0;
-    background: color-mix(in srgb, var(--culoare-secundara) 82%, black);
-    border: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 80%, black);
+    border: var(--bordura-medie) solid var(--culoare-contur);
     border-radius: var(--raza-medie);
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.28);
     overflow: visible;
 
+    // Top-level menu item; also acts as the anchor for each dropdown.
     &__item {
         position: relative;
         flex: 1 1 0;
         min-width: 0;
-        border-right: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 45%, transparent);
+        border-right: var(--bordura-medie) solid var(--culoare-contur);
 
+        // Round the left outer corners of the first item.
+        &:first-child > .meniu__link {
+            border-radius: var(--raza-medie) 0 0 var(--raza-medie);
+        }
+
+        // Remove right separator on the final item.
         &:last-child {
             border-right: none;
         }
 
+        // Round the right outer corners of the last item.
+        &:last-child > .meniu__link {
+            border-radius: 0 var(--raza-medie) var(--raza-medie) 0;
+        }
+
+        // Visual state when item is hovered or keyboard-focused.
         &:hover > .meniu__link,
         &:focus-within > .meniu__link {
-            background-color: color-mix(in srgb, var(--culoare-secundara) 62%, white 8%);
-            color: white;
+            color: var(--culoare-text);
             text-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.35), 0 0 0.15rem var(--culoare-fundal);
         }
 
+        // Expands the highlight shape behind the menu link.
         &:hover > .meniu__link::after,
         &:focus-within > .meniu__link::after {
             transform: translate(-50%, -50%) scale(1.7, 2.2);
-            opacity: 0.24;
+            opacity: 0.5;
         }
 
+        // Opens the dropdown panel and fades in submenu items.
         &:hover > .submenu,
         &:focus-within > .submenu {
             transform: scale(1);
@@ -110,14 +132,17 @@ $submenu-count: 6;
         }
     }
 
+    // Main clickable area of a top-level menu item.
     &__link {
         @extend %menu-surface;
         @include flex-center(center, center, 0.75rem);
         @include menu-button();
         font-weight: 700;
         letter-spacing: 0.01em;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 70%);
+        background-color: var(--culoare-tertiara);
+        background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 70%);
 
+        // Decorative highlight layer used for the hover glow effect.
         &::after {
             content: "";
             position: absolute;
@@ -125,15 +150,16 @@ $submenu-count: 6;
             left: 50%;
             width: 60%;
             height: 55%;
-            background-color: color-mix(in srgb, var(--culoare-highlight) 40%, white);
+            background-color: color-mix(in srgb, var(--culoare-tertiara) 50%, var(--culoare-highlight));
             opacity: 0;
             transform: translate(-50%, -50%) scale(0);
             transform-origin: center;
-            transition: transform 0.35s ease, opacity 0.35s ease;
+            transition: transform 0.2s ease, opacity 0.2s ease;
             border-radius: 0.35rem;
             pointer-events: none;
         }
 
+        // Icon inside each top-level link.
         i {
             font-size: 1.05rem;
             position: relative;
@@ -141,6 +167,7 @@ $submenu-count: 6;
         }
     }
 
+    // Text label shown next to icons (hidden at some breakpoints).
     &__label {
         position: relative;
         z-index: 1;
@@ -148,16 +175,18 @@ $submenu-count: 6;
     }
 }
 
+// Dropdown menu attached to each top-level item.
 .submenu {
     list-style: none;
     margin: 0;
     padding: 0.35rem 0;
     position: absolute;
-    top: calc(100% + var(--bordura-subtire));
+    top: calc(100% + var(--bordura-medie));
     left: 0;
     min-width: 100%;
-    background: color-mix(in srgb, var(--culoare-fundal) 82%, black);
-    border: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 65%, black);
+    background: var(--culoare-fundal);
+    border: var(--bordura-medie) solid var(--culoare-contur);
+    border-top: none;
     border-radius: 0 0 var(--raza-mica) var(--raza-mica);
     box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.35);
     transform: scale(0);
@@ -165,45 +194,48 @@ $submenu-count: 6;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
+    overflow: hidden;
+    background-clip: padding-box;
+    transition: transform 0.2s ease, opacity 0.2s ease, visibility 0s linear 0.2s;
     z-index: 25;
 
+    // Initial hidden state for submenu entries before dropdown opens.
     li {
         transform: translateY(-0.35rem);
         opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
+    // Individual clickable links inside dropdown items.
     a {
         @extend %menu-surface;
         display: block;
         padding: 0.9rem 1rem;
-        color: white;
+        color: var(--culoare-highlight);
         background-color: transparent;
 
         &:hover,
         &:focus-visible {
             background-color: color-mix(in srgb, var(--culoare-contur) 55%, black);
-            color: white;
-            text-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.45), 0 0 0.15rem var(--culoare-highlight);
+            color: var(--culoare-text);
+            text-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.45), 0 0 0.15rem var(--culoare-text);
         }
     }
 }
 
+// Staggered animation timing for each submenu item.
 @for $i from 1 through $submenu-count {
     .submenu li:nth-child(#{$i}) {
         transition-delay: #{($i - 1) * 0.04}s;
     }
 }
 
+// Tablet breakpoint: keep the menu horizontal but more compact.
 @media screen and (max-width: $breakpoint-medium) {
     .meniu {
         justify-content: center;
 
-        &__item {
-            flex: 0 1 auto;
-        }
-
+        // Reduce link dimensions for tighter layout.
         &__link {
             min-width: 4.25rem;
             min-height: 3.5rem;
@@ -211,27 +243,33 @@ $submenu-count: 6;
             gap: 0;
         }
 
+        // Hide text labels and keep icon-only top-level navigation.
         &__label {
             display: none;
         }
     }
 
+    // Give dropdowns a fixed minimum width for readability.
     .submenu {
         min-width: 12rem;
     }
 }
 
+// Mobile breakpoint: switch to hamburger + vertical expandable menu.
 @media screen and (max-width: $breakpoint-small) {
     .menu-site {
+        // Show the burger control only in mobile layout.
         &__burger {
             display: inline-flex;
         }
 
+        // Checked state styling for the burger button.
         &__toggle:checked + .menu-site__burger {
             background-color: color-mix(in srgb, var(--culoare-contur) 70%, black);
-            color: white;
+            color: var(--culoare-text);
         }
 
+        // Reveals the collapsed menu when checkbox is active.
         &__toggle:checked ~ .meniu {
             transform: scaleY(1);
             opacity: 1;
@@ -239,6 +277,7 @@ $submenu-count: 6;
         }
     }
 
+    // Turn the top-level menu into a vertical dropdown panel.
     .meniu {
         position: absolute;
         top: calc(100% + var(--spatiu-xs));
@@ -252,16 +291,29 @@ $submenu-count: 6;
         pointer-events: none;
         transition: transform 0.35s ease, opacity 0.35s ease;
 
+        // Stack items vertically and replace right border with bottom separators.
         &__item {
             border-right: none;
             border-bottom: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 45%, transparent);
             flex: none;
 
+            // Round top corners of the first visible item.
+            &:first-child > .meniu__link {
+                border-radius: var(--raza-medie) var(--raza-medie) 0 0;
+            }
+
+            // Remove final bottom separator.
             &:last-child {
                 border-bottom: none;
             }
+
+            // Round bottom corners of the last visible item.
+            &:last-child > .meniu__link {
+                border-radius: 0 0 var(--raza-medie) var(--raza-medie);
+            }
         }
 
+        // Larger tap-friendly row style for mobile links.
         &__link {
             justify-content: flex-start;
             min-height: 3.25rem;
@@ -269,19 +321,23 @@ $submenu-count: 6;
             gap: 0.85rem;
         }
 
+        // Bring back text labels on mobile for clarity.
         &__label {
             display: inline;
         }
 
+        // Keep home icon centered in its row.
         &__item--home .meniu__link {
             justify-content: center;
         }
 
+        // Hide home label so only the icon is shown.
         &__item--home .meniu__label {
             display: none;
         }
     }
 
+    // Mobile dropdown behaves like an accordion section under each item.
     .submenu {
         position: static;
         min-width: 100%;
@@ -298,12 +354,14 @@ $submenu-count: 6;
         pointer-events: none;
         clip-path: polygon(0 0, 100% 0, 100% 82%, 60% 82%, 50% 100%, 40% 82%, 0 82%);
 
+        // Disable vertical slide animation in mobile accordion mode.
         li {
             transform: none;
             opacity: 1;
         }
     }
 
+    // Expand current submenu on hover/focus within item.
     .meniu__item:hover > .submenu,
     .meniu__item:focus-within > .submenu {
         max-height: 18rem;
