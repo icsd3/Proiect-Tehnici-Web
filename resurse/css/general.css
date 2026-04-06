@@ -137,7 +137,7 @@ header, footer {
     margin: 0;
     border: 1px solid var(--culoare-contur);
     padding: var(--padding-sectiuni);
-    background-color: rgba(0, 0, 0, 0.3); /* Culoare ușor transparentă pentru a lăsa fundalul cardului părinte să sevadă */
+    background-color: rgba(0, 0, 0, 0.3); /* Culoare ușor transparentă pentru a lăsa fundalul cardului părinte să se vadă */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
@@ -149,6 +149,62 @@ header, footer {
     height: 0;
     min-height: 100%;
     overflow-y: auto;
+}
+
+.container-iframe--tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.container-iframe--tabs .taburi-iframe {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0 14px;
+    padding: 0 18px;
+}
+
+.container-iframe--tabs .taburi-iframe a {
+    position: relative;
+    flex: 1 1 170px;
+    max-width: 220px;
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px 10px;
+    text-align: center;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--culoare-highlight);
+    background-color: var(--culoare-tertiara);
+    border: 2px solid var(--culoare-contur);
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 0 8px var(--culoare-contur), 0 0 18px var(--culoare-contur);
+    clip-path: inset(-28px -28px 0 -28px); /* Fara glow jos */
+    text-decoration: none;
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Culoare diferita pentru visited */
+.container-iframe--tabs .taburi-iframe a:visited {
+    color: var(--culoare-text);
+}
+
+/* Schimbare culoare si glow la hover si keyboard focus */
+.container-iframe--tabs .taburi-iframe a:hover,
+.container-iframe--tabs .taburi-iframe a:focus-visible {
+    background-color: color-mix(in srgb, var(--culoare-tertiara) 75%, var(--culoare-contur));
+    box-shadow: 0 0 12px var(--culoare-contur), 0 0 24px var(--culoare-contur);
+}
+
+/* Frame iframe */
+.container-iframe--tabs iframe {
+    border: 2px solid var(--culoare-contur);
+    border-radius: 18px 18px 18px 18px;
+    box-shadow: 0 0 8px var(--culoare-contur), 0 0 18px var(--culoare-contur);
 }
 
 #figuri-grid {
@@ -171,11 +227,6 @@ math[display="block"] {
 
 .container-tabel {
     max-width: 100%;
-}
-@media screen and (max-width: 1200px) {
-    .container-tabel {
-        overflow-x: auto;
-    }
 }
 
 #tab-orar {
@@ -227,13 +278,6 @@ math[display="block"] {
     height: 500px;
     min-height: 500px;
     border: 1px solid var(--culoare-contur);
-}
-
-@media screen and (max-width:700px) {
-    #ghiduri object {
-        height: 350px !important;
-        min-height: 350px !important;
-    }
 }
 
 /* Bonus: Google Maps iframe in footer */
@@ -310,6 +354,25 @@ math[display="block"] {
     #google-map {
         max-width: 100%;
     }
+
+    .container-tabel {
+        overflow-x: auto;
+    }
+
+    .container-iframe--tabs .taburi-iframe {
+        gap: 0 5px;
+        padding: 0;
+    }
+
+    .container-iframe--tabs iframe {
+        border-radius: 0px 0px 18px 18px;
+        box-shadow: 0 0 4px var(--culoare-contur), 0 0 9px var(--culoare-contur);
+    }
+
+    .container-iframe--tabs .taburi-iframe a {
+        padding: 5px 5px 5px;
+        box-shadow: 0 0 4px var(--culoare-contur), 0 0 9px var(--culoare-contur);
+    }
 }
 
 @media screen and (max-width:700px) {
@@ -340,6 +403,11 @@ math[display="block"] {
     #diverse, #ghiduri {
         height: auto;
         overflow-y: visible;
+    }
+
+    #ghiduri object {
+        height: 350px !important;
+        min-height: 350px !important;
     }
 
     #google-map {
