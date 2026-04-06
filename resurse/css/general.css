@@ -1,3 +1,6 @@
+/* Selectorul universal (*) și pseudo-elementele.
+   'box-sizing: border-box' forțează includerea padding-ului și border-ului în
+   lățimea (width) și înălțimea (height) elementelor, o practică standard pentru a preveni spargerea layout-urilor. */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -11,8 +14,10 @@ body{
     --culoare-secundara: #384422;
     --culoare-tertiara: #4A223E;
     --margine-pagina: 80px;
+    --padding-sectiuni: 20px; /* Variabilă uniformă pentru text în zone */
     background-color: var(--culoare-fundal);
     color: var(--culoare-text);
+    font-family: 'Roboto', sans-serif;
     margin: 0;
 }
 
@@ -20,14 +25,28 @@ p {
     margin-bottom: 1em;
 }
 
-img, picture{
-    max-width: 100%;
-    height: auto;
-    display: block;
+a {
+    color: var(--culoare-highlight);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--culoare-highlight);
+    transition: color 0.3s, border-bottom-color 0.3s;
 }
 
-iframe{
+a:visited {
+    color: var(--culoare-highlight);
+}
+
+a:hover, a:focus {
+    color: var(--culoare-text);
+    border-bottom: 1px solid var(--culoare-text);
+}
+
+img, picture, iframe, video, object {
+    width: 100%;
     max-width: 100%;
+    min-width: 100px;
+    height: auto;
+    display: block;
 }
 
 main{
@@ -40,21 +59,33 @@ html {
     transition: font-size 0.5s ease;
 }
 
+/* Izolare vizuală zone - header, footer */
+header, footer {
+    background-color: var(--culoare-secundara);
+    border: 1px solid var(--culoare-contur);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    padding: var(--padding-sectiuni);
+    margin: 20px var(--margine-pagina);
+}
+
 #grid-pagina {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-areas: 
         "acasa acasa acasa acasa"
-        "checkout checkout diverse diverse"
-        "evenimente statistici diverse diverse"
-        "utilizatori statistici diverse diverse"
-        "utilizatori anunturi anunturi server";
+        "galerie galerie diverse diverse"
+        "evenimente suport diverse diverse"
+        "intrebari suport diverse diverse"
+        "intrebari ghiduri ghiduri figuri-grid";
     gap: 15px;
 }
 
 #grid-pagina > * {
     border: 1px solid var(--culoare-contur);
-    padding: 20px;
+    padding: var(--padding-sectiuni);
+    /* setarea 'min-width: 0' previne ca elementele flex/grid să refuze constrângerile de lățime atunci când conțin 
+       elemente interne mari (ex: imagini sau tabele prea late), forțându-le să respecte grid-ul. */
     min-width: 0;
     overflow-x: hidden;
     background-color: var(--culoare-tertiara);
@@ -73,31 +104,52 @@ html {
     text-align: left;
     width: 100%;
 }
-#checkout { grid-area: checkout; }
+#galerie { grid-area: galerie; }
 #evenimente { grid-area: evenimente; }
-#anunturi { grid-area: anunturi; }
-#utilizatori { grid-area: utilizatori; }
-#suport { grid-area: statistici; }
-#server { grid-area: server; }
+#ghiduri { grid-area: ghiduri; }
+#index-intrebari { grid-area: intrebari; }
+#suport { grid-area: suport; }
 #diverse { grid-area: diverse; }
+#figuri-grid { grid-area: figuri-grid; }
 
-/* Zone 8 acts as a single robust card matching the diagram */
+/* Zona "#diverse" funcționează ca un container principal ce combină 'height: 0' cu 'min-height: 100%' 
+   pentru a garanta că elementul respectă înălțimea alocata de grid*/
 #diverse {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-height: 1000px;
+    height: 0;
+    min-height: 100%;
     overflow-y: auto;
 }
 
-/* Internal components become nested cards */
+/* Componentele interne devin carduri imbricate unele în altele */
 #diverse > * {
     margin: 0;
     border: 1px solid var(--culoare-contur);
-    padding: 15px;
-    background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent to overlay on the card background */
+    padding: var(--padding-sectiuni);
+    background-color: rgba(0, 0, 0, 0.3); /* Culoare ușor transparentă pentru a lăsa fundalul cardului părinte să sevadă */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+#ghiduri {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 0;
+    min-height: 100%;
+    overflow-y: auto;
+}
+
+#figuri-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+#figuri-grid figure {
+    margin: 0;
 }
 
 @media screen and (max-width:1200px) {
@@ -111,10 +163,11 @@ html {
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
             "acasa acasa"
-            "checkout diverse"
-            "statistici diverse"
-            "evenimente utilizatori"
-            "anunturi server";
+            "galerie diverse"
+            "suport diverse"
+            "evenimente intrebari"
+            "ghiduri figuri-grid";
+        gap: 10px; /* gap descrescător pe mediu */
     }
 }
 
@@ -129,14 +182,28 @@ html {
         grid-template-columns: 1fr;
         grid-template-areas:
             "acasa"
-            "checkout"
+            "figuri-grid"
+            "galerie"
+            "diverse"
             "evenimente"
-            "statistici"
-            "utilizatori"
-            "anunturi"
-            "server"
-            "diverse";
+            "suport"
+            "intrebari"
+            "ghiduri";
+        gap: 5px; /* gap descrescător pe mic */
     }
+
+    img, picture, iframe, video, object {
+        min-width: 50px; /* min-width mai restrictiv pe ecrane mici */
+    }
+
+    #diverse, #ghiduri {
+        height: auto;
+        overflow-y: visible;
+    }
+
+    /* Oprim toate animațiile pe ecranele mici (cerință și optimizare).
+       Folosim !important împreună cu selectorul universal (*) pentru a forța
+       oprirea, suprascriind orice altă animație definită pe clase sau ID-uri. */
     * {
         animation: none !important;
     }
@@ -146,12 +213,30 @@ html {
 math[display="block"] {
     margin: 15px 0;
     font-size: 1.2em;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+#tab-orar {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 /* Bonus: PDF embed */
 #ghiduri object {
     max-width: 100%;
+    width: 100%;
+    height: 500px;
+    min-height: 500px;
     border: 1px solid var(--culoare-contur);
+}
+
+@media screen and (max-width:700px) {
+    #ghiduri object {
+        height: 350px !important;
+        min-height: 350px !important;
+    }
 }
 
 /* Bonus: Google Maps iframe in footer */
