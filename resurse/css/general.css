@@ -41,11 +41,20 @@ a:hover, a:focus {
     border-bottom: 1px solid var(--culoare-text);
 }
 
-img, picture, iframe, video, object {
+img, picture, object {
     width: 100%;
     max-width: 100%;
     min-width: 100px;
     height: auto;
+    display: block;
+}
+
+iframe, video {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100px;
+    height: auto;
+    aspect-ratio: 16 / 9;
     display: block;
 }
 
@@ -152,6 +161,93 @@ header, footer {
     margin: 0;
 }
 
+/* Bonus: MathML formula */
+math[display="block"] {
+    margin: 15px 0;
+    font-size: 1.2em;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.container-tabel {
+    max-width: 100%;
+}
+@media screen and (max-width: 1200px) {
+    .container-tabel {
+        overflow-x: auto;
+    }
+}
+
+#tab-orar {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 5px inset var(--culoare-contur); /* Border inset pe exterior */
+    caption-side: bottom;
+}
+
+#tab-orar th, #tab-orar td {
+    border-right: 1px solid var(--culoare-contur);
+    padding: 10px;
+    text-align: left;
+}
+/* Scoatem dublura de la ultima coloană, care atinge marginea exterioară de 5px */
+#tab-orar th:last-child, #tab-orar td:last-child { 
+    border-right: none; 
+}
+
+/* Border între header și primul rând */
+#tab-orar thead th {
+    border-bottom: 1px solid var(--culoare-highlight); /* C1 */
+}
+
+/* Bordere orizontale alternate respectând logica cerută (C1 și C2): */
+#tab-orar tbody tr:nth-child(even) td {
+    border-bottom: 1px solid var(--culoare-highlight); /* Culoarea c1 */
+}
+#tab-orar tbody tr:nth-child(odd) td {
+    border-bottom: 1px solid var(--culoare-text); /* Culoarea c2 */
+}
+
+/* Tranzitie la hover cu alpha transparență 0.7 timp de jumătate de secundă */
+#tab-orar tbody tr {
+    transition: outline 0.5s ease;
+    outline: 5px solid transparent; 
+}
+#tab-orar tbody tr:hover {
+    outline: 5px solid rgba(224, 0, 139, 0.7);
+    z-index: 10;
+    position: relative; /* Esențial pentru a permite outline-ului să fie adus deasupra în modul separate */
+}
+
+/* Bonus: PDF embed */
+#ghiduri object {
+    max-width: 100%;
+    width: 100%;
+    height: 500px;
+    min-height: 500px;
+    border: 1px solid var(--culoare-contur);
+}
+
+@media screen and (max-width:700px) {
+    #ghiduri object {
+        height: 350px !important;
+        min-height: 350px !important;
+    }
+}
+
+/* Bonus: Google Maps iframe in footer */
+#google-map {
+    max-width: 50%;
+    margin: 15px 0;
+    border: 5px solid var(--culoare-contur);
+}
+
+/* Bonus: YouTube playlist iframe */
+#playlist-iframe {
+    max-width: 100%;
+}
+
 @media screen and (max-width:1200px) {
     html {
         font-size: 16px;
@@ -168,6 +264,10 @@ header, footer {
             "evenimente intrebari"
             "ghiduri figuri-grid";
         gap: 10px; /* gap descrescător pe mediu */
+    }
+
+    #google-map {
+        max-width: 100%;
     }
 }
 
@@ -201,55 +301,14 @@ header, footer {
         overflow-y: visible;
     }
 
+    #google-map {
+        max-width: 100%;
+    }
+
     /* Oprim toate animațiile pe ecranele mici (cerință și optimizare).
        Folosim !important împreună cu selectorul universal (*) pentru a forța
        oprirea, suprascriind orice altă animație definită pe clase sau ID-uri. */
     * {
         animation: none !important;
     }
-}
-
-/* Bonus: MathML formula */
-math[display="block"] {
-    margin: 15px 0;
-    font-size: 1.2em;
-    max-width: 100%;
-    overflow-x: auto;
-}
-
-#tab-orar {
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
-}
-
-/* Bonus: PDF embed */
-#ghiduri object {
-    max-width: 100%;
-    width: 100%;
-    height: 500px;
-    min-height: 500px;
-    border: 1px solid var(--culoare-contur);
-}
-
-@media screen and (max-width:700px) {
-    #ghiduri object {
-        height: 350px !important;
-        min-height: 350px !important;
-    }
-}
-
-/* Bonus: Google Maps iframe in footer */
-#map-container {
-    margin: 15px 0;
-}
-
-#google-map {
-    max-width: 100%;
-    border: 1px solid var(--culoare-contur);
-}
-
-/* Bonus: YouTube playlist iframe */
-#playlist-iframe {
-    max-width: 100%;
 }

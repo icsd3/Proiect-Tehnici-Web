@@ -299,54 +299,56 @@
                     <h2>Coș &amp; Checkout</h2>
                     <p>Fluxul include finalizare comanda rapida, plata securizata, livrare internationala, sumar comanda, optiuni de livrare, metode de plata sigure, costuri si estimari livrare, plus retur rapid.</p>
                     <!-- Task 1.15: tabel complet cu caption, minim 4 coloane, minim 5 rânduri în tbody și colspan -->
-                    <table id="tab-orar">
-                        <caption>Etapele procesării unei comenzi în TheMetalVault</caption>
-                        <thead>
-                            <tr>
-                                <th>Etapă</th>
-                                <th>Detalii</th>
-                                <th>Opțiuni</th>
-                                <th>Durată estimată</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Coș</td>
-                                <td>Verificare produse, cantitate, cod promoțional</td>
-                                <td>Update rapid</td>
-                                <td>2-5 minute</td>
-                            </tr>
-                            <tr>
-                                <td>Livrare</td>
-                                <td>Adresă și metodă de transport</td>
-                                <td>Național / Internațional</td>
-                                <td>3-6 minute</td>
-                            </tr>
-                            <tr>
-                                <td>Plată</td>
-                                <td>Finalizare comandă securizată</td>
-                                <td>Card / Ramburs</td>
-                                <td>1-3 minute</td>
-                            </tr>
-                            <tr>
-                                <td>Confirmare</td>
-                                <td>Rezumat comandă și estimare livrare</td>
-                                <td>Email + status</td>
-                                <td>Instant</td>
-                            </tr>
-                            <tr>
-                                <td>Post-comandă</td>
-                                <td>Suport pentru modificări și retur</td>
-                                <td>Ticket / Email / WhatsApp</td>
-                                <td>24-48 ore</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="4">Retur rapid și suport pentru modificări de comandă conform politicii magazinului.</td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <div class="container-tabel">
+                        <table id="tab-orar">
+                            <caption>Etapele procesării unei comenzi în TheMetalVault</caption>
+                            <thead>
+                                <tr>
+                                    <th>Etapă</th>
+                                    <th>Detalii</th>
+                                    <th>Opțiuni</th>
+                                    <th>Durată estimată</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Coș</td>
+                                    <td>Verificare produse, cantitate, cod promoțional</td>
+                                    <td>Update rapid</td>
+                                    <td>2-5 minute</td>
+                                </tr>
+                                <tr>
+                                    <td>Livrare</td>
+                                    <td>Adresă și metodă de transport</td>
+                                    <td>Național / Internațional</td>
+                                    <td>3-6 minute</td>
+                                </tr>
+                                <tr>
+                                    <td>Plată</td>
+                                    <td>Finalizare comandă securizată</td>
+                                    <td>Card / Ramburs</td>
+                                    <td>1-3 minute</td>
+                                </tr>
+                                <tr>
+                                    <td>Confirmare</td>
+                                    <td>Rezumat comandă și estimare livrare</td>
+                                    <td>Email + status</td>
+                                    <td>Instant</td>
+                                </tr>
+                                <tr>
+                                    <td>Post-comandă</td>
+                                    <td>Suport pentru modificări și retur</td>
+                                    <td>Ticket / Email / WhatsApp</td>
+                                    <td>24-48 ore</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">Retur rapid și suport pentru modificări de comandă conform politicii magazinului.</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
                     <!-- Task 1.17: două taguri meter cu min/max/low/high/optimum; una low, una high -->
                     <p>Grad ocupare showroom (interval calm):
@@ -439,16 +441,15 @@
         </address>
 
         <!-- Bonus: iframe cu locația adresei pe Google Maps (FMI București) -->
-        <div id="map-container">
-            <h3>Locația noastră</h3>
-            <iframe id="google-map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8843011393146!2d26.097011776218338!3d44.43553547107579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFaculty%20of%20Mathematics%20and%20Computer%20Science!5e0!3m2!1sen!2sro!4v1774472054951!5m2!1sen!2sro"
-                width="400" height="300" style="border:0;"
-                allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Locația TheMetalVault pe Google Maps">
-            </iframe>
-        </div>
+        <h3>Locația noastră</h3>
+        <iframe id="google-map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8843011393146!2d26.097011776218338!3d44.43553547107579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFaculty%20of%20Mathematics%20and%20Computer%20Science!5e0!3m2!1sen!2sro!4v1774472054951!5m2!1sen!2sro"
+            width="400" height="300" 
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Locația TheMetalVault pe Google Maps">
+        </iframe>
+
         <!-- Task 1.13c: link în footer către începutul paginii -->
         <p><a href="#top">Înapoi la începutul paginii</a></p>
         <p>
