@@ -1,0 +1,61 @@
+$primary: #E0008B;
+$secondary: #92E000;
+$success: #384422;
+$info: #6200E0;
+$warning: #4A223E;
+$danger: #E0008B;
+$light: #92E000;
+$dark: #0F001A;
+
+$body-bg: #0F001A;
+$body-color: #92E000;
+$body-bg-dark: #4A223E;
+$body-color-dark: #92E000;
+$body-secondary-bg-dark: #384422;
+$body-tertiary-bg-dark: #0F001A;
+$link-color: $primary;
+$link-hover-color: $secondary;
+$link-color-dark: #E0008B;
+$link-hover-color-dark: #92E000;
+$border-color: #6200E0;
+
+$font-family-sans-serif: "Roboto", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+$h1-font-size: 2.75rem;
+$h2-font-size: 2.1rem;
+$h3-font-size: 1.55rem;
+$h4-font-size: 1.25rem;
+$h5-font-size: 1.05rem;
+$h6-font-size: 0.95rem;
+
+$border-radius: 0.45rem;
+$border-radius-sm: 0.3rem;
+$border-radius-lg: 0.65rem;
+$border-radius-xl: 0.8rem;
+$btn-border-radius: $border-radius-sm;
+$btn-border-radius-sm: 0.25rem;
+$btn-border-radius-lg: $border-radius;
+$alert-border-radius: $border-radius;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 36rem,
+    md: 52rem,
+    lg: 74rem,
+    xl: 86rem,
+    xxl: 100rem
+);
+
+$container-max-widths: (
+    sm: 34rem,
+    md: 48rem,
+    lg: 68rem,
+    xl: 80rem,
+    xxl: 92rem
+);
+
+$spacer: 1.1rem;
+$box-shadow: 0 0.75rem 1.8rem rgba(0, 0, 0, 0.32);
+$btn-font-weight: 700;
+
+@import "bootstrap/scss/bootstrap";

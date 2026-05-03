@@ -604,6 +604,9 @@ function compileazaScss(caleScss, caleCss) {
         copiazaCssInBackup(caleCssAbsoluta);
 
         const rezultat = sass.compile(caleScssAbsoluta, {
+            loadPaths: [path.join(__dirname, "node_modules")],
+            quietDeps: true,
+            silenceDeprecations: ["import", "global-builtin", "color-functions", "if-function"],
             style: "expanded"
         });
 
