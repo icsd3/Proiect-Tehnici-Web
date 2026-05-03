@@ -1,7 +1,7 @@
 {
   "name": "proiect-tehnici-web",
   "version": "1.0.0",
-  "description": "",
+  "description": "Site de prezentare pentru TheMetalVault, magazin online de merch metal si rock.",
   "homepage": "https://github.com/icsd3/Proiect-Tehnici-Web#readme",
   "bugs": {
     "url": "https://github.com/icsd3/Proiect-Tehnici-Web/issues"
@@ -11,10 +11,19 @@
     "url": "git+https://github.com/icsd3/Proiect-Tehnici-Web.git"
   },
   "license": "ISC",
-  "author": "",
+  "author": "Ungureanu Robert",
+  "keywords": [
+    "metal merch",
+    "rock merch",
+    "tricouri metal",
+    "vinyl metal",
+    "magazin online",
+    "tehnici web"
+  ],
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

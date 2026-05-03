@@ -1,38 +1,421 @@
 const express = require("express");
+const fs = require("fs");
 const path = require("path");
 
-app = express();
-app.set("view engine", "ejs")
+const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
+const app = express();
+const obGlobal = {
+    obErori: null,
+    folderProiect: __dirname,
+    folderResurse: path.join(__dirname, "resurse"),
+    vect_foldere
+};
 
-console.log("Folder index.js", __dirname);
-console.log("Folder curent de lucru", process.cwd());
-console.log("Cale fisier", __filename);
+global.obGlobal = obGlobal;
 
-// app.get("/cale/:a/:b", function(req, res)
-// {
-//     res.send(parseInt(req.params.a) + parseInt(req.params.b));
-//     console.log("Am primit un request get pe /cale");
-// });
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.set("trust proxy", true);
 
-// app.get("/cale2", function(req, res)
-// {
-//     res.write("ceva\n");
-//     res.write("altceva");
-//     res.end;
-// })
-
-app.get("/", function(req, res)
-{
-    res.sendFile(path.join(__dirname, "index.html"));
+app.use(function (req, res, next) {
+    res.locals.ipUtilizator = req.ip;
+    next();
 });
 
-// app.get("/:a/:b", function(req, res)
-// {
-//     console.log(parseInt(req.params.a) + parseInt(req.params.b));
-//     res.sendFile(path.join(__dirname, "index.html"));
-// });
+console.log("__dirname:", __dirname);
+console.log("__filename:", __filename);
+console.log("process.cwd():", process.cwd());
+console.log("__dirname si process.cwd() sunt egale doar daca serverul este pornit din folderul in care se afla index.js.");
 
-app.use("/resurse", express.static(path.join(__dirname, "resurse")));
+function oprestePornirePentruErori(mesaje) {
+    console.error("Configurare invalida pentru erori.json:");
 
-app.listen(8080);
-console.log("serverul e pornit");
+    for (const mesaj of mesaje) {
+        console.error(`- ${mesaj}`);
+    }
+
+    process.exit(1);
+}
+
+function citesteStringJson(text, pozitieStart) {
+    let rezultat = "";
+    let pozitie = pozitieStart + 1;
+
+    while (pozitie < text.length) {
+        const caracter = text[pozitie];
+
+        if (caracter === "\\") {
+            rezultat += caracter + (text[pozitie + 1] || "");
+            pozitie += 2;
+            continue;
+        }
+
+        if (caracter === "\"") {
+            return {
+                valoare: rezultat,
+                pozitieFinal: pozitie
+            };
+        }
+
+        rezultat += caracter;
+        pozitie++;
+    }
+
+    return {
+        valoare: rezultat,
+        pozitieFinal: pozitie
+    };
+}
+
+function calculeazaLinie(text, pozitie) {
+    return text.substring(0, pozitie).split(/\r?\n/).length;
+}
+
+function gasesteProprietatiDuplicateJson(text) {
+    const duplicate = [];
+    const stiva = [];
+
+    function marcheazaValoareInParinte() {
+        const parinte = stiva[stiva.length - 1];
+
+        if (!parinte) {
+            return;
+        }
+
+        if (parinte.tip === "obiect" && parinte.asteapta === "valoare") {
+            parinte.asteapta = "dupa_valoare";
+        }
+    }
+
+    for (let i = 0; i < text.length; i++) {
+        const caracter = text[i];
+        const context = stiva[stiva.length - 1];
+
+        if (/\s/.test(caracter)) {
+            continue;
+        }
+
+        if (caracter === "\"") {
+            const sir = citesteStringJson(text, i);
+
+            if (context && context.tip === "obiect" && context.asteapta === "cheie") {
+                if (context.chei.has(sir.valoare)) {
+                    duplicate.push(`Proprietatea "${sir.valoare}" este duplicata in obiect JSON la linia ${calculeazaLinie(text, i)}.`);
+                } else {
+                    context.chei.add(sir.valoare);
+                }
+
+                context.asteapta = "doua_puncte";
+            } else {
+                marcheazaValoareInParinte();
+            }
+
+            i = sir.pozitieFinal;
+            continue;
+        }
+
+        if (caracter === "{") {
+            marcheazaValoareInParinte();
+            stiva.push({
+                tip: "obiect",
+                chei: new Set(),
+                asteapta: "cheie"
+            });
+            continue;
+        }
+
+        if (caracter === "[") {
+            marcheazaValoareInParinte();
+            stiva.push({ tip: "vector" });
+            continue;
+        }
+
+        if (caracter === "}" || caracter === "]") {
+            stiva.pop();
+            continue;
+        }
+
+        if (caracter === ":" && context && context.tip === "obiect" && context.asteapta === "doua_puncte") {
+            context.asteapta = "valoare";
+            continue;
+        }
+
+        if (caracter === "," && context && context.tip === "obiect") {
+            context.asteapta = "cheie";
+            continue;
+        }
+
+        if (context && context.tip === "obiect" && context.asteapta === "valoare") {
+            context.asteapta = "dupa_valoare";
+        }
+    }
+
+    return duplicate;
+}
+
+function areProprietate(obiect, proprietate) {
+    return Object.prototype.hasOwnProperty.call(obiect, proprietate);
+}
+
+function caleServerCatreDisc(caleServer) {
+    const segmente = caleServer.split(/[\\/]+/).filter(Boolean);
+    return path.join(__dirname, ...segmente);
+}
+
+function descrieEroareFaraIdentificator(eroare) {
+    return Object.entries(eroare)
+        .filter(([cheie]) => cheie !== "identificator")
+        .map(([cheie, valoare]) => `${cheie}: ${JSON.stringify(valoare)}`)
+        .join(", ");
+}
+
+function valideazaObiectErori(erori) {
+    const mesaje = [];
+
+    if (!erori || typeof erori !== "object" || Array.isArray(erori)) {
+        return ["Fisierul erori.json trebuie sa contina un obiect JSON la radacina."];
+    }
+
+    for (const proprietate of ["cale_baza", "eroare_default", "info_erori"]) {
+        if (!areProprietate(erori, proprietate)) {
+            mesaje.push(`Lipseste proprietatea obligatorie "${proprietate}".`);
+        }
+    }
+
+    if (mesaje.length) {
+        return mesaje;
+    }
+
+    if (typeof erori.cale_baza !== "string" || !erori.cale_baza.trim()) {
+        mesaje.push("Proprietatea \"cale_baza\" trebuie sa fie un string nevid.");
+    } else {
+        const caleFolderErori = caleServerCatreDisc(erori.cale_baza);
+
+        if (!fs.existsSync(caleFolderErori) || !fs.statSync(caleFolderErori).isDirectory()) {
+            mesaje.push(`Folderul indicat de "cale_baza" nu exista pe disc: ${caleFolderErori}`);
+        }
+    }
+
+    if (!erori.eroare_default || typeof erori.eroare_default !== "object" || Array.isArray(erori.eroare_default)) {
+        mesaje.push("Proprietatea \"eroare_default\" trebuie sa fie obiect JSON.");
+    } else {
+        for (const proprietate of ["titlu", "text", "imagine"]) {
+            if (!areProprietate(erori.eroare_default, proprietate)) {
+                mesaje.push(`"eroare_default" nu are proprietatea obligatorie "${proprietate}".`);
+            }
+        }
+    }
+
+    if (!Array.isArray(erori.info_erori)) {
+        mesaje.push("Proprietatea \"info_erori\" trebuie sa fie vector.");
+    }
+
+    if (mesaje.length) {
+        return mesaje;
+    }
+
+    const imaginiFolosite = new Set();
+    const eroriCuImagini = [
+        {
+            eticheta: "eroare_default",
+            eroare: erori.eroare_default
+        },
+        ...erori.info_erori.map((eroare, index) => ({
+            eticheta: `info_erori[${index}]`,
+            eroare
+        }))
+    ];
+
+    for (const { eticheta, eroare } of eroriCuImagini) {
+        if (!eroare || typeof eroare !== "object" || Array.isArray(eroare)) {
+            mesaje.push(`${eticheta} trebuie sa fie obiect JSON.`);
+            continue;
+        }
+
+        for (const proprietate of ["titlu", "text", "imagine"]) {
+            if (!areProprietate(eroare, proprietate)) {
+                mesaje.push(`${eticheta} nu are proprietatea obligatorie "${proprietate}".`);
+            }
+        }
+
+        if (areProprietate(eroare, "imagine")) {
+            const caleImagine = path.join(caleServerCatreDisc(erori.cale_baza), eroare.imagine);
+
+            if (!fs.existsSync(caleImagine) || !fs.statSync(caleImagine).isFile()) {
+                mesaje.push(`Imaginea pentru ${eticheta} nu exista pe disc: ${caleImagine}`);
+            }
+
+            if (imaginiFolosite.has(eroare.imagine)) {
+                mesaje.push(`Imaginea "${eroare.imagine}" este folosita de mai multe erori; fiecare eroare trebuie sa aiba imagine diferita.`);
+            }
+
+            imaginiFolosite.add(eroare.imagine);
+        }
+    }
+
+    const eroriDupaIdentificator = new Map();
+
+    for (const [index, eroare] of erori.info_erori.entries()) {
+        if (!eroare || typeof eroare !== "object" || Array.isArray(eroare)) {
+            continue;
+        }
+
+        for (const proprietate of ["identificator", "status", "titlu", "text", "imagine"]) {
+            if (!areProprietate(eroare, proprietate)) {
+                mesaje.push(`info_erori[${index}] nu are proprietatea obligatorie "${proprietate}".`);
+            }
+        }
+
+        if (areProprietate(eroare, "identificator")) {
+            if (!eroriDupaIdentificator.has(eroare.identificator)) {
+                eroriDupaIdentificator.set(eroare.identificator, []);
+            }
+
+            eroriDupaIdentificator.get(eroare.identificator).push(eroare);
+        }
+    }
+
+    for (const [identificator, eroriDuplicate] of eroriDupaIdentificator.entries()) {
+        if (eroriDuplicate.length > 1) {
+            const detalii = eroriDuplicate
+                .map((eroare) => `{ ${descrieEroareFaraIdentificator(eroare)} }`)
+                .join(" | ");
+            mesaje.push(`Identificator duplicat "${identificator}" in info_erori. Obiecte duplicate fara identificator: ${detalii}`);
+        }
+    }
+
+    return mesaje;
+}
+
+function initErori() {
+    const caleErori = path.join(__dirname, "erori.json");
+
+    if (!fs.existsSync(caleErori)) {
+        oprestePornirePentruErori([`Fisierul erori.json nu exista la calea: ${caleErori}`]);
+    }
+
+    const continut = fs.readFileSync(caleErori, "utf-8").replace(/^\uFEFF/, "");
+    const proprietatiDuplicate = gasesteProprietatiDuplicateJson(continut);
+
+    if (proprietatiDuplicate.length) {
+        oprestePornirePentruErori(proprietatiDuplicate);
+    }
+
+    let erori;
+
+    try {
+        erori = JSON.parse(continut);
+    } catch (eroare) {
+        oprestePornirePentruErori([`Fisierul erori.json nu este JSON valid: ${eroare.message}`]);
+    }
+
+    const eroriValidare = valideazaObiectErori(erori);
+
+    if (eroriValidare.length) {
+        oprestePornirePentruErori(eroriValidare);
+    }
+
+    erori.eroare_default.imagine = path.posix.join(erori.cale_baza, erori.eroare_default.imagine);
+
+    for (const eroare of erori.info_erori) {
+        eroare.imagine = path.posix.join(erori.cale_baza, eroare.imagine);
+    }
+
+    obGlobal.obErori = erori;
+}
+
+function creareFoldereGenerate() {
+    for (const folder of obGlobal.vect_foldere) {
+        const caleFolder = path.join(__dirname, folder);
+
+        if (!fs.existsSync(caleFolder)) {
+            fs.mkdirSync(caleFolder, { recursive: true });
+        }
+    }
+}
+
+function afisareEroare(res, identificator, titlu, text, imagine) {
+    let eroare = null;
+
+    if (identificator !== undefined && identificator !== null) {
+        eroare = obGlobal.obErori.info_erori.find((infoEroare) => infoEroare.identificator === identificator);
+    }
+
+    const eroareDefault = obGlobal.obErori.eroare_default;
+    const dateEroare = eroare || eroareDefault;
+    const statusEroare = eroare && eroare.status ? eroare.identificator : 200;
+
+    res.status(statusEroare).render(path.join("pagini", "eroare"), {
+        titlu: titlu ?? dateEroare.titlu,
+        text: text ?? dateEroare.text,
+        imagine: imagine ?? dateEroare.imagine
+    }, function (eroareRandare, rezultatRandare) {
+        if (eroareRandare) {
+            res.status(500).send("A aparut o eroare la randarea paginii de eroare.");
+            return;
+        }
+
+        res.send(rezultatRandare);
+    });
+}
+
+function randarePagina(res, pagina, locals = {}) {
+    res.render(path.join("pagini", pagina), locals, function (eroare, rezultatRandare) {
+        if (eroare) {
+            if (eroare.message.startsWith("Failed to lookup view")) {
+                afisareEroare(res, 404);
+            } else {
+                console.error(eroare);
+                afisareEroare(res);
+            }
+            return;
+        }
+
+        res.send(rezultatRandare);
+    });
+}
+
+initErori();
+creareFoldereGenerate();
+
+app.get("/favicon.ico", function (req, res) {
+    res.sendFile(path.join(__dirname, "resurse", "ico", "favicon.ico"));
+});
+
+app.use("/resurse", function (req, res, next) {
+    const caleResursa = path.join(obGlobal.folderResurse, req.path);
+
+    if (req.path === "/" || req.path.endsWith("/") || (fs.existsSync(caleResursa) && fs.statSync(caleResursa).isDirectory())) {
+        afisareEroare(res, 403);
+        return;
+    }
+
+    next();
+});
+
+app.use("/resurse", express.static(obGlobal.folderResurse));
+
+app.get(["/", "/index", "/home"], function (req, res) {
+    randarePagina(res, "index");
+});
+
+app.get(/.*\.ejs$/, function (req, res) {
+    afisareEroare(res, 400);
+});
+
+// Express 5 cere nume pentru wildcard; ruta pastreaza comportamentul cerut pentru "/*".
+app.get("/*pagina", function (req, res) {
+    const pagina = req.params.pagina.join("/");
+
+    if (!pagina || pagina.includes("..") || path.isAbsolute(pagina)) {
+        afisareEroare(res, 403);
+        return;
+    }
+
+    randarePagina(res, pagina);
+});
+
+const port = 8080;
+app.listen(port, function () {
+    console.log(`Serverul a pornit pe http://localhost:${port}`);
+});

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Eroare 400</title>
+  <desc id="desc">Ilustratie pentru cerere gresita.</desc>
+  <rect width="640" height="420" rx="34" fill="#151515"/>
+  <path d="M112 112h416v196H112z" fill="#2f2a25" stroke="#b85c38" stroke-width="8"/>
+  <path d="M152 158h228M152 208h336M152 258h170" stroke="#e5c6a8" stroke-width="18" stroke-linecap="round"/>
+  <path d="M450 148l56 56m0-56l-56 56" stroke="#d14a3d" stroke-width="18" stroke-linecap="round"/>
+  <text x="320" y="366" text-anchor="middle" font-family="Georgia, serif" font-size="42" fill="#f1d2b5">400</text>
+</svg>

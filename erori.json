@@ -1,0 +1,31 @@
+{
+  "cale_baza": "/resurse/imagini/erori/",
+  "eroare_default": {
+    "titlu": "Eroare",
+    "text": "A aparut o problema la randarea paginii cerute. Te rugam sa revii la pagina principala.",
+    "imagine": "eroare.svg"
+  },
+  "info_erori": [
+    {
+      "identificator": 400,
+      "status": true,
+      "titlu": "400 - Cerere gresita",
+      "text": "Fisierul cerut nu poate fi accesat direct prin URL.",
+      "imagine": "400.svg"
+    },
+    {
+      "identificator": 403,
+      "status": true,
+      "titlu": "403 - Acces interzis",
+      "text": "Nu ai permisiunea de a accesa aceasta resursa.",
+      "imagine": "403.svg"
+    },
+    {
+      "identificator": 404,
+      "status": true,
+      "titlu": "404 - Pagina nu exista",
+      "text": "Pagina solicitata nu a fost gasita pe server.",
+      "imagine": "404.svg"
+    }
+  ]
+}

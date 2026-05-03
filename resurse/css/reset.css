@@ -15,6 +15,7 @@ body {
     --culoare-highlight: #E0008B;
     --culoare-secundara: #384422;
     --culoare-tertiara: #4A223E;
+    --culoare-link-vizitat: var(--culoare-contur);
     --margine-pagina: 5rem;
     --padding-sectiuni: 1.25rem;
     --spatiu-xxs: 0.3125rem;

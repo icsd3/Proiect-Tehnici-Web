@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <%- include("../fragmente/head", { titluPagina: titlu }) %>
+</head>
+
+<body id="top">
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <section id="eroare">
+            <h2><%= titlu %></h2>
+            <p><%= text %></p>
+            <img src="<%= imagine %>" alt="<%= titlu %>" width="640" height="420">
+            <p><a href="/">Inapoi la pagina principala</a></p>
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+</body>
+
+</html>
