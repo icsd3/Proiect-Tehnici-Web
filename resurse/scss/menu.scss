@@ -268,18 +268,36 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
 
 // Mobile breakpoint: switch to hamburger + vertical expandable menu.
 @media screen and (max-width: $breakpoint-small) {
-    @keyframes mobile-menu-arrow-to-rect {
+    $mobile-menu-arrow-clip: polygon(0 0, 62% 0, 100% 50%, 62% 100%, 0 100%);
+    $mobile-menu-arrow-exit-clip: polygon(0 0, 82% 0, 109% 50%, 82% 100%, 0 100%);
+    $mobile-menu-rect-clip: polygon(0 0, 100% 0, 118% 50%, 100% 100%, 0 100%);
+    $mobile-menu-viewport-offset: calc(var(--margine-pagina) + var(--padding-sectiuni) + var(--bordura-medie));
+
+    @keyframes mobile-menu-slide-arrow {
         0% {
-            clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
+            clip-path: $mobile-menu-arrow-clip;
+            transform: translateX(calc(-100% - var(--spatiu-xs)));
         }
 
-        65% {
-            clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
+        75% {
+            clip-path: $mobile-menu-arrow-clip;
+            transform: translateX(0);
+        }
+
+        85% {
+            clip-path: $mobile-menu-arrow-exit-clip;
+            transform: translateX(0);
         }
 
         100% {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            clip-path: $mobile-menu-rect-clip;
+            transform: translateX(0);
         }
+    }
+
+    html:has(.menu-site__toggle:checked),
+    body:has(.menu-site__toggle:checked) {
+        overflow-x: hidden;
     }
 
     .menu-site {
@@ -303,7 +321,8 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
         &__toggle:checked ~ .meniu-mobile {
             transform: translateX(0);
             pointer-events: auto;
-            animation: mobile-menu-arrow-to-rect 0.6s ease forwards;
+            transition: none;
+            animation: mobile-menu-slide-arrow 1.05s linear forwards !important;
 
             // Stagger top-level items in after the panel slides in.
             .meniu-mobile__item {
@@ -318,10 +337,11 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
         list-style: none;
         position: absolute;
         top: calc(100% + var(--spatiu-xs));
-        left: 50%;
-        width: 100vw;
-        max-width: 100vw;
-        margin-left: -50vw;
+        left: calc(-1 * #{$mobile-menu-viewport-offset});
+        right: calc(-1 * #{$mobile-menu-viewport-offset});
+        width: auto;
+        max-width: none;
+        margin-left: 0;
         display: flex;
         flex-direction: column;
         padding: 0;
@@ -329,16 +349,19 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
         overflow: hidden;
         background: color-mix(in srgb, var(--culoare-tertiara) 82%, black);
         border: var(--bordura-medie) solid var(--culoare-contur);
-        clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
+        clip-path: $mobile-menu-rect-clip;
         transform: translateX(calc(-100% - var(--spatiu-xs)));
         opacity: 1;
         pointer-events: none;
-        transition: transform 0.6s cubic-bezier(0.22, 0.8, 0.25, 1);
+        transition: transform 0.6s linear;
+        animation: none;
+        will-change: transform, clip-path;
 
         // Stack items vertically and replace right border with bottom separators.
         &__item {
             border-right: none;
             border-bottom: var(--bordura-subtire) solid color-mix(in srgb, var(--culoare-contur) 45%, transparent);
+            width: 100%;
             flex: none;
             transform: translateX(-0.85rem);
             opacity: 1;
@@ -422,6 +445,7 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
         position: static;
         list-style: none;
         min-width: 100%;
+        width: 100%;
         margin: 0;
         padding: 0;
         background: color-mix(in srgb, var(--culoare-fundal) 82%, black);
@@ -434,8 +458,8 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
         max-height: 0;
         overflow: hidden;
         pointer-events: none;
-        clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
-        transition: max-height 0.35s ease, clip-path 0.35s ease;
+        clip-path: $mobile-menu-rect-clip;
+        transition: max-height 0.35s ease;
 
         a {
             position: relative;
@@ -452,6 +476,7 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
                 clip-path 0.35s ease,
                 max-height 0.35s ease;
             display: block;
+            width: 100%;
             padding: 0.8rem 1rem;
             color: var(--culoare-highlight);
             background-color: transparent;
@@ -477,6 +502,5 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
     .meniu-mobile__item:focus-within > .submenu-mobile {
         max-height: 20rem;
         pointer-events: auto;
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 }
