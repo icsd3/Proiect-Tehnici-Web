@@ -1,11 +1,24 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const sharp = require("sharp");
 
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
+const varianteGalerie = [
+    {
+        nume: "mic",
+        latime: 250
+    },
+    {
+        nume: "mediu",
+        latime: 400
+    }
+];
+const paginiCuGalerieStatica = new Set(["index", "galerie"]);
 const app = express();
 const obGlobal = {
     obErori: null,
+    obGalerie: null,
     folderProiect: __dirname,
     folderResurse: path.join(__dirname, "resurse"),
     vect_foldere
@@ -27,7 +40,7 @@ console.log("__filename:", __filename);
 console.log("process.cwd():", process.cwd());
 console.log("__dirname si process.cwd() sunt egale doar daca serverul este pornit din folderul in care se afla index.js.");
 
-function oprestePornirePentruErori(mesaje) {
+function opresteAplicatiaPentruErori(mesaje) {
     console.error("Configurare invalida pentru erori.json:");
 
     for (const mesaj of mesaje) {
@@ -287,18 +300,234 @@ function valideazaObiectErori(erori) {
     return mesaje;
 }
 
+function opresteAplicatiaPentruGalerieInvalida(mesaje) {
+    console.error("Configurare invalida pentru galerie.json:");
+
+    for (const mesaj of mesaje) {
+        console.error(`- ${mesaj}`);
+    }
+
+    process.exit(1);
+}
+
+function valideazaObiectGalerie(galerie) {
+    const mesaje = [];
+
+    if (!galerie || typeof galerie !== "object" || Array.isArray(galerie)) {
+        return ["Fisierul galerie.json trebuie sa contina un obiect JSON la radacina."];
+    }
+
+    for (const proprietate of ["cale_galerie", "imagini"]) {
+        if (!areProprietate(galerie, proprietate)) {
+            mesaje.push(`Lipseste proprietatea obligatorie "${proprietate}".`);
+        }
+    }
+
+    if (mesaje.length) {
+        return mesaje;
+    }
+
+    if (typeof galerie.cale_galerie !== "string" || !galerie.cale_galerie.trim()) {
+        mesaje.push("Proprietatea \"cale_galerie\" trebuie sa fie un string nevid.");
+    } else {
+        const caleFolderGalerie = caleServerCatreDisc(galerie.cale_galerie);
+
+        if (!fs.existsSync(caleFolderGalerie) || !fs.statSync(caleFolderGalerie).isDirectory()) {
+            mesaje.push(`Folderul indicat de "cale_galerie" nu exista pe disc: ${caleFolderGalerie}`);
+        }
+    }
+
+    if (!Array.isArray(galerie.imagini)) {
+        mesaje.push("Proprietatea \"imagini\" trebuie sa fie vector.");
+    }
+
+    if (mesaje.length) {
+        return mesaje;
+    }
+
+    const caleFolderGalerie = caleServerCatreDisc(galerie.cale_galerie);
+
+    for (const [index, imagine] of galerie.imagini.entries()) {
+        if (!imagine || typeof imagine !== "object" || Array.isArray(imagine)) {
+            mesaje.push(`imagini[${index}] trebuie sa fie obiect JSON.`);
+            continue;
+        }
+
+        for (const proprietate of ["cale_imagine", "descriere", "sfert_ora"]) {
+            if (!areProprietate(imagine, proprietate)) {
+                mesaje.push(`imagini[${index}] nu are proprietatea obligatorie "${proprietate}".`);
+            }
+        }
+
+        if (areProprietate(imagine, "titlu") && typeof imagine.titlu !== "string") {
+            mesaje.push(`imagini[${index}].titlu trebuie sa fie string daca exista.`);
+        }
+
+        if (areProprietate(imagine, "alt") && typeof imagine.alt !== "string") {
+            mesaje.push(`imagini[${index}].alt trebuie sa fie string daca exista.`);
+        }
+
+        if (areProprietate(imagine, "cale_imagine")) {
+            if (typeof imagine.cale_imagine !== "string" || !imagine.cale_imagine.trim()) {
+                mesaje.push(`imagini[${index}].cale_imagine trebuie sa fie string nevid.`);
+            } else if (path.isAbsolute(imagine.cale_imagine) || imagine.cale_imagine.split(/[\\/]+/).includes("..")) {
+                mesaje.push(`imagini[${index}].cale_imagine trebuie sa fie o cale relativa simpla.`);
+            } else {
+                const caleImagine = path.join(caleFolderGalerie, ...imagine.cale_imagine.split(/[\\/]+/).filter(Boolean));
+
+                if (!fs.existsSync(caleImagine) || !fs.statSync(caleImagine).isFile()) {
+                    mesaje.push(`Imaginea pentru imagini[${index}] nu exista pe disc: ${caleImagine}`);
+                }
+            }
+        }
+
+        if (areProprietate(imagine, "descriere") && (typeof imagine.descriere !== "string" || !imagine.descriere.trim())) {
+            mesaje.push(`imagini[${index}].descriere trebuie sa fie string nevid.`);
+        }
+
+        if (areProprietate(imagine, "sfert_ora")) {
+            const valoriSfert = String(imagine.sfert_ora).split(/[,\s]+/).filter(Boolean);
+
+            if (!valoriSfert.length || valoriSfert.some((valoare) => !["1", "2", "3", "4"].includes(valoare))) {
+                mesaje.push(`imagini[${index}].sfert_ora trebuie sa contina valori intre 1 si 4.`);
+            }
+        }
+    }
+
+    return mesaje;
+}
+
+function initGalerie() {
+    const caleGalerie = path.join(__dirname, "galerie.json");
+
+    if (!fs.existsSync(caleGalerie)) {
+        opresteAplicatiaPentruGalerieInvalida([`Fisierul galerie.json nu exista la calea: ${caleGalerie}`]);
+    }
+
+    const continut = fs.readFileSync(caleGalerie, "utf-8").replace(/^\uFEFF/, "");
+    const proprietatiDuplicate = gasesteProprietatiDuplicateJson(continut);
+
+    if (proprietatiDuplicate.length) {
+        opresteAplicatiaPentruGalerieInvalida(proprietatiDuplicate);
+    }
+
+    let galerie;
+
+    try {
+        galerie = JSON.parse(continut);
+    } catch (eroare) {
+        opresteAplicatiaPentruGalerieInvalida([`Fisierul galerie.json nu este JSON valid: ${eroare.message}`]);
+    }
+
+    const eroriValidare = valideazaObiectGalerie(galerie);
+
+    if (eroriValidare.length) {
+        opresteAplicatiaPentruGalerieInvalida(eroriValidare);
+    }
+
+    galerie.cale_galerie = galerie.cale_galerie.replace(/\\/g, "/");
+    galerie.imagini = galerie.imagini.map(function (imagine) {
+        const caleRelativa = imagine.cale_imagine.split(/[\\/]+/).filter(Boolean).join("/");
+        const numeImagine = path.parse(path.basename(caleRelativa)).name;
+        const caleDisc = path.join(caleServerCatreDisc(galerie.cale_galerie), ...caleRelativa.split("/"));
+
+        return {
+            cale_imagine: caleRelativa,
+            cale_server: path.posix.join(galerie.cale_galerie, caleRelativa),
+            cale_disc: caleDisc,
+            titlu: imagine.titlu && imagine.titlu.trim() ? imagine.titlu.trim() : numeImagine,
+            alt: imagine.alt && imagine.alt.trim() ? imagine.alt.trim() : numeImagine,
+            descriere: imagine.descriere.trim(),
+            sfert_ora: String(imagine.sfert_ora),
+            licenta: imagine.licenta ?? "",
+            licenta_url: imagine.licenta_url ?? "",
+            autor: imagine.autor ?? "",
+            sursa: imagine.sursa ?? "",
+            modificari: imagine.modificari ?? ""
+        };
+    });
+
+    obGlobal.obGalerie = galerie;
+}
+
+function calculeazaSfertOraCurent(data = new Date()) {
+    return Math.floor(data.getMinutes() / 15) + 1;
+}
+
+function imagineEsteInSfertOra(imagine, sfertOra) {
+    return imagine.sfert_ora
+        .split(/[,\s]+/)
+        .filter(Boolean)
+        .includes(String(sfertOra));
+}
+
+async function asiguraVariantaGalerie(imagine, varianta) {
+    const numeFisier = path.parse(imagine.cale_imagine).name;
+    const extensie = path.extname(imagine.cale_imagine).toLowerCase() || ".jpg";
+    const numeVarianta = `${numeFisier}-${varianta.nume}${extensie}`;
+    const caleFolderDisc = path.join(caleServerCatreDisc(obGlobal.obGalerie.cale_galerie), "generate");
+    const caleDiscVarianta = path.join(caleFolderDisc, numeVarianta);
+    const caleServerVarianta = path.posix.join(obGlobal.obGalerie.cale_galerie, "generate", numeVarianta);
+
+    if (!fs.existsSync(caleFolderDisc)) {
+        fs.mkdirSync(caleFolderDisc, { recursive: true });
+    }
+
+    if (!fs.existsSync(caleDiscVarianta) || fs.statSync(caleDiscVarianta).mtimeMs < fs.statSync(imagine.cale_disc).mtimeMs) {
+        await sharp(imagine.cale_disc)
+            .resize({
+                width: varianta.latime,
+                height: varianta.latime,
+                fit: "cover"
+            })
+            .toFile(caleDiscVarianta);
+    }
+
+    return caleServerVarianta;
+}
+
+async function pregatesteImagineGalerie(imagine) {
+    const [caleServerMic, caleServerMediu] = await Promise.all(varianteGalerie.map((varianta) => asiguraVariantaGalerie(imagine, varianta)));
+
+    return {
+        ...imagine,
+        cale_server_mic: caleServerMic,
+        cale_server_mediu: caleServerMediu
+    };
+}
+
+async function obtineGalerieStatica() {
+    const sfertOra = calculeazaSfertOraCurent();
+
+    if (!obGlobal.obGalerie) {
+        return {
+            sfertOra,
+            imagini: []
+        };
+    }
+
+    const imagini = obGlobal.obGalerie.imagini
+        .filter((imagine) => imagineEsteInSfertOra(imagine, sfertOra))
+        .slice(0, 10);
+
+    return {
+        sfertOra,
+        imagini: await Promise.all(imagini.map((imagine) => pregatesteImagineGalerie(imagine)))
+    };
+}
+
 function initErori() {
     const caleErori = path.join(__dirname, "erori.json");
 
     if (!fs.existsSync(caleErori)) {
-        oprestePornirePentruErori([`Fisierul erori.json nu exista la calea: ${caleErori}`]);
+        opresteAplicatiaPentruErori([`Fisierul erori.json nu exista la calea: ${caleErori}`]);
     }
 
     const continut = fs.readFileSync(caleErori, "utf-8").replace(/^\uFEFF/, "");
     const proprietatiDuplicate = gasesteProprietatiDuplicateJson(continut);
 
     if (proprietatiDuplicate.length) {
-        oprestePornirePentruErori(proprietatiDuplicate);
+        opresteAplicatiaPentruErori(proprietatiDuplicate);
     }
 
     let erori;
@@ -306,13 +535,13 @@ function initErori() {
     try {
         erori = JSON.parse(continut);
     } catch (eroare) {
-        oprestePornirePentruErori([`Fisierul erori.json nu este JSON valid: ${eroare.message}`]);
+        opresteAplicatiaPentruErori([`Fisierul erori.json nu este JSON valid: ${eroare.message}`]);
     }
 
     const eroriValidare = valideazaObiectErori(erori);
 
     if (eroriValidare.length) {
-        oprestePornirePentruErori(eroriValidare);
+        opresteAplicatiaPentruErori(eroriValidare);
     }
 
     erori.eroare_default.imagine = path.posix.join(erori.cale_baza, erori.eroare_default.imagine);
@@ -359,8 +588,20 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     });
 }
 
-function randarePagina(res, pagina, locals = {}) {
-    res.render(path.join("pagini", pagina), locals, function (eroare, rezultatRandare) {
+async function randarePagina(res, pagina, locals = {}) {
+    const localsRandare = { ...locals };
+
+    try {
+        if (localsRandare.galerieStatica === undefined && paginiCuGalerieStatica.has(pagina)) {
+            localsRandare.galerieStatica = await obtineGalerieStatica();
+        }
+    } catch (eroare) {
+        console.error(eroare);
+        afisareEroare(res);
+        return;
+    }
+
+    res.render(path.join("pagini", pagina), localsRandare, function (eroare, rezultatRandare) {
         if (eroare) {
             if (eroare.message.startsWith("Failed to lookup view")) {
                 afisareEroare(res, 404);
@@ -376,6 +617,7 @@ function randarePagina(res, pagina, locals = {}) {
 }
 
 initErori();
+initGalerie();
 creareFoldereGenerate();
 
 app.get("/favicon.ico", function (req, res) {
@@ -412,10 +654,30 @@ app.get("/*pagina", function (req, res) {
         return;
     }
 
+    if (path.extname(pagina)) {
+        afisareEroare(res, 404);
+        return;
+    }
+
     randarePagina(res, pagina);
 });
 
-const port = 8080;
-app.listen(port, function () {
-    console.log(`Serverul a pornit pe http://localhost:${port}`);
-});
+function pornesteServer(port) {
+    const server = app.listen(port, function () {
+        console.log(`Serverul a pornit pe http://localhost:${port}`);
+    });
+
+    server.on("error", function (eroare) {
+        if (eroare.code === "EADDRINUSE" && !process.env.PORT && Number(port) === 8080) {
+            const portAlternativ = 8081;
+            console.warn(`Portul ${port} este ocupat. Incerc portul ${portAlternativ}.`);
+            pornesteServer(portAlternativ);
+            return;
+        }
+
+        throw eroare;
+    });
+}
+
+const port = Number(process.env.PORT) || 8080;
+pornesteServer(port);

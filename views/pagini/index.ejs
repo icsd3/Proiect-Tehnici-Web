@@ -380,6 +380,11 @@
                 </figure>
             </div>
         </div>
+
+        <section id="galerie-statica-acasa" class="container-galerie-statica">
+            <h2>Galerie statica</h2>
+            <%- include("../fragmente/galerie-statica", { galerieStatica: typeof galerieStatica !== "undefined" ? galerieStatica : { imagini: [] } }) %>
+        </section>
     </main>
 
     <%- include("../fragmente/footer") %>

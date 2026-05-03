@@ -40,12 +40,23 @@ header, footer {
 }
 
 #despre-site,
-#eroare {
+#eroare,
+#pagina-galerie,
+#galerie-statica-acasa {
     border: var(--bordura-medie) solid var(--culoare-contur);
     padding: var(--padding-sectiuni);
     background-color: var(--culoare-tertiara);
     border-radius: var(--raza-mica);
     box-shadow: 0 0.25rem 0.375rem rgba(0,0,0,0.5);
+}
+
+#pagina-galerie,
+#galerie-statica-acasa {
+    overflow: visible;
+}
+
+#galerie-statica-acasa {
+    margin-top: var(--spatiu-s);
 }
 
 #despre-site figure,
@@ -243,6 +254,71 @@ a:not(.menu-site a, #link-top):active {
 
 #figuri-grid figure {
     margin: 0;
+}
+
+.galerie-statica {
+    width: 100%;
+    margin: var(--spatiu-s) 0;
+}
+
+.galerie-statica__grid {
+    counter-reset: galerie-statica-index;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(4, auto);
+    gap: var(--spatiu-s);
+    width: 100%;
+}
+
+.galerie-statica__figura {
+    counter-increment: galerie-statica-index;
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    margin: 0;
+}
+
+.galerie-statica__figura:nth-child(1) { grid-column: 1; grid-row: 1; }
+.galerie-statica__figura:nth-child(2) { grid-column: 2; grid-row: 1; }
+.galerie-statica__figura:nth-child(3) { grid-column: 3; grid-row: 1; }
+.galerie-statica__figura:nth-child(4) { grid-column: 1; grid-row: 2; }
+.galerie-statica__figura:nth-child(5) { grid-column: 3; grid-row: 2; }
+.galerie-statica__figura:nth-child(6) { grid-column: 1; grid-row: 3; }
+.galerie-statica__figura:nth-child(7) { grid-column: 3; grid-row: 3; }
+.galerie-statica__figura:nth-child(8) { grid-column: 1; grid-row: 4; }
+.galerie-statica__figura:nth-child(9) { grid-column: 2; grid-row: 4; }
+.galerie-statica__figura:nth-child(10) { grid-column: 3; grid-row: 4; }
+
+.galerie-statica__figura img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border: 0 solid var(--culoare-highlight);
+    border-radius: var(--raza-mica);
+    transition: transform 1.2s ease, border-width 1.2s ease, box-shadow 1.2s ease;
+}
+
+.galerie-statica__figura:hover,
+.galerie-statica__figura:focus-within {
+    z-index: 5;
+}
+
+.galerie-statica__figura:hover img,
+.galerie-statica__figura:focus-within img {
+    transform: scale(1.25) rotate(-10deg);
+    border-width: 0.25rem;
+    box-shadow: 0 0.45rem 1.25rem rgba(0, 0, 0, 0.55);
+}
+
+.galerie-statica__figura figcaption {
+    margin-top: var(--spatiu-xxs);
+    line-height: 1.35;
+    font-size: 0.92rem;
+}
+
+.galerie-statica__figura figcaption::before {
+    content: counter(galerie-statica-index, upper-roman) ". ";
+    color: var(--culoare-highlight);
+    font-weight: 700;
 }
 
 /* Bonus: MathML formula */
@@ -598,6 +674,16 @@ math[display="block"] msub > mi:last-child {
         padding: var(--spatiu-xxs);
         box-shadow: 0 0 0.25rem var(--culoare-contur), 0 0 0.5625rem var(--culoare-contur);
     }
+
+    .galerie-statica__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: auto;
+    }
+
+    .galerie-statica__grid .galerie-statica__figura {
+        grid-column: auto;
+        grid-row: auto;
+    }
 }
 
 @media screen and (max-width:700px) {
@@ -639,10 +725,16 @@ math[display="block"] msub > mi:last-child {
         max-width: 100%;
     }
 
-    /* Oprim toate animațiile pe ecranele mici (cerință și optimizare).
-       Folosim !important împreună cu selectorul universal (*) pentru a forța
-       oprirea, suprascriind orice altă animație definită pe clase sau ID-uri. */
+    .galerie-statica__grid {
+        grid-template-columns: 1fr;
+        gap: var(--spatiu-xs);
+    }
+
+    /* Oprim animatiile si tranzitiile generale pe ecranele mici.
+       Meniul hamburger isi pastreaza animatia din menu.css, incarcat dupa acest fisier. */
     * {
         animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
     }
 }

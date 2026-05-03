@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <%- include("../fragmente/head", { titluPagina: "Galerie statica TheMetalVault" }) %>
+</head>
+
+<body id="top">
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <section id="pagina-galerie">
+            <h2>Galerie statica</h2>
+            <%- include("../fragmente/galerie-statica", { galerieStatica: typeof galerieStatica !== "undefined" ? galerieStatica : { imagini: [] } }) %>
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+</body>
+
+</html>
