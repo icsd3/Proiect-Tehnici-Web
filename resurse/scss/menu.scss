@@ -235,6 +235,100 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
     }
 }
 
+@media print {
+    .menu-site {
+        margin-top: 1rem;
+
+        &__toggle,
+        &__burger {
+            display: none !important;
+        }
+    }
+
+    h1 {
+        margin: 0;
+        text-align: center;
+        color: #000;
+    }
+
+    .meniu {
+        display: block;
+        list-style: disc;
+        margin: 1rem 0 0;
+        padding-left: 1.5rem;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+
+        &__item {
+            display: list-item;
+            border: none;
+        }
+
+        &__link {
+            display: inline;
+            min-height: 0;
+            padding: 0;
+            color: #000;
+            background: none;
+            box-shadow: none;
+            text-shadow: none;
+
+            &::after {
+                display: none;
+            }
+
+            i {
+                display: none;
+            }
+        }
+
+        &__label {
+            display: inline !important;
+        }
+    }
+
+    .submenu {
+        display: block;
+        position: static;
+        list-style: circle;
+        min-width: 0;
+        margin: 0.35rem 0 0.6rem;
+        padding: 0 0 0 1.5rem;
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+
+        li {
+            transform: none;
+            opacity: 1;
+            transition: none;
+        }
+
+        a {
+            display: inline;
+            padding: 0;
+            color: #000;
+            background: none;
+            text-shadow: none;
+        }
+    }
+
+    .meniu-mobile {
+        display: none !important;
+    }
+
+    .menu-site {
+        break-after: page;
+    }
+}
+
 // Tablet breakpoint: keep the menu horizontal but more compact.
 @media screen and (max-width: $breakpoint-medium) {
     .meniu {
