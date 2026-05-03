@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const sass = require("sass");
 const sharp = require("sharp");
 
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
@@ -21,6 +22,8 @@ const obGlobal = {
     obGalerie: null,
     folderProiect: __dirname,
     folderResurse: path.join(__dirname, "resurse"),
+    folderScss: path.join(__dirname, "resurse", "scss"),
+    folderCss: path.join(__dirname, "resurse", "css"),
     vect_foldere
 };
 
@@ -563,6 +566,92 @@ function creareFoldereGenerate() {
     }
 }
 
+function rezolvaCaleScss(caleScss) {
+    return path.isAbsolute(caleScss) ? caleScss : path.join(obGlobal.folderScss, caleScss);
+}
+
+function rezolvaCaleCss(caleScssAbsoluta, caleCss) {
+    if (caleCss) {
+        return path.isAbsolute(caleCss) ? caleCss : path.join(obGlobal.folderCss, caleCss);
+    }
+
+    return path.join(obGlobal.folderCss, `${path.parse(caleScssAbsoluta).name}.css`);
+}
+
+function copiazaCssInBackup(caleCss) {
+    if (!fs.existsSync(caleCss)) {
+        return;
+    }
+
+    const caleRelativaCss = path.relative(obGlobal.folderCss, caleCss);
+    const caleBackup = path.join(__dirname, "backup", "resurse", "css", caleRelativaCss);
+    const folderBackup = path.dirname(caleBackup);
+
+    try {
+        fs.mkdirSync(folderBackup, { recursive: true });
+        fs.copyFileSync(caleCss, caleBackup);
+    } catch (eroare) {
+        console.error(`Nu s-a putut copia in backup fisierul CSS ${caleCss}: ${eroare.message}`);
+    }
+}
+
+function compileazaScss(caleScss, caleCss) {
+    const caleScssAbsoluta = rezolvaCaleScss(caleScss);
+    const caleCssAbsoluta = rezolvaCaleCss(caleScssAbsoluta, caleCss);
+
+    try {
+        fs.mkdirSync(path.dirname(caleCssAbsoluta), { recursive: true });
+        copiazaCssInBackup(caleCssAbsoluta);
+
+        const rezultat = sass.compile(caleScssAbsoluta, {
+            style: "expanded"
+        });
+
+        fs.writeFileSync(caleCssAbsoluta, `${rezultat.css}\n`);
+        console.log(`SCSS compilat: ${caleScssAbsoluta} -> ${caleCssAbsoluta}`);
+    } catch (eroare) {
+        console.error(`Eroare la compilarea SCSS ${caleScssAbsoluta}: ${eroare.message}`);
+    }
+}
+
+function compileazaToateScss() {
+    if (!fs.existsSync(obGlobal.folderScss)) {
+        return;
+    }
+
+    for (const fisier of fs.readdirSync(obGlobal.folderScss)) {
+        if (path.extname(fisier) === ".scss" && !path.basename(fisier).startsWith("_")) {
+            compileazaScss(fisier);
+        }
+    }
+}
+
+function urmaresteScss() {
+    if (!fs.existsSync(obGlobal.folderScss)) {
+        return;
+    }
+
+    const timereCompilare = new Map();
+
+    fs.watch(obGlobal.folderScss, function (eveniment, numeFisier) {
+        if (!numeFisier || path.extname(numeFisier) !== ".scss" || path.basename(numeFisier).startsWith("_")) {
+            return;
+        }
+
+        clearTimeout(timereCompilare.get(numeFisier));
+
+        timereCompilare.set(numeFisier, setTimeout(function () {
+            const caleScss = path.join(obGlobal.folderScss, numeFisier);
+
+            if (fs.existsSync(caleScss)) {
+                compileazaScss(caleScss);
+            }
+
+            timereCompilare.delete(numeFisier);
+        }, 150));
+    });
+}
+
 function afisareEroare(res, identificator, titlu, text, imagine) {
     let eroare = null;
 
@@ -619,6 +708,8 @@ async function randarePagina(res, pagina, locals = {}) {
 initErori();
 initGalerie();
 creareFoldereGenerate();
+compileazaToateScss();
+urmaresteScss();
 
 app.get("/favicon.ico", function (req, res) {
     res.sendFile(path.join(__dirname, "resurse", "ico", "favicon.ico"));
