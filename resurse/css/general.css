@@ -250,6 +250,38 @@ a.btn:not(#link-top):focus-visible {
     overflow-y: auto;
 }
 
+#ghiduri .separator-ghiduri {
+    width: 100%;
+    min-height: 0.6rem;
+    border: none;
+    margin: var(--spatiu-xs) auto;
+    border-radius: 999rem;
+    background-image: linear-gradient(
+        to bottom,
+        var(--culoare-contur) 0%,
+        var(--culoare-contur) 10%,
+
+        var(--culoare-tertiara) 10%,
+        var(--culoare-tertiara) 30%,
+
+        var(--culoare-contur) 30%,
+        var(--culoare-contur) 40%,
+
+        var(--culoare-tertiara) 40%,
+        var(--culoare-tertiara) 60%,
+
+        var(--culoare-contur) 60%,
+        var(--culoare-contur) 70%,
+
+        var(--culoare-tertiara) 70%,
+        var(--culoare-tertiara) 90%,
+
+        var(--culoare-contur) 90%,
+        var(--culoare-contur) 100%
+    );
+    opacity: 1;
+}
+
 .container-iframe--tabs {
     display: flex;
     flex-direction: column;
