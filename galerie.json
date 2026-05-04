@@ -11,7 +11,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "ajay_suresh",
             "sursa": "https://commons.wikimedia.org/wiki/File:Leather_Jacket_(51011162080).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "02.jpg",
@@ -23,7 +24,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "Donnie Ozone",
             "sursa": "https://commons.wikimedia.org/wiki/File:Vinyl_Records.jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "03.jpg",
@@ -35,7 +37,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "Sheila Sund from Salem, United States",
             "sursa": "https://commons.wikimedia.org/wiki/File:Electric_Guitar_(9404623543).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "04.jpg",
@@ -47,7 +50,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "Dejan Krsmanovic",
             "sursa": "https://commons.wikimedia.org/wiki/File:Guitar_Amplifier_Details_(51883980298).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "05.jpg",
@@ -59,7 +63,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "Dejan Krsmanovic",
             "sursa": "https://commons.wikimedia.org/wiki/File:Old_Drum_Kit_(31029969758).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "06.jpg",
@@ -71,7 +76,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "University of Illinois Library",
             "sursa": "https://commons.wikimedia.org/wiki/File:Cassette_Tapes_(13434414383).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "07.jpg",
@@ -83,7 +89,8 @@
             "licenta_url": "https://creativecommons.org/publicdomain/zero/1.0/",
             "autor": "David Ring",
             "sursa": "https://commons.wikimedia.org/wiki/File:T-shirt_(drawing).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "08.jpg",
@@ -95,7 +102,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "Sam Howzit",
             "sursa": "https://commons.wikimedia.org/wiki/File:Elvis_Concert_Poster_-_Rock_and_Roll_Hall_of_Fame_(2014-12-30_12.01.55_by_Sam_Howzit).jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "09.jpg",
@@ -107,7 +115,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/4.0/",
             "autor": "Kontrola",
             "sursa": "https://commons.wikimedia.org/wiki/File:Vinyl_Red%2BWhite_%2BBlack_splatter.jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "10.jpg",
@@ -119,7 +128,8 @@
             "licenta_url": "https://creativecommons.org/licenses/by/2.0/",
             "autor": "Mr. Littlehand",
             "sursa": "https://commons.wikimedia.org/wiki/File:FGF_museum_06._punk_model.jpg",
-            "modificari": "cropped and resized to 500x500"
+            "modificari": "cropped and resized to 500x500",
+            "galerie-animata": true
         },
         {
             "cale_imagine": "01.jpg",
@@ -240,6 +250,36 @@
             "autor": "Mr. Littlehand",
             "sursa": "https://commons.wikimedia.org/wiki/File:FGF_museum_06._punk_model.jpg",
             "modificari": "cropped and resized to 500x500"
+        },
+        {
+            "cale_imagine": "11.png",
+            "titlu": "Chitara",
+            "descriere": "Chitara",
+            "galerie-animata": true
+        },
+        {
+            "cale_imagine": "12.png",
+            "titlu": "Bass",
+            "descriere": "Bass",
+            "galerie-animata": true
+        },
+        {
+            "cale_imagine": "13.png",
+            "titlu": "Tobe",
+            "descriere": "Tobe",
+            "galerie-animata": true
+        },
+        {
+            "cale_imagine": "14.png",
+            "titlu": "Chitara electrica",
+            "descriere": "Chitara electrica",
+            "galerie-animata": true
+        },
+        {
+            "cale_imagine": "15.png",
+            "titlu": "Microfon",
+            "descriere": "Microfon",
+            "galerie-animata": true
         }
     ]
 }

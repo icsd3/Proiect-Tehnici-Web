@@ -1,0 +1,1418 @@
+@keyframes galerie-camera-9 {
+  0%, 2.0061728395% {
+    transform: translate(-0%, -0%);
+  }
+  5.0925925926% {
+    transform: translate(-0%, -33.3333333333%);
+  }
+  5.0925925926%, 7.0987654321% {
+    transform: translate(-0%, -33.3333333333%);
+  }
+  13.2716049383% {
+    transform: translate(-66.6666666667%, -33.3333333333%);
+  }
+  13.2716049383%, 15.2777777778% {
+    transform: translate(-66.6666666667%, -33.3333333333%);
+  }
+  18.3641975309% {
+    transform: translate(-33.3333333333%, -33.3333333333%);
+  }
+  18.3641975309%, 20.3703703704% {
+    transform: translate(-33.3333333333%, -33.3333333333%);
+  }
+  23.4567901235% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  23.4567901235%, 25.462962963% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  28.549382716% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  28.549382716%, 30.5555555556% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  36.7283950617% {
+    transform: translate(-66.6666666667%, -66.6666666667%);
+  }
+  36.7283950617%, 38.7345679012% {
+    transform: translate(-66.6666666667%, -66.6666666667%);
+  }
+  44.9074074074% {
+    transform: translate(-0%, -66.6666666667%);
+  }
+  44.9074074074%, 46.9135802469% {
+    transform: translate(-0%, -66.6666666667%);
+  }
+  50% {
+    transform: translate(-33.3333333333%, -66.6666666667%);
+  }
+  50%, 52.0061728395% {
+    transform: translate(-33.3333333333%, -66.6666666667%);
+  }
+  55.0925925926% {
+    transform: translate(-0%, -66.6666666667%);
+  }
+  55.0925925926%, 57.0987654321% {
+    transform: translate(-0%, -66.6666666667%);
+  }
+  63.2716049383% {
+    transform: translate(-66.6666666667%, -66.6666666667%);
+  }
+  63.2716049383%, 65.2777777778% {
+    transform: translate(-66.6666666667%, -66.6666666667%);
+  }
+  71.450617284% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  71.450617284%, 73.4567901235% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  76.5432098765% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  76.5432098765%, 78.549382716% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  81.6358024691% {
+    transform: translate(-33.3333333333%, -33.3333333333%);
+  }
+  81.6358024691%, 83.6419753086% {
+    transform: translate(-33.3333333333%, -33.3333333333%);
+  }
+  86.7283950617% {
+    transform: translate(-66.6666666667%, -33.3333333333%);
+  }
+  86.7283950617%, 88.7345679012% {
+    transform: translate(-66.6666666667%, -33.3333333333%);
+  }
+  94.9074074074% {
+    transform: translate(-0%, -33.3333333333%);
+  }
+  94.9074074074%, 96.9135802469% {
+    transform: translate(-0%, -33.3333333333%);
+  }
+  100% {
+    transform: translate(-0%, -0%);
+  }
+}
+@keyframes galerie-rotatie-9-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  0% {
+    transform: rotate(0deg);
+  }
+  2.0061728395% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes galerie-rotatie-9-2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  5.0925925926% {
+    transform: rotate(0deg);
+  }
+  7.0987654321% {
+    transform: rotate(360deg);
+  }
+  94.9074074074% {
+    transform: rotate(360deg);
+  }
+  96.9135802469% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  13.2716049383% {
+    transform: rotate(0deg);
+  }
+  15.2777777778% {
+    transform: rotate(360deg);
+  }
+  86.7283950617% {
+    transform: rotate(360deg);
+  }
+  88.7345679012% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-4 {
+  0% {
+    transform: rotate(0deg);
+  }
+  18.3641975309% {
+    transform: rotate(0deg);
+  }
+  20.3703703704% {
+    transform: rotate(360deg);
+  }
+  81.6358024691% {
+    transform: rotate(360deg);
+  }
+  83.6419753086% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  23.4567901235% {
+    transform: rotate(0deg);
+  }
+  25.462962963% {
+    transform: rotate(360deg);
+  }
+  76.5432098765% {
+    transform: rotate(360deg);
+  }
+  78.549382716% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  28.549382716% {
+    transform: rotate(0deg);
+  }
+  30.5555555556% {
+    transform: rotate(360deg);
+  }
+  71.450617284% {
+    transform: rotate(360deg);
+  }
+  73.4567901235% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-7 {
+  0% {
+    transform: rotate(0deg);
+  }
+  36.7283950617% {
+    transform: rotate(0deg);
+  }
+  38.7345679012% {
+    transform: rotate(360deg);
+  }
+  63.2716049383% {
+    transform: rotate(360deg);
+  }
+  65.2777777778% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  44.9074074074% {
+    transform: rotate(0deg);
+  }
+  46.9135802469% {
+    transform: rotate(360deg);
+  }
+  55.0925925926% {
+    transform: rotate(360deg);
+  }
+  57.0987654321% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-9-9 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  52.0061728395% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes galerie-camera-12 {
+  0%, 1.5071266061% {
+    transform: translate(-0%, -0%);
+  }
+  3.8257829232% {
+    transform: translate(-0%, -25%);
+  }
+  3.8257829232%, 5.3329095294% {
+    transform: translate(-0%, -25%);
+  }
+  9.9702221636% {
+    transform: translate(-66.6666666667%, -25%);
+  }
+  9.9702221636%, 11.4773487697% {
+    transform: translate(-66.6666666667%, -25%);
+  }
+  13.7960050868% {
+    transform: translate(-33.3333333333%, -25%);
+  }
+  13.7960050868%, 15.303131693% {
+    transform: translate(-33.3333333333%, -25%);
+  }
+  17.6217880101% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  17.6217880101%, 19.1289146162% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  21.4475709333% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  21.4475709333%, 22.9546975394% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  27.5920101737% {
+    transform: translate(-66.6666666667%, -50%);
+  }
+  27.5920101737%, 29.0991367798% {
+    transform: translate(-66.6666666667%, -50%);
+  }
+  33.736449414% {
+    transform: translate(-0%, -50%);
+  }
+  33.736449414%, 35.2435760201% {
+    transform: translate(-0%, -50%);
+  }
+  37.5622323373% {
+    transform: translate(-33.3333333333%, -50%);
+  }
+  37.5622323373%, 39.0693589434% {
+    transform: translate(-33.3333333333%, -50%);
+  }
+  42.3484341535% {
+    transform: translate(-0%, -75%);
+  }
+  42.3484341535%, 43.8555607596% {
+    transform: translate(-0%, -75%);
+  }
+  46.1742170768% {
+    transform: translate(-33.3333333333%, -75%);
+  }
+  46.1742170768%, 47.6813436829% {
+    transform: translate(-33.3333333333%, -75%);
+  }
+  50% {
+    transform: translate(-66.6666666667%, -75%);
+  }
+  50%, 51.5071266061% {
+    transform: translate(-66.6666666667%, -75%);
+  }
+  53.8257829232% {
+    transform: translate(-33.3333333333%, -75%);
+  }
+  53.8257829232%, 55.3329095294% {
+    transform: translate(-33.3333333333%, -75%);
+  }
+  57.6515658465% {
+    transform: translate(-0%, -75%);
+  }
+  57.6515658465%, 59.1586924526% {
+    transform: translate(-0%, -75%);
+  }
+  62.4377676627% {
+    transform: translate(-33.3333333333%, -50%);
+  }
+  62.4377676627%, 63.9448942689% {
+    transform: translate(-33.3333333333%, -50%);
+  }
+  66.263550586% {
+    transform: translate(-0%, -50%);
+  }
+  66.263550586%, 67.7706771921% {
+    transform: translate(-0%, -50%);
+  }
+  72.4079898263% {
+    transform: translate(-66.6666666667%, -50%);
+  }
+  72.4079898263%, 73.9151164325% {
+    transform: translate(-66.6666666667%, -50%);
+  }
+  78.5524290667% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  78.5524290667%, 80.0595556728% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  82.3782119899% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  82.3782119899%, 83.8853385961% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  86.2039949132% {
+    transform: translate(-33.3333333333%, -25%);
+  }
+  86.2039949132%, 87.7111215193% {
+    transform: translate(-33.3333333333%, -25%);
+  }
+  90.0297778364% {
+    transform: translate(-66.6666666667%, -25%);
+  }
+  90.0297778364%, 91.5369044425% {
+    transform: translate(-66.6666666667%, -25%);
+  }
+  96.1742170768% {
+    transform: translate(-0%, -25%);
+  }
+  96.1742170768%, 97.6813436829% {
+    transform: translate(-0%, -25%);
+  }
+  100% {
+    transform: translate(-0%, -0%);
+  }
+}
+@keyframes galerie-rotatie-12-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  0% {
+    transform: rotate(0deg);
+  }
+  1.5071266061% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes galerie-rotatie-12-2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  3.8257829232% {
+    transform: rotate(0deg);
+  }
+  5.3329095294% {
+    transform: rotate(360deg);
+  }
+  96.1742170768% {
+    transform: rotate(360deg);
+  }
+  97.6813436829% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  9.9702221636% {
+    transform: rotate(0deg);
+  }
+  11.4773487697% {
+    transform: rotate(360deg);
+  }
+  90.0297778364% {
+    transform: rotate(360deg);
+  }
+  91.5369044425% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-4 {
+  0% {
+    transform: rotate(0deg);
+  }
+  13.7960050868% {
+    transform: rotate(0deg);
+  }
+  15.303131693% {
+    transform: rotate(360deg);
+  }
+  86.2039949132% {
+    transform: rotate(360deg);
+  }
+  87.7111215193% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  17.6217880101% {
+    transform: rotate(0deg);
+  }
+  19.1289146162% {
+    transform: rotate(360deg);
+  }
+  82.3782119899% {
+    transform: rotate(360deg);
+  }
+  83.8853385961% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  21.4475709333% {
+    transform: rotate(0deg);
+  }
+  22.9546975394% {
+    transform: rotate(360deg);
+  }
+  78.5524290667% {
+    transform: rotate(360deg);
+  }
+  80.0595556728% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-7 {
+  0% {
+    transform: rotate(0deg);
+  }
+  27.5920101737% {
+    transform: rotate(0deg);
+  }
+  29.0991367798% {
+    transform: rotate(360deg);
+  }
+  72.4079898263% {
+    transform: rotate(360deg);
+  }
+  73.9151164325% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  33.736449414% {
+    transform: rotate(0deg);
+  }
+  35.2435760201% {
+    transform: rotate(360deg);
+  }
+  66.263550586% {
+    transform: rotate(360deg);
+  }
+  67.7706771921% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-9 {
+  0% {
+    transform: rotate(0deg);
+  }
+  37.5622323373% {
+    transform: rotate(0deg);
+  }
+  39.0693589434% {
+    transform: rotate(360deg);
+  }
+  62.4377676627% {
+    transform: rotate(360deg);
+  }
+  63.9448942689% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-10 {
+  0% {
+    transform: rotate(0deg);
+  }
+  42.3484341535% {
+    transform: rotate(0deg);
+  }
+  43.8555607596% {
+    transform: rotate(360deg);
+  }
+  57.6515658465% {
+    transform: rotate(360deg);
+  }
+  59.1586924526% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-11 {
+  0% {
+    transform: rotate(0deg);
+  }
+  46.1742170768% {
+    transform: rotate(0deg);
+  }
+  47.6813436829% {
+    transform: rotate(360deg);
+  }
+  53.8257829232% {
+    transform: rotate(360deg);
+  }
+  55.3329095294% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-12-12 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  51.5071266061% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes galerie-camera-15 {
+  0%, 1.1711592891% {
+    transform: translate(-0%, -0%);
+  }
+  2.9729428107% {
+    transform: translate(-0%, -20%);
+  }
+  2.9729428107%, 4.1441020998% {
+    transform: translate(-0%, -20%);
+  }
+  7.7476691431% {
+    transform: translate(-66.6666666667%, -20%);
+  }
+  7.7476691431%, 8.9188284322% {
+    transform: translate(-66.6666666667%, -20%);
+  }
+  10.7206119539% {
+    transform: translate(-33.3333333333%, -20%);
+  }
+  10.7206119539%, 11.891771243% {
+    transform: translate(-33.3333333333%, -20%);
+  }
+  13.6935547646% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  13.6935547646%, 14.8647140537% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  16.6664975754% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  16.6664975754%, 17.8376568644% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  21.4412239078% {
+    transform: translate(-66.6666666667%, -40%);
+  }
+  21.4412239078%, 22.6123831968% {
+    transform: translate(-66.6666666667%, -40%);
+  }
+  26.2159502402% {
+    transform: translate(-0%, -40%);
+  }
+  26.2159502402%, 27.3871095292% {
+    transform: translate(-0%, -40%);
+  }
+  29.1888930509% {
+    transform: translate(-33.3333333333%, -40%);
+  }
+  29.1888930509%, 30.36005234% {
+    transform: translate(-33.3333333333%, -40%);
+  }
+  32.9081590328% {
+    transform: translate(-0%, -60%);
+  }
+  32.9081590328%, 34.0793183219% {
+    transform: translate(-0%, -60%);
+  }
+  35.8811018435% {
+    transform: translate(-33.3333333333%, -60%);
+  }
+  35.8811018435%, 37.0522611326% {
+    transform: translate(-33.3333333333%, -60%);
+  }
+  38.8540446543% {
+    transform: translate(-66.6666666667%, -60%);
+  }
+  38.8540446543%, 40.0252039433% {
+    transform: translate(-66.6666666667%, -60%);
+  }
+  44.0541143785% {
+    transform: translate(-0%, -80%);
+  }
+  44.0541143785%, 45.2252736676% {
+    transform: translate(-0%, -80%);
+  }
+  47.0270571893% {
+    transform: translate(-33.3333333333%, -80%);
+  }
+  47.0270571893%, 48.1982164783% {
+    transform: translate(-33.3333333333%, -80%);
+  }
+  50% {
+    transform: translate(-66.6666666667%, -80%);
+  }
+  50%, 51.1711592891% {
+    transform: translate(-66.6666666667%, -80%);
+  }
+  52.9729428107% {
+    transform: translate(-33.3333333333%, -80%);
+  }
+  52.9729428107%, 54.1441020998% {
+    transform: translate(-33.3333333333%, -80%);
+  }
+  55.9458856215% {
+    transform: translate(-0%, -80%);
+  }
+  55.9458856215%, 57.1170449106% {
+    transform: translate(-0%, -80%);
+  }
+  61.1459553457% {
+    transform: translate(-66.6666666667%, -60%);
+  }
+  61.1459553457%, 62.3171146348% {
+    transform: translate(-66.6666666667%, -60%);
+  }
+  64.1188981565% {
+    transform: translate(-33.3333333333%, -60%);
+  }
+  64.1188981565%, 65.2900574456% {
+    transform: translate(-33.3333333333%, -60%);
+  }
+  67.0918409672% {
+    transform: translate(-0%, -60%);
+  }
+  67.0918409672%, 68.2630002563% {
+    transform: translate(-0%, -60%);
+  }
+  70.8111069491% {
+    transform: translate(-33.3333333333%, -40%);
+  }
+  70.8111069491%, 71.9822662382% {
+    transform: translate(-33.3333333333%, -40%);
+  }
+  73.7840497598% {
+    transform: translate(-0%, -40%);
+  }
+  73.7840497598%, 74.9552090489% {
+    transform: translate(-0%, -40%);
+  }
+  78.5587760922% {
+    transform: translate(-66.6666666667%, -40%);
+  }
+  78.5587760922%, 79.7299353813% {
+    transform: translate(-66.6666666667%, -40%);
+  }
+  83.3335024246% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  83.3335024246%, 84.5046617137% {
+    transform: translate(-66.6666666667%, -0%);
+  }
+  86.3064452354% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  86.3064452354%, 87.4776045245% {
+    transform: translate(-33.3333333333%, -0%);
+  }
+  89.2793880461% {
+    transform: translate(-33.3333333333%, -20%);
+  }
+  89.2793880461%, 90.4505473352% {
+    transform: translate(-33.3333333333%, -20%);
+  }
+  92.2523308569% {
+    transform: translate(-66.6666666667%, -20%);
+  }
+  92.2523308569%, 93.4234901459% {
+    transform: translate(-66.6666666667%, -20%);
+  }
+  97.0270571893% {
+    transform: translate(-0%, -20%);
+  }
+  97.0270571893%, 98.1982164783% {
+    transform: translate(-0%, -20%);
+  }
+  100% {
+    transform: translate(-0%, -0%);
+  }
+}
+@keyframes galerie-rotatie-15-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  0% {
+    transform: rotate(0deg);
+  }
+  1.1711592891% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes galerie-rotatie-15-2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  2.9729428107% {
+    transform: rotate(0deg);
+  }
+  4.1441020998% {
+    transform: rotate(360deg);
+  }
+  97.0270571893% {
+    transform: rotate(360deg);
+  }
+  98.1982164783% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  7.7476691431% {
+    transform: rotate(0deg);
+  }
+  8.9188284322% {
+    transform: rotate(360deg);
+  }
+  92.2523308569% {
+    transform: rotate(360deg);
+  }
+  93.4234901459% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-4 {
+  0% {
+    transform: rotate(0deg);
+  }
+  10.7206119539% {
+    transform: rotate(0deg);
+  }
+  11.891771243% {
+    transform: rotate(360deg);
+  }
+  89.2793880461% {
+    transform: rotate(360deg);
+  }
+  90.4505473352% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  13.6935547646% {
+    transform: rotate(0deg);
+  }
+  14.8647140537% {
+    transform: rotate(360deg);
+  }
+  86.3064452354% {
+    transform: rotate(360deg);
+  }
+  87.4776045245% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  16.6664975754% {
+    transform: rotate(0deg);
+  }
+  17.8376568644% {
+    transform: rotate(360deg);
+  }
+  83.3335024246% {
+    transform: rotate(360deg);
+  }
+  84.5046617137% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-7 {
+  0% {
+    transform: rotate(0deg);
+  }
+  21.4412239078% {
+    transform: rotate(0deg);
+  }
+  22.6123831968% {
+    transform: rotate(360deg);
+  }
+  78.5587760922% {
+    transform: rotate(360deg);
+  }
+  79.7299353813% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  26.2159502402% {
+    transform: rotate(0deg);
+  }
+  27.3871095292% {
+    transform: rotate(360deg);
+  }
+  73.7840497598% {
+    transform: rotate(360deg);
+  }
+  74.9552090489% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-9 {
+  0% {
+    transform: rotate(0deg);
+  }
+  29.1888930509% {
+    transform: rotate(0deg);
+  }
+  30.36005234% {
+    transform: rotate(360deg);
+  }
+  70.8111069491% {
+    transform: rotate(360deg);
+  }
+  71.9822662382% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-10 {
+  0% {
+    transform: rotate(0deg);
+  }
+  32.9081590328% {
+    transform: rotate(0deg);
+  }
+  34.0793183219% {
+    transform: rotate(360deg);
+  }
+  67.0918409672% {
+    transform: rotate(360deg);
+  }
+  68.2630002563% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-11 {
+  0% {
+    transform: rotate(0deg);
+  }
+  35.8811018435% {
+    transform: rotate(0deg);
+  }
+  37.0522611326% {
+    transform: rotate(360deg);
+  }
+  64.1188981565% {
+    transform: rotate(360deg);
+  }
+  65.2900574456% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-12 {
+  0% {
+    transform: rotate(0deg);
+  }
+  38.8540446543% {
+    transform: rotate(0deg);
+  }
+  40.0252039433% {
+    transform: rotate(360deg);
+  }
+  61.1459553457% {
+    transform: rotate(360deg);
+  }
+  62.3171146348% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-13 {
+  0% {
+    transform: rotate(0deg);
+  }
+  44.0541143785% {
+    transform: rotate(0deg);
+  }
+  45.2252736676% {
+    transform: rotate(360deg);
+  }
+  55.9458856215% {
+    transform: rotate(360deg);
+  }
+  57.1170449106% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-14 {
+  0% {
+    transform: rotate(0deg);
+  }
+  47.0270571893% {
+    transform: rotate(0deg);
+  }
+  48.1982164783% {
+    transform: rotate(360deg);
+  }
+  52.9729428107% {
+    transform: rotate(360deg);
+  }
+  54.1441020998% {
+    transform: rotate(720deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+@keyframes galerie-rotatie-15-15 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  51.1711592891% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.galerie-animata {
+  width: 100%;
+  margin: var(--spatiu-s) 0 0;
+  padding: var(--padding-sectiuni);
+  background-color: var(--culoare-tertiara);
+  border: var(--bordura-medie) solid var(--culoare-contur);
+  border-radius: var(--raza-mica);
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.5);
+}
+
+.galerie-animata__rama {
+  width: 32rem;
+  max-width: calc(100vw - var(--margine-pagina) - var(--margine-pagina) - var(--padding-sectiuni) - var(--padding-sectiuni) - 2rem);
+  aspect-ratio: 1/1;
+  margin: var(--spatiu-s) auto 0;
+  overflow: hidden;
+  border: 1rem solid transparent;
+  border-image-source: url("/resurse/imagini/imagine_1_max.jpg");
+  border-image-slice: 42;
+  border-image-repeat: stretch;
+  background-color: #000;
+}
+
+.galerie-animata__scena {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 300%;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.galerie-animata__figura {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.galerie-animata__figura picture,
+.galerie-animata__figura img {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+
+.galerie-animata__figura img {
+  object-fit: cover;
+  transform-origin: center;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.galerie-animata__figura figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.45rem 0.65rem;
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.78);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.galerie-animata__rama:hover .galerie-animata__scena,
+.galerie-animata__rama:focus-within .galerie-animata__scena,
+.galerie-animata__rama:hover .galerie-animata__figura img,
+.galerie-animata__rama:focus-within .galerie-animata__figura img {
+  animation-play-state: paused;
+}
+
+.galerie-animata__figura--1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.galerie-animata__figura--2 {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.galerie-animata__figura--3 {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.galerie-animata__figura--4 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.galerie-animata__figura--5 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.galerie-animata__figura--6 {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.galerie-animata__figura--7 {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.galerie-animata__figura--8 {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.galerie-animata__figura--9 {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.galerie-animata__figura--10 {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+.galerie-animata__figura--11 {
+  grid-column: 2;
+  grid-row: 4;
+}
+
+.galerie-animata__figura--12 {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+.galerie-animata__figura--13 {
+  grid-column: 1;
+  grid-row: 5;
+}
+
+.galerie-animata__figura--14 {
+  grid-column: 2;
+  grid-row: 5;
+}
+
+.galerie-animata__figura--15 {
+  grid-column: 3;
+  grid-row: 5;
+}
+
+.galerie-animata--9 .galerie-animata__scena {
+  height: 300%;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  animation-name: galerie-camera-9;
+  animation-duration: 43.74s;
+}
+
+.galerie-animata--9 .galerie-animata__figura img {
+  animation-duration: 43.74s;
+}
+
+.galerie-animata--9 .galerie-animata__figura--1 img {
+  animation-name: galerie-rotatie-9-1;
+}
+
+.galerie-animata--9 .galerie-animata__figura--2 img {
+  animation-name: galerie-rotatie-9-2;
+}
+
+.galerie-animata--9 .galerie-animata__figura--3 img {
+  animation-name: galerie-rotatie-9-3;
+}
+
+.galerie-animata--9 .galerie-animata__figura--4 img {
+  animation-name: galerie-rotatie-9-4;
+}
+
+.galerie-animata--9 .galerie-animata__figura--5 img {
+  animation-name: galerie-rotatie-9-5;
+}
+
+.galerie-animata--9 .galerie-animata__figura--6 img {
+  animation-name: galerie-rotatie-9-6;
+}
+
+.galerie-animata--9 .galerie-animata__figura--7 img {
+  animation-name: galerie-rotatie-9-7;
+}
+
+.galerie-animata--9 .galerie-animata__figura--8 img {
+  animation-name: galerie-rotatie-9-8;
+}
+
+.galerie-animata--9 .galerie-animata__figura--9 img {
+  animation-name: galerie-rotatie-9-9;
+}
+
+.galerie-animata--12 .galerie-animata__scena {
+  height: 400%;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  animation-name: galerie-camera-12;
+  animation-duration: 58.2233766184s;
+}
+
+.galerie-animata--12 .galerie-animata__figura img {
+  animation-duration: 58.2233766184s;
+}
+
+.galerie-animata--12 .galerie-animata__figura--1 img {
+  animation-name: galerie-rotatie-12-1;
+}
+
+.galerie-animata--12 .galerie-animata__figura--2 img {
+  animation-name: galerie-rotatie-12-2;
+}
+
+.galerie-animata--12 .galerie-animata__figura--3 img {
+  animation-name: galerie-rotatie-12-3;
+}
+
+.galerie-animata--12 .galerie-animata__figura--4 img {
+  animation-name: galerie-rotatie-12-4;
+}
+
+.galerie-animata--12 .galerie-animata__figura--5 img {
+  animation-name: galerie-rotatie-12-5;
+}
+
+.galerie-animata--12 .galerie-animata__figura--6 img {
+  animation-name: galerie-rotatie-12-6;
+}
+
+.galerie-animata--12 .galerie-animata__figura--7 img {
+  animation-name: galerie-rotatie-12-7;
+}
+
+.galerie-animata--12 .galerie-animata__figura--8 img {
+  animation-name: galerie-rotatie-12-8;
+}
+
+.galerie-animata--12 .galerie-animata__figura--9 img {
+  animation-name: galerie-rotatie-12-9;
+}
+
+.galerie-animata--12 .galerie-animata__figura--10 img {
+  animation-name: galerie-rotatie-12-10;
+}
+
+.galerie-animata--12 .galerie-animata__figura--11 img {
+  animation-name: galerie-rotatie-12-11;
+}
+
+.galerie-animata--12 .galerie-animata__figura--12 img {
+  animation-name: galerie-rotatie-12-12;
+}
+
+.galerie-animata--15 .galerie-animata__scena {
+  height: 500%;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  animation-name: galerie-camera-15;
+  animation-duration: 74.9257601577s;
+}
+
+.galerie-animata--15 .galerie-animata__figura img {
+  animation-duration: 74.9257601577s;
+}
+
+.galerie-animata--15 .galerie-animata__figura--1 img {
+  animation-name: galerie-rotatie-15-1;
+}
+
+.galerie-animata--15 .galerie-animata__figura--2 img {
+  animation-name: galerie-rotatie-15-2;
+}
+
+.galerie-animata--15 .galerie-animata__figura--3 img {
+  animation-name: galerie-rotatie-15-3;
+}
+
+.galerie-animata--15 .galerie-animata__figura--4 img {
+  animation-name: galerie-rotatie-15-4;
+}
+
+.galerie-animata--15 .galerie-animata__figura--5 img {
+  animation-name: galerie-rotatie-15-5;
+}
+
+.galerie-animata--15 .galerie-animata__figura--6 img {
+  animation-name: galerie-rotatie-15-6;
+}
+
+.galerie-animata--15 .galerie-animata__figura--7 img {
+  animation-name: galerie-rotatie-15-7;
+}
+
+.galerie-animata--15 .galerie-animata__figura--8 img {
+  animation-name: galerie-rotatie-15-8;
+}
+
+.galerie-animata--15 .galerie-animata__figura--9 img {
+  animation-name: galerie-rotatie-15-9;
+}
+
+.galerie-animata--15 .galerie-animata__figura--10 img {
+  animation-name: galerie-rotatie-15-10;
+}
+
+.galerie-animata--15 .galerie-animata__figura--11 img {
+  animation-name: galerie-rotatie-15-11;
+}
+
+.galerie-animata--15 .galerie-animata__figura--12 img {
+  animation-name: galerie-rotatie-15-12;
+}
+
+.galerie-animata--15 .galerie-animata__figura--13 img {
+  animation-name: galerie-rotatie-15-13;
+}
+
+.galerie-animata--15 .galerie-animata__figura--14 img {
+  animation-name: galerie-rotatie-15-14;
+}
+
+.galerie-animata--15 .galerie-animata__figura--15 img {
+  animation-name: galerie-rotatie-15-15;
+}
+
+@media screen and (max-width: 1200px), print {
+  .galerie-animata {
+    display: none;
+  }
+}

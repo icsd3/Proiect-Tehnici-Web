@@ -2,7 +2,7 @@
 <html lang="ro">
 
 <head>
-    <%- include("../fragmente/head", { titluPagina: "Galerie statica TheMetalVault" }) %>
+    <%- include("../fragmente/head", { titluPagina: "Galerie statica TheMetalVault", cssGalerieAnimata: true }) %>
 </head>
 
 <body id="top">
@@ -13,6 +13,8 @@
             <h2>Galerie statica</h2>
             <%- include("../fragmente/galerie-statica", { galerieStatica: typeof galerieStatica !== "undefined" ? galerieStatica : { imagini: [] } }) %>
         </section>
+
+        <%- include("../fragmente/galerie-animata", { galerieAnimata: typeof galerieAnimata !== "undefined" ? galerieAnimata : { numarImagini: 0, imagini: [] } }) %>
     </main>
 
     <%- include("../fragmente/footer") %>

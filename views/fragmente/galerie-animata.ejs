@@ -1,0 +1,21 @@
+<% const dateGalerieAnimata = typeof galerieAnimata !== "undefined" ? galerieAnimata : { numarImagini: 0, imagini: [] }; %>
+
+<% if (dateGalerieAnimata.imagini.length) { %>
+    <section id="galerie-animata" class="galerie-animata galerie-animata--<%= dateGalerieAnimata.numarImagini %>">
+        <h2>Galerie animata</h2>
+        <div class="galerie-animata__rama">
+            <div class="galerie-animata__scena">
+                <% dateGalerieAnimata.imagini.forEach(function (imagine, index) { %>
+                    <figure class="galerie-animata__figura galerie-animata__figura--<%= index + 1 %>">
+                        <picture>
+                            <source srcset="<%= imagine.cale_server_mic %>" media="(max-width:700px)">
+                            <source srcset="<%= imagine.cale_server_mediu %>" media="(max-width:1200px)">
+                            <img src="<%= imagine.cale_server %>" alt="<%= imagine.alt %>" title="<%= imagine.descriere %>">
+                        </picture>
+                        <figcaption><%= imagine.descriere %></figcaption>
+                    </figure>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+<% } %>

@@ -16,6 +16,8 @@ const varianteGalerie = [
     }
 ];
 const paginiCuGalerieStatica = new Set(["index", "galerie"]);
+const paginiCuGalerieAnimata = new Set(["galerie"]);
+const numereImaginiGalerieAnimata = [9, 12, 15];
 const app = express();
 const obGlobal = {
     obErori: null,
@@ -356,10 +358,14 @@ function valideazaObiectGalerie(galerie) {
             continue;
         }
 
-        for (const proprietate of ["cale_imagine", "descriere", "sfert_ora"]) {
+        for (const proprietate of ["cale_imagine", "descriere"]) {
             if (!areProprietate(imagine, proprietate)) {
                 mesaje.push(`imagini[${index}] nu are proprietatea obligatorie "${proprietate}".`);
             }
+        }
+
+        if (!areProprietate(imagine, "sfert_ora") && !imagine["galerie-animata"]) {
+            mesaje.push(`imagini[${index}] nu are proprietatea obligatorie "sfert_ora".`);
         }
 
         if (areProprietate(imagine, "titlu") && typeof imagine.titlu !== "string") {
@@ -394,6 +400,10 @@ function valideazaObiectGalerie(galerie) {
             if (!valoriSfert.length || valoriSfert.some((valoare) => !["1", "2", "3", "4"].includes(valoare))) {
                 mesaje.push(`imagini[${index}].sfert_ora trebuie sa contina valori intre 1 si 4.`);
             }
+        }
+
+        if (areProprietate(imagine, "galerie-animata") && typeof imagine["galerie-animata"] !== "boolean") {
+            mesaje.push(`imagini[${index}]["galerie-animata"] trebuie sa fie boolean daca exista.`);
         }
     }
 
@@ -441,7 +451,8 @@ function initGalerie() {
             titlu: imagine.titlu && imagine.titlu.trim() ? imagine.titlu.trim() : numeImagine,
             alt: imagine.alt && imagine.alt.trim() ? imagine.alt.trim() : numeImagine,
             descriere: imagine.descriere.trim(),
-            sfert_ora: String(imagine.sfert_ora),
+            sfert_ora: areProprietate(imagine, "sfert_ora") ? String(imagine.sfert_ora) : "",
+            galerie_animata: Boolean(imagine["galerie-animata"]),
             licenta: imagine.licenta ?? "",
             licenta_url: imagine.licenta_url ?? "",
             autor: imagine.autor ?? "",
@@ -458,6 +469,10 @@ function calculeazaSfertOraCurent(data = new Date()) {
 }
 
 function imagineEsteInSfertOra(imagine, sfertOra) {
+    if (!imagine.sfert_ora) {
+        return false;
+    }
+
     return imagine.sfert_ora
         .split(/[,\s]+/)
         .filter(Boolean)
@@ -515,6 +530,26 @@ async function obtineGalerieStatica() {
 
     return {
         sfertOra,
+        imagini: await Promise.all(imagini.map((imagine) => pregatesteImagineGalerie(imagine)))
+    };
+}
+
+async function obtineGalerieAnimata() {
+    if (!obGlobal.obGalerie) {
+        return {
+            numarImagini: 0,
+            imagini: []
+        };
+    }
+
+    const imaginiDisponibile = obGlobal.obGalerie.imagini.filter((imagine) => imagine.galerie_animata);
+    const varianteValide = numereImaginiGalerieAnimata.filter((numar) => numar <= imaginiDisponibile.length);
+    const variante = varianteValide.length ? varianteValide : [imaginiDisponibile.length];
+    const numarImagini = variante[Math.floor(Math.random() * variante.length)];
+    const imagini = imaginiDisponibile.slice(0, numarImagini);
+
+    return {
+        numarImagini,
         imagini: await Promise.all(imagini.map((imagine) => pregatesteImagineGalerie(imagine)))
     };
 }
@@ -686,6 +721,10 @@ async function randarePagina(res, pagina, locals = {}) {
     try {
         if (localsRandare.galerieStatica === undefined && paginiCuGalerieStatica.has(pagina)) {
             localsRandare.galerieStatica = await obtineGalerieStatica();
+        }
+
+        if (localsRandare.galerieAnimata === undefined && paginiCuGalerieAnimata.has(pagina)) {
+            localsRandare.galerieAnimata = await obtineGalerieAnimata();
         }
     } catch (eroare) {
         console.error(eroare);
