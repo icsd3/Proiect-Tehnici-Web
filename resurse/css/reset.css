@@ -1,4 +1,3 @@
-/* Reset and base redefinitions required in a separate file. */
 *, *::before, *::after {
     box-sizing: border-box;
 }

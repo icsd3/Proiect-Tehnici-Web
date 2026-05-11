@@ -170,8 +170,6 @@ a.btn:not(#link-top):focus-visible {
 #grid-pagina > * {
     border: var(--bordura-medie) solid var(--culoare-contur);
     padding: var(--padding-sectiuni);
-    /* setarea 'min-width: 0' previne ca elementele flex/grid să refuze constrângerile de lățime atunci când conțin 
-       elemente interne mari (ex: imagini sau tabele prea late), forțându-le să respecte grid-ul. */
     min-width: 0;
     overflow-x: hidden;
     background-color: var(--culoare-tertiara);
@@ -680,13 +678,16 @@ math[display="block"] msub > mi:last-child {
     }
 
     #grid-pagina > * {
-        display: inline-block !important;
-        vertical-align: top;
+        display: block !important;
+        float: none !important;
+        clear: both;
         width: 100%;
         break-inside: avoid !important;
         break-inside: avoid-page;
         page-break-inside: avoid !important;
         -webkit-column-break-inside: avoid;
+        page-break-before: auto !important;
+        page-break-after: avoid !important;
         margin-bottom: 1rem;
         padding: 0;
         border: none;
@@ -709,6 +710,12 @@ math[display="block"] msub > mi:last-child {
     #grid-pagina > * > hgroup {
         break-after: avoid-page;
         page-break-after: avoid;
+    }
+
+    #grid-pagina section,
+    #grid-pagina article {
+        break-inside: avoid-page;
+        page-break-inside: avoid;
     }
 
     #diverse,
@@ -742,7 +749,7 @@ math[display="block"] msub > mi:last-child {
             "suport diverse"
             "evenimente intrebari"
             "ghiduri figuri-grid";
-        gap: 0.625rem; /* gap descrescător pe mediu */
+        gap: var(--spatiu-xs); /* gap descrescător pe mediu */
     }
 
     #google-map {
