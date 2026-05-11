@@ -346,6 +346,7 @@ a.btn:not(#link-top):focus-visible {
 
 #figuri-grid figure {
     margin: 0;
+    min-width: 0;
 }
 
 .galerie-statica {
