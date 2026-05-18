@@ -231,7 +231,7 @@ $submenu-count: 6; // Number of submenu items that get staggered timing.
 // Staggered animation timing for each submenu item.
 @for $i from 1 through $submenu-count {
     .submenu li:nth-child(#{$i}) {
-        transition-delay: #{($i - 1) * 0.04}s;
+        transition-delay: #{($i - 1) * 0.06}s;
     }
 }
 

@@ -478,7 +478,7 @@ math[display="block"] msub > mi:last-child {
     color: var(--culoare-highlight);
     font-weight: 700;
 }
-/* Scoatem dublura de la ultima coloană, care atinge marginea exterioară de 5px */
+
 #tab-orar th:last-child, #tab-orar td:last-child { 
     border-right: none; 
 }
@@ -490,7 +490,6 @@ math[display="block"] msub > mi:last-child {
     color: var(--culoare-highlight);
 }
 
-/* Bordere orizontale alternate respectând logica cerută (C1 și C2): */
 #tab-orar tbody tr:nth-child(even) td {
     border-bottom: var(--bordura-subtire) solid var(--culoare-highlight); /* Culoarea c1 */
     background-color: rgba(255,255,255,0.03);
@@ -499,7 +498,6 @@ math[display="block"] msub > mi:last-child {
     border-bottom: var(--bordura-subtire) solid var(--culoare-text); /* Culoarea c2 */
 }
 
-/* Tranzitie la hover cu alpha transparență 0.7 timp de jumătate de secundă */
 #tab-orar tbody tr {
     transition: outline 0.5s ease;
     outline: var(--bordura-groasa) solid transparent; 
@@ -507,7 +505,7 @@ math[display="block"] msub > mi:last-child {
 #tab-orar tbody tr:hover {
     outline: var(--bordura-groasa) solid rgba(224, 0, 139, 0.7);
     z-index: 10;
-    position: relative; /* Esențial pentru a permite outline-ului să fie adus deasupra în modul separate */
+    position: relative; 
 }
 
 /* Bonus: PDF embed */
