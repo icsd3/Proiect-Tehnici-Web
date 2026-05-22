@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const sass = require("sass");
 const sharp = require("sharp");
+const { Pool } = require("pg");
 
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
 const varianteGalerie = [
@@ -18,6 +19,13 @@ const varianteGalerie = [
 const paginiCuGalerieStatica = new Set(["index", "galerie"]);
 const paginiCuGalerieAnimata = new Set(["galerie"]);
 const numereImaginiGalerieAnimata = [9, 12, 15];
+const poolPostgres = new Pool({
+    host: process.env.PGHOST || "localhost",
+    port: Number(process.env.PGPORT) || 5432,
+    database: process.env.PGDATABASE || "themetalvault",
+    user: process.env.PGUSER || "themetalvault_user",
+    password: process.env.PGPASSWORD || "themetalvault_dev_password"
+});
 const app = express();
 const obGlobal = {
     obErori: null,
@@ -747,6 +755,27 @@ async function randarePagina(res, pagina, locals = {}) {
     });
 }
 
+async function obtineProduse() {
+    const rezultat = await poolPostgres.query(`
+        SELECT
+            id,
+            nume,
+            descriere,
+            imagine,
+            categorie,
+            subcategorie,
+            pret,
+            data_adaugare,
+            culoare,
+            taguri,
+            editie_limitata
+        FROM produse
+        ORDER BY id
+    `);
+
+    return rezultat.rows;
+}
+
 initErori();
 initGalerie();
 creareFoldereGenerate();
@@ -772,6 +801,21 @@ app.use("/resurse", express.static(obGlobal.folderResurse));
 
 app.get(["/", "/index", "/home"], function (req, res) {
     randarePagina(res, "index");
+});
+
+app.get("/produse", async function (req, res) {
+    try {
+        const produse = await obtineProduse();
+        randarePagina(res, "produse", { produse });
+    } catch (eroare) {
+        console.error("Eroare la preluarea produselor din PostgreSQL:", eroare);
+        afisareEroare(
+            res,
+            null,
+            "Produsele nu pot fi afisate",
+            "Nu s-au putut prelua produsele din baza de date. Verifica daca serverul PostgreSQL este pornit si daca scripturile SQL au fost rulate."
+        );
+    }
 });
 
 app.get(/.*\.ejs$/, function (req, res) {

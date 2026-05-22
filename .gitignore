@@ -3,3 +3,6 @@ temp/
 logs/
 backup/
 fisiere_uploadate/
+.agents/
+.codex/
+.env

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <%- include("../fragmente/head", { titluPagina: "Produse TheMetalVault" }) %>
+</head>
+
+<body id="top">
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <div id="grid-pagina">
+            <section id="produse">
+                <h2>Produse</h2>
+                <% const listaProduse = typeof produse !== "undefined" ? produse : []; %>
+                <%
+                    const luniRo = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+                    const zileRo = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
+
+                    function dataProdus(dataCalendaristica) {
+                        const data = new Date(dataCalendaristica);
+                        return {
+                            iso: data.toISOString().slice(0, 10),
+                            text: `${data.getDate()}-${luniRo[data.getMonth()]}-${data.getFullYear()} [${zileRo[data.getDay()]}]`
+                        };
+                    }
+
+                    const categoriiProduse = [...new Set(listaProduse.map((produs) => produs.categorie))].sort();
+                    const culoriProduse = [...new Set(listaProduse.map((produs) => produs.culoare))].sort();
+                    const subcategoriiProduse = [...new Set(listaProduse.map((produs) => produs.subcategorie))].sort();
+                    const taguriProduse = [...new Set(listaProduse.flatMap((produs) => produs.taguri.split(",").map((tag) => tag.trim()).filter(Boolean)))].sort();
+                    const preturiProduse = listaProduse.map((produs) => Number(produs.pret));
+                    const pretMinim = (preturiProduse.length ? Math.min(...preturiProduse) : 0).toFixed(2);
+                    const pretMaxim = (preturiProduse.length ? Math.max(...preturiProduse) : 0).toFixed(2);
+                %>
+
+                <% if (listaProduse.length) { %>
+                    <section id="sectiune-filtrare-produse" class="filtre-produse" aria-labelledby="titlu-filtre-produse">
+                        <h3 id="titlu-filtre-produse">Filtrare produse</h3>
+
+                        <div class="filtre-produse__grid">
+                            <div class="filtre-produse__rand filtre-produse__rand--sus">
+                                <label class="filtre-produse__camp filtre-produse__camp--text" for="filtru-text">
+                                    Nume sau tag
+                                    <input id="filtru-text" name="filtru-text" type="text" placeholder="vinyl, patch, doom">
+                                </label>
+
+                                <div class="filtre-produse__grup filtre-produse__grup--categorie" role="radiogroup" aria-labelledby="titlu-filtru-categorie">
+                                    <p id="titlu-filtru-categorie" class="filtre-produse__grup-titlu">Categorie</p>
+                                    <label>
+                                        <input type="radio" name="filtru-categorie" value="" checked>
+                                        orice categorie
+                                    </label>
+                                    <% for (const categorie of categoriiProduse) { %>
+                                        <label>
+                                            <input type="radio" name="filtru-categorie" value="<%= categorie %>">
+                                            <%= categorie %>
+                                        </label>
+                                    <% } %>
+                                </div>
+
+                                <label class="filtre-produse__camp filtre-produse__camp--subcategorie" for="filtru-subcategorie">
+                                    Tip produs
+                                    <input id="filtru-subcategorie" name="filtru-subcategorie" list="lista-subcategorii-produse" placeholder="oricare">
+                                    <datalist id="lista-subcategorii-produse">
+                                        <% for (const subcategorie of subcategoriiProduse) { %>
+                                            <option value="<%= subcategorie %>"></option>
+                                        <% } %>
+                                    </datalist>
+                                </label>
+                            </div>
+
+                            <div class="filtre-produse__rand filtre-produse__rand--mijloc">
+                                <div class="filtre-produse__camp filtre-produse__camp--range">
+                                    <label for="filtru-pret">Pret maxim</label>
+                                    <div class="filtre-produse__range">
+                                        <span><%= pretMinim %> lei</span>
+                                        <input id="filtru-pret" name="filtru-pret" type="range" min="<%= pretMinim %>" max="<%= pretMaxim %>" value="<%= pretMaxim %>" step="0.01">
+                                        <span><%= pretMaxim %> lei (<output id="valoare-filtru-pret" for="filtru-pret"><%= pretMaxim %> lei</output>)</span>
+                                    </div>
+                                </div>
+
+                                <label class="filtre-produse__camp filtre-produse__camp--culoare" for="filtru-culoare">
+                                    Culoare
+                                    <select id="filtru-culoare" name="filtru-culoare">
+                                        <option value="">oricare</option>
+                                        <% for (const culoare of culoriProduse) { %>
+                                            <option value="<%= culoare %>"><%= culoare %></option>
+                                        <% } %>
+                                    </select>
+                                </label>
+
+                                <label class="filtre-produse__camp filtre-produse__camp--checkbox" for="filtru-editie-limitata">
+                                    <input id="filtru-editie-limitata" name="filtru-editie-limitata" type="checkbox">
+                                    doar editii limitate
+                                </label>
+                            </div>
+
+                            <div class="filtre-produse__rand filtre-produse__rand--jos">
+                                <label class="filtre-produse__camp filtre-produse__camp--descriere" for="filtru-descriere">
+                                    Cuvinte in descriere
+                                    <textarea id="filtru-descriere" name="filtru-descriere" rows="3" placeholder="oricare"></textarea>
+                                </label>
+
+                                <label class="filtre-produse__camp filtre-produse__camp--taguri" for="filtru-taguri">
+                                    Taguri
+                                    <select id="filtru-taguri" name="filtru-taguri" multiple size="5">
+                                        <% for (const tag of taguriProduse) { %>
+                                            <option value="<%= tag %>"><%= tag %></option>
+                                        <% } %>
+                                    </select>
+                                </label>
+                            </div>
+
+                            <div class="filtre-produse__rand filtre-produse__rand--actiuni">
+                                <button id="btn-reseteaza-filtre" class="filtre-produse__reset" type="button">Reseteaza</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="lista-produse">
+                        <% for (const produs of listaProduse) { %>
+                            <% const dataAfisata = dataProdus(produs.data_adaugare); %>
+                            <article
+                                id="ar_ent_<%= produs.id %>"
+                                class="card-produs <%= produs.categorie %>"
+                                data-nume="<%= produs.nume %>"
+                                data-descriere="<%= produs.descriere %>"
+                                data-categorie="<%= produs.categorie %>"
+                                data-pret="<%= produs.pret %>"
+                                data-subcategorie="<%= produs.subcategorie %>"
+                                data-culoare="<%= produs.culoare %>"
+                                data-taguri="<%= produs.taguri %>"
+                                data-editie-limitata="<%= produs.editie_limitata ? "da" : "nu" %>"
+                            >
+                                <h3><%= produs.nume %></h3>
+                                <div class="card-produs__corp">
+                                    <div class="card-produs__coloana card-produs__coloana--media">
+                                        <p class="card-produs__categorie"><b>Categorie:</b> <span><%= produs.categorie %></span></p>
+                                        <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                                        <p class="card-produs__descriere"><%= produs.descriere %></p>
+                                    </div>
+
+                                    <div class="card-produs__coloana card-produs__coloana--detalii">
+                                        <p><b>Pret:</b> <span><%= Number(produs.pret).toFixed(2) %> lei</span></p>
+                                        <p><b>Tip produs:</b> <span><%= produs.subcategorie %></span></p>
+                                        <p><b>Culoare:</b> <span><%= produs.culoare %></span></p>
+                                        <p><b>Taguri:</b> <span><%= produs.taguri %></span></p>
+                                        <p><b>Data adaugare:</b> <time datetime="<%= dataAfisata.iso %>"><%= dataAfisata.text %></time></p>
+                                        <p><b>Editie limitata:</b> <span><%= produs.editie_limitata ? "da" : "nu" %></span></p>
+                                    </div>
+                                </div>
+                            </article>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <p>Nu exista produse de afisat momentan.</p>
+                <% } %>
+            </section>
+        </div>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+    <script src="/resurse/js/produse.js"></script>
+</body>
+
+</html>

@@ -188,12 +188,345 @@ a.btn:not(#link-top):focus-visible {
     width: 100%;
 }
 #galerie { grid-area: galerie; }
+#produse { grid-area: acasa; }
 #evenimente { grid-area: evenimente; }
 #ghiduri { grid-area: ghiduri; }
 #index-intrebari { grid-area: intrebari; }
 #suport { grid-area: suport; }
 #diverse { grid-area: diverse; }
 #figuri-grid { grid-area: figuri-grid; }
+
+.filtre-produse {
+    margin: var(--spatiu-s) 0;
+    padding: var(--spatiu-s);
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: color-mix(in srgb, var(--culoare-fundal) 72%, var(--culoare-tertiara));
+    box-shadow: inset 0 0 0 0.0625rem rgba(255, 255, 255, 0.04);
+}
+
+.filtre-produse h3 {
+    margin: 0 0 var(--spatiu-xs);
+    color: var(--culoare-highlight);
+    font-size: 1.2rem;
+}
+
+.filtre-produse__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.filtre-produse__rand {
+    display: grid;
+    gap: 0.8rem;
+    align-items: stretch;
+}
+
+.filtre-produse__rand--sus {
+    grid-template-columns: minmax(12rem, 1fr) minmax(20rem, 2.2fr) minmax(12rem, 1fr);
+}
+
+.filtre-produse__rand--mijloc {
+    grid-template-columns: minmax(18rem, 2fr) minmax(12rem, 1fr) max-content;
+}
+
+.filtre-produse__rand--jos {
+    grid-template-columns: minmax(18rem, 1fr) minmax(18rem, 1fr);
+}
+
+.filtre-produse__rand--actiuni {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filtre-produse__grup {
+    border: 0;
+    border-radius: var(--raza-mica);
+    padding: 0.55rem 0.65rem;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.18);
+    box-shadow: inset 0 0 0 var(--bordura-subtire) var(--culoare-contur);
+}
+
+.filtre-produse__grup-titlu {
+    margin: 0 0 0.35rem;
+    padding: 0;
+    color: var(--culoare-text);
+    font-size: 1rem;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.filtre-produse__grup label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0.1rem 0.75rem 0.1rem 0;
+    line-height: 1.2;
+}
+
+.filtre-produse label {
+    font-weight: 700;
+}
+
+.filtre-produse__camp {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+    padding: 0.55rem 0.65rem;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: rgba(0, 0, 0, 0.18);
+}
+
+.filtre-produse__camp--text,
+.filtre-produse__camp--subcategorie,
+.filtre-produse__camp--range,
+.filtre-produse__camp--culoare {
+    justify-content: center;
+}
+
+.filtre-produse__camp--text,
+.filtre-produse__camp--subcategorie {
+    min-height: 4.65rem;
+}
+
+.filtre-produse__camp--range,
+.filtre-produse__camp--culoare,
+.filtre-produse__camp--checkbox {
+    min-height: 4.65rem;
+}
+
+.filtre-produse__range {
+    display: grid;
+    grid-template-columns: max-content minmax(10rem, 1fr) max-content;
+    gap: var(--spatiu-xxs);
+    align-items: center;
+    font-weight: 400;
+}
+
+.filtre-produse__range span {
+    white-space: nowrap;
+}
+
+.filtre-produse__camp--checkbox {
+    display: flex;
+    flex-direction: row;
+    gap: 0.45rem;
+    justify-self: stretch;
+    align-items: center;
+    justify-content: center;
+}
+
+.filtre-produse input,
+.filtre-produse select,
+.filtre-produse textarea,
+.filtre-produse button {
+    min-width: 0;
+    padding: 0.45rem 0.55rem;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: color-mix(in srgb, var(--culoare-fundal) 88%, white);
+    color: var(--culoare-text);
+    font: inherit;
+}
+
+.filtre-produse input:not([type="radio"]):not([type="checkbox"]):not([type="range"]),
+.filtre-produse select:not([multiple]),
+.filtre-produse button {
+    min-height: 2.55rem;
+}
+
+.filtre-produse input:not([type="radio"]):not([type="checkbox"]),
+.filtre-produse select,
+.filtre-produse textarea {
+    width: 100%;
+}
+
+.filtre-produse input[type="radio"],
+.filtre-produse input[type="checkbox"] {
+    width: auto;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    accent-color: var(--culoare-highlight);
+}
+
+.filtre-produse input[type="range"] {
+    padding-inline: 0;
+    border: 0;
+    background-color: transparent;
+    accent-color: var(--culoare-highlight);
+}
+
+.filtre-produse input::placeholder,
+.filtre-produse textarea::placeholder {
+    color: color-mix(in srgb, var(--culoare-text) 62%, white);
+}
+
+.filtre-produse input:focus-visible,
+.filtre-produse select:focus-visible,
+.filtre-produse textarea:focus-visible,
+.filtre-produse button:focus-visible {
+    outline: var(--bordura-medie) solid var(--culoare-highlight);
+    outline-offset: 0.12rem;
+}
+
+.filtre-produse button {
+    width: min(14rem, 100%);
+    cursor: pointer;
+    background-color: var(--culoare-highlight);
+    color: var(--culoare-fundal);
+    font-weight: 700;
+    border-color: var(--culoare-highlight);
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.filtre-produse button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-0.05rem);
+}
+
+.filtre-produse select[multiple],
+.filtre-produse textarea {
+    resize: vertical;
+}
+
+.filtre-produse textarea {
+    min-height: 5rem;
+}
+
+.filtre-produse select[multiple] {
+    min-height: 5rem;
+}
+
+@media screen and (max-width:1200px) {
+    .filtre-produse__rand--sus {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filtre-produse__grup--categorie {
+        grid-column: 1 / -1;
+        order: -1;
+    }
+
+    .filtre-produse__rand--mijloc {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filtre-produse__camp--checkbox {
+        grid-column: 1 / -1;
+    }
+
+    .filtre-produse button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:900px) {
+    .filtre-produse__rand,
+    .filtre-produse__rand--sus,
+    .filtre-produse__rand--mijloc,
+    .filtre-produse__rand--jos {
+        grid-template-columns: 1fr;
+    }
+
+    .filtre-produse__range {
+        grid-template-columns: 1fr;
+    }
+
+    .filtre-produse button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:700px) {
+    .filtre-produse {
+        padding: var(--spatiu-xs);
+    }
+}
+
+.lista-produse {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
+    gap: var(--spatiu-s);
+    margin-top: var(--spatiu-s);
+}
+
+.card-produs {
+    min-width: 0;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: color-mix(in srgb, var(--culoare-tertiara) 82%, black);
+    overflow: hidden;
+}
+
+.card-produs h3 {
+    margin: 0;
+    padding: var(--spatiu-xs);
+    border-bottom: var(--bordura-subtire) solid var(--culoare-contur);
+    color: var(--culoare-highlight);
+}
+
+.card-produs__corp {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.85fr) minmax(14rem, 1fr);
+    gap: var(--spatiu-s);
+    padding: var(--spatiu-xs);
+}
+
+.card-produs__coloana {
+    min-width: 0;
+}
+
+.card-produs__categorie {
+    margin-top: 0;
+}
+
+.card-produs img {
+    display: block;
+    width: 100%;
+    max-width: 14rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: var(--spatiu-xs) 0;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.card-produs__descriere {
+    margin-bottom: 0;
+}
+
+.card-produs__coloana--detalii p {
+    margin: 0 0 var(--spatiu-xs);
+}
+
+.card-produs p b {
+    display: inline-block;
+    padding: 0.1rem 0.35rem;
+    border-radius: var(--raza-mica);
+    background-color: var(--culoare-highlight);
+    color: var(--culoare-fundal);
+}
+
+.card-produs p span,
+.card-produs time {
+    color: var(--culoare-text);
+}
+
+@media screen and (max-width:700px) {
+    .card-produs__corp {
+        grid-template-columns: 1fr;
+    }
+}
+
+.produs-ascuns {
+    display: none;
+}
 
 /* Zona "#diverse" funcționează ca un container principal ce combină 'height: 0' cu 'min-height: 100%' 
    pentru a garanta că elementul respectă înălțimea alocata de grid*/
@@ -515,6 +848,24 @@ math[display="block"] msub > mi:last-child {
     height: 31.25rem;
     min-height: 31.25rem;
     border: var(--bordura-subtire) solid var(--culoare-contur);
+}
+
+/* Cerinta custom etapa 4: video local si subtitrari VTT */
+.video-vtt {
+    display: block;
+    width: 92%;
+    min-width: min(18rem, 100%);
+    max-width: 42rem;
+    margin: var(--spatiu-s) auto 0;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: #000;
+}
+
+.video-vtt::cue {
+    background-color: #fff;
+    color: var(--culoare-fundal);
+    font-style: normal;
 }
 
 /* Bonus: Google Maps iframe in footer */
