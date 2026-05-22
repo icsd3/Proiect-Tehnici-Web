@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <%- include("../fragmente/head", { titluPagina: typeof titluPagina !== "undefined" ? titluPagina : "Produs TheMetalVault" }) %>
+</head>
+
+<body id="top" class="pagina-produs">
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <div id="grid-pagina" class="grid-pagina--produs">
+            <section id="produs-unic">
+                <%
+                    const luniRo = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+                    const zileRo = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
+                    const dataCalendaristica = new Date(produs.data_adaugare);
+                    const dataProdus = {
+                        iso: dataCalendaristica.toISOString().slice(0, 10),
+                        text: `${dataCalendaristica.getDate()}-${luniRo[dataCalendaristica.getMonth()]}-${dataCalendaristica.getFullYear()} [${zileRo[dataCalendaristica.getDay()]}]`
+                    };
+                    const taguriProdus = produs.taguri.split(",").map((tag) => tag.trim()).filter(Boolean);
+                %>
+
+                <p class="produs-unic__breadcrumb"><a href="/produse">Inapoi la produse</a></p>
+                <h2><%= produs.nume %></h2>
+
+                <article class="produs-unic__card">
+                    <div class="produs-unic__media">
+                        <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                    </div>
+
+                    <p class="produs-unic__descriere"><%= produs.descriere %></p>
+
+                    <div class="produs-unic__detalii produs-unic__detalii--principale">
+                        <p><b>ID:</b> <span><%= produs.id %></span></p>
+                        <p><b>Categorie:</b> <span><%= produs.categorie %></span></p>
+                        <p><b>Subcategorie:</b> <span><%= produs.subcategorie %></span></p>
+                        <p><b>Pret:</b> <span><%= Number(produs.pret).toFixed(2) %> lei</span></p>
+                    </div>
+
+                    <div class="produs-unic__detalii produs-unic__detalii--secundare">
+                        <p><b>Greutate:</b> <span><%= produs.greutate_grame %> g</span></p>
+                        <p><b>Data adaugare:</b> <time datetime="<%= dataProdus.iso %>"><%= dataProdus.text %></time></p>
+                        <p><b>Culoare:</b> <span><%= produs.culoare %></span></p>
+                        <p><b>Editie limitata:</b> <span><%= produs.editie_limitata ? "da" : "nu" %></span></p>
+                        <p><b>Stoc disponibil:</b> <span><%= produs.stoc %></span></p>
+
+                        <div class="produs-unic__taguri">
+                            <b>Taguri:</b>
+                            <ul>
+                                <% for (const tag of taguriProdus) { %>
+                                    <li><%= tag %></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+</body>
+
+</html>

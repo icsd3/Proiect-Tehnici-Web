@@ -5,13 +5,14 @@
     <%- include("../fragmente/head", { titluPagina: "Produse TheMetalVault" }) %>
 </head>
 
-<body id="top">
+<body id="top" class="pagina-produse">
     <%- include("../fragmente/header") %>
 
     <main>
         <div id="grid-pagina">
             <section id="produse">
-                <h2>Produse</h2>
+                <% const categorieActivaCurenta = typeof categorieActiva === "string" ? categorieActiva : ""; %>
+                <h2><%= categorieActivaCurenta ? `Produse - ${categorieActivaCurenta}` : "Produse" %></h2>
                 <% const listaProduse = typeof produse !== "undefined" ? produse : []; %>
                 <%
                     const luniRo = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
@@ -25,7 +26,9 @@
                         };
                     }
 
-                    const categoriiProduse = [...new Set(listaProduse.map((produs) => produs.categorie))].sort();
+                    const categoriiProduse = Array.isArray(categoriiProduseMeniu) && categoriiProduseMeniu.length
+                        ? categoriiProduseMeniu
+                        : [...new Set(listaProduse.map((produs) => produs.categorie))].sort();
                     const culoriProduse = [...new Set(listaProduse.map((produs) => produs.culoare))].sort();
                     const subcategoriiProduse = [...new Set(listaProduse.map((produs) => produs.subcategorie))].sort();
                     const taguriProduse = [...new Set(listaProduse.flatMap((produs) => produs.taguri.split(",").map((tag) => tag.trim()).filter(Boolean)))].sort();
@@ -35,85 +38,177 @@
                 %>
 
                 <% if (listaProduse.length) { %>
-                    <section id="sectiune-filtrare-produse" class="filtre-produse" aria-labelledby="titlu-filtre-produse">
-                        <h3 id="titlu-filtre-produse">Filtrare produse</h3>
-
-                        <div class="filtre-produse__grid">
-                            <div class="filtre-produse__rand filtre-produse__rand--sus">
-                                <label class="filtre-produse__camp filtre-produse__camp--text" for="filtru-text">
-                                    Nume sau tag
-                                    <input id="filtru-text" name="filtru-text" type="text" placeholder="vinyl, patch, doom">
-                                </label>
-
-                                <div class="filtre-produse__grup filtre-produse__grup--categorie" role="radiogroup" aria-labelledby="titlu-filtru-categorie">
-                                    <p id="titlu-filtru-categorie" class="filtre-produse__grup-titlu">Categorie</p>
-                                    <label>
-                                        <input type="radio" name="filtru-categorie" value="" checked>
-                                        orice categorie
-                                    </label>
-                                    <% for (const categorie of categoriiProduse) { %>
-                                        <label>
-                                            <input type="radio" name="filtru-categorie" value="<%= categorie %>">
-                                            <%= categorie %>
-                                        </label>
-                                    <% } %>
+                    <section id="sectiune-filtrare-produse" class="filtre-produse card border-info-subtle shadow-sm" aria-labelledby="titlu-filtre-produse">
+                        <div class="card-body p-3 p-lg-4">
+                            <div class="filtre-produse__header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+                                <div>
+                                    <h3 id="titlu-filtre-produse" class="card-title mb-1">Filtrare produse</h3>
                                 </div>
-
-                                <label class="filtre-produse__camp filtre-produse__camp--subcategorie" for="filtru-subcategorie">
-                                    Tip produs
-                                    <input id="filtru-subcategorie" name="filtru-subcategorie" list="lista-subcategorii-produse" placeholder="oricare">
-                                    <datalist id="lista-subcategorii-produse">
-                                        <% for (const subcategorie of subcategoriiProduse) { %>
-                                            <option value="<%= subcategorie %>"></option>
-                                        <% } %>
-                                    </datalist>
-                                </label>
                             </div>
 
-                            <div class="filtre-produse__rand filtre-produse__rand--mijloc">
-                                <div class="filtre-produse__camp filtre-produse__camp--range">
-                                    <label for="filtru-pret">Pret maxim</label>
-                                    <div class="filtre-produse__range">
-                                        <span><%= pretMinim %> lei</span>
-                                        <input id="filtru-pret" name="filtru-pret" type="range" min="<%= pretMinim %>" max="<%= pretMaxim %>" value="<%= pretMaxim %>" step="0.01">
-                                        <span><%= pretMaxim %> lei (<output id="valoare-filtru-pret" for="filtru-pret"><%= pretMaxim %> lei</output>)</span>
+                            <p id="mesaj-validare-filtre" class="filtre-produse__mesaj alert alert-danger mb-3" role="alert" aria-live="polite" hidden></p>
+
+                            <div class="row g-3">
+                                <div class="col-12 col-lg-6 col-xl-4">
+                                    <div class="filtre-produse__camp card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body">
+                                            <label class="form-label fw-semibold mb-2" for="filtru-text">
+                                                <i class="bi bi-tags-fill me-2" aria-hidden="true"></i>Tag cautat
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-search" aria-hidden="true"></i></span>
+                                                <input class="form-control" id="filtru-text" name="filtru-text" type="text" placeholder="subsir dintr-un tag">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <label class="filtre-produse__camp filtre-produse__camp--culoare" for="filtru-culoare">
-                                    Culoare
-                                    <select id="filtru-culoare" name="filtru-culoare">
-                                        <option value="">oricare</option>
-                                        <% for (const culoare of culoriProduse) { %>
-                                            <option value="<%= culoare %>"><%= culoare %></option>
-                                        <% } %>
-                                    </select>
-                                </label>
+                                <div class="col-12 col-lg-6 col-xl-4">
+                                    <div class="filtre-produse__camp card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body">
+                                            <label class="form-label fw-semibold mb-2" for="filtru-nume">
+                                                <i class="bi bi-vinyl-fill me-2" aria-hidden="true"></i>Nume produs
+                                            </label>
+                                            <input class="form-control" id="filtru-nume" name="filtru-nume" list="lista-nume-produse" placeholder="oricare">
+                                            <datalist id="lista-nume-produse">
+                                                <% for (const produs of listaProduse) { %>
+                                                    <option value="<%= produs.nume %>"></option>
+                                                <% } %>
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <label class="filtre-produse__camp filtre-produse__camp--checkbox" for="filtru-editie-limitata">
-                                    <input id="filtru-editie-limitata" name="filtru-editie-limitata" type="checkbox">
-                                    doar editii limitate
-                                </label>
-                            </div>
+                                <div class="col-12 col-xl-4">
+                                    <div class="filtre-produse__camp card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body">
+                                            <label class="form-label fw-semibold mb-2" for="filtru-culoare">
+                                                <i class="bi bi-palette-fill me-2" aria-hidden="true"></i>Culoare
+                                            </label>
+                                            <select class="form-select" id="filtru-culoare" name="filtru-culoare">
+                                                <option value="">oricare</option>
+                                                <% for (const culoare of culoriProduse) { %>
+                                                    <option value="<%= culoare %>"><%= culoare %></option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="filtre-produse__rand filtre-produse__rand--jos">
-                                <label class="filtre-produse__camp filtre-produse__camp--descriere" for="filtru-descriere">
-                                    Cuvinte in descriere
-                                    <textarea id="filtru-descriere" name="filtru-descriere" rows="3" placeholder="oricare"></textarea>
-                                </label>
+                                <div class="col-12 col-xl-5">
+                                    <fieldset class="filtre-produse__grup filtre-produse__grup--categorie card h-100 border-info-subtle bg-body-tertiary" aria-labelledby="titlu-filtru-categorie">
+                                        <div class="card-body">
+                                            <legend id="titlu-filtru-categorie" class="filtre-produse__grup-titlu">
+                                                <i class="bi bi-collection-play-fill me-2" aria-hidden="true"></i>Categorie
+                                            </legend>
+                                            <div class="d-flex flex-wrap gap-2" role="radiogroup" aria-labelledby="titlu-filtru-categorie">
+                                                <input class="btn-check" type="radio" name="filtru-categorie" id="filtru-categorie-toate" value="" <%= !categorieActivaCurenta ? "checked" : "" %>>
+                                                <label class="btn btn-outline-primary" for="filtru-categorie-toate">orice categorie</label>
+                                                <% for (const categorie of categoriiProduse) { %>
+                                                    <% const idCategorie = `filtru-categorie-${categorie.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`; %>
+                                                    <input class="btn-check" type="radio" name="filtru-categorie" id="<%= idCategorie %>" value="<%= categorie %>" <%= categorieActivaCurenta === categorie ? "checked" : "" %>>
+                                                    <label class="btn btn-outline-primary" for="<%= idCategorie %>"><%= categorie %></label>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
 
-                                <label class="filtre-produse__camp filtre-produse__camp--taguri" for="filtru-taguri">
-                                    Taguri
-                                    <select id="filtru-taguri" name="filtru-taguri" multiple size="5">
-                                        <% for (const tag of taguriProduse) { %>
-                                            <option value="<%= tag %>"><%= tag %></option>
-                                        <% } %>
-                                    </select>
-                                </label>
-                            </div>
+                                <div class="col-12 col-xl-7">
+                                    <div class="filtre-produse__camp filtre-produse__camp--taguri card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body">
+                                            <label class="form-label fw-semibold mb-2" for="filtru-taguri">
+                                                <i class="bi bi-slash-circle-fill me-2" aria-hidden="true"></i>Selectati valorile pe care NU le doriti
+                                            </label>
+                                            <select class="form-select" id="filtru-taguri" name="filtru-taguri" multiple size="5">
+                                                <% for (const tag of taguriProduse) { %>
+                                                    <option value="<%= tag %>"><%= tag %></option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="filtre-produse__rand filtre-produse__rand--actiuni">
-                                <button id="btn-reseteaza-filtre" class="filtre-produse__reset" type="button">Reseteaza</button>
+                                <div class="col-12 col-xl-8">
+                                    <div class="filtre-produse__camp filtre-produse__camp--range card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body">
+                                            <label class="form-label fw-semibold d-flex align-items-center gap-2 mb-3" for="filtru-pret">
+                                                <i class="bi bi-sliders2 me-1" aria-hidden="true"></i>Pret maxim
+                                                <output id="valoare-filtru-pret" class="badge text-bg-primary ms-auto" for="filtru-pret"><%= pretMaxim %> lei</output>
+                                            </label>
+                                            <input class="form-range filtre-produse__slider" id="filtru-pret" name="filtru-pret" type="range" min="<%= pretMinim %>" max="<%= pretMaxim %>" value="<%= pretMaxim %>" step="0.01">
+                                            <div class="filtre-produse__range d-flex flex-wrap justify-content-between gap-2 small text-body-secondary">
+                                                <span><%= pretMinim %> lei</span>
+                                                <span><%= pretMaxim %> lei</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="filtre-produse__camp filtre-produse__camp--checkbox card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body d-flex align-items-center">
+                                            <input class="btn-check" id="filtru-editie-limitata" name="filtru-editie-limitata" type="checkbox" autocomplete="off">
+                                            <label class="btn btn-outline-warning w-100 d-flex align-items-center justify-content-center gap-2 py-3" for="filtru-editie-limitata">
+                                                <i class="bi bi-stars" aria-hidden="true"></i>
+                                                <span>Doar editii limitate</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-xl-7">
+                                    <fieldset class="filtre-produse__grup filtre-produse__grup--subcategorii card border-info-subtle bg-body-tertiary" aria-labelledby="titlu-filtru-subcategorie">
+                                        <div class="card-body">
+                                            <legend id="titlu-filtru-subcategorie" class="filtre-produse__grup-titlu">
+                                                <i class="bi bi-ui-checks-grid me-2" aria-hidden="true"></i>Subcategorie
+                                            </legend>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <% for (const subcategorie of subcategoriiProduse) { %>
+                                                    <% const idSubcategorie = `filtru-subcategorie-${subcategorie.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`; %>
+                                                    <input class="btn-check" type="checkbox" name="filtru-subcategorie" id="<%= idSubcategorie %>" value="<%= subcategorie %>" checked autocomplete="off">
+                                                    <label class="btn btn-outline-secondary" for="<%= idSubcategorie %>"><%= subcategorie %></label>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-5">
+                                    <div class="filtre-produse__camp filtre-produse__camp--descriere card h-100 border-info-subtle bg-body-tertiary">
+                                        <div class="card-body">
+                                            <div class="form-floating filtre-produse__floating">
+                                                <textarea class="form-control" id="filtru-descriere" name="filtru-descriere" placeholder="Cuvinte in descriere" style="height: 11rem"></textarea>
+                                                <label for="filtru-descriere"><i class="bi bi-chat-square-text-fill" aria-hidden="true"></i><span>Cuvinte in descriere</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="filtre-produse__actiuni d-grid gap-2 d-sm-flex justify-content-sm-end">
+                                        <button id="btn-filtreaza" class="btn btn-primary" type="button" aria-label="Filtreaza produsele">
+                                            <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+                                            <span class="filtre-produse__btn-text d-none d-sm-inline">Filtreaza</span>
+                                        </button>
+                                        <button id="btn-sortare-asc" class="btn btn-outline-primary" type="button" aria-label="Sorteaza ascendent">
+                                            <i class="bi bi-sort-alpha-down" aria-hidden="true"></i>
+                                            <span class="filtre-produse__btn-text d-none d-sm-inline">Sorteaza ascendent</span>
+                                        </button>
+                                        <button id="btn-sortare-desc" class="btn btn-outline-primary" type="button" aria-label="Sorteaza descendent">
+                                            <i class="bi bi-sort-alpha-up-alt" aria-hidden="true"></i>
+                                            <span class="filtre-produse__btn-text d-none d-sm-inline">Sorteaza descendent</span>
+                                        </button>
+                                        <button id="btn-calculeaza" class="btn btn-outline-success" type="button" aria-label="Calculeaza suma produselor afisate">
+                                            <i class="bi bi-calculator-fill" aria-hidden="true"></i>
+                                            <span class="filtre-produse__btn-text d-none d-sm-inline">Calculeaza suma</span>
+                                        </button>
+                                        <button id="btn-reseteaza-filtre" class="btn btn-outline-danger filtre-produse__reset" type="button" aria-label="Reseteaza filtrele">
+                                            <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+                                            <span class="filtre-produse__btn-text d-none d-sm-inline">Reseteaza</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -133,11 +228,13 @@
                                 data-taguri="<%= produs.taguri %>"
                                 data-editie-limitata="<%= produs.editie_limitata ? "da" : "nu" %>"
                             >
-                                <h3><%= produs.nume %></h3>
+                                <h3><a class="card-produs__titlu-link" href="/produs/<%= produs.id %>"><%= produs.nume %></a></h3>
                                 <div class="card-produs__corp">
                                     <div class="card-produs__coloana card-produs__coloana--media">
                                         <p class="card-produs__categorie"><b>Categorie:</b> <span><%= produs.categorie %></span></p>
-                                        <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                                        <a class="card-produs__media-link" href="/produs/<%= produs.id %>">
+                                            <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                                        </a>
                                         <p class="card-produs__descriere"><%= produs.descriere %></p>
                                     </div>
 

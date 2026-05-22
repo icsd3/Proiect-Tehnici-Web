@@ -7,6 +7,21 @@
     <meta name="keywords"
         content="metal merch, band merch, vinyl metal, tricouri metal, tricouri trupe, hanorace metal, hanorace trupe, CD metal, casete metal, patch-uri metal, accesorii metal, colectii metal, magazin merch metal online, produse oficiale trupe, vinyl metal editie speciala, merch exclusiv, articole populare metal, noutati merch">
     <title><%= typeof titluPagina !== "undefined" ? titluPagina : "TheMetalVault" %></title>
+    <script>
+        (function () {
+            let tema = "dark";
+
+            try {
+                tema = localStorage.getItem("themetalvault-tema-site")
+                    || localStorage.getItem("themetalvault-tema-produse")
+                    || "dark";
+            } catch (eroare) {
+                tema = "dark";
+            }
+
+            document.documentElement.dataset.bsTheme = tema === "light" ? "light" : "dark";
+        })();
+    </script>
 
     <!-- Task 1.4: favicon -->
     <link rel="icon" type="image/png" href="/resurse/ico/favicon-96x96.png" sizes="96x96">
@@ -24,6 +39,7 @@
     
     <!-- Task 2.5: Font Awesome pentru icons (static & animat) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="stylesheet" href="/resurse/css/custom.css" type="text/css">
     <link rel="stylesheet" href="/resurse/css/reset.css" type="text/css">
@@ -32,3 +48,4 @@
         <link rel="stylesheet" href="/resurse/css/galerie-animata.css" type="text/css">
     <% } %>
     <link rel="stylesheet" href="/resurse/css/menu.css" type="text/css">
+    <script src="/resurse/js/tema.js" defer></script>

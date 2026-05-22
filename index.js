@@ -34,6 +34,7 @@ const obGlobal = {
     folderResurse: path.join(__dirname, "resurse"),
     folderScss: path.join(__dirname, "resurse", "scss"),
     folderCss: path.join(__dirname, "resurse", "css"),
+    categoriiProduseMeniu: [],
     vect_foldere
 };
 
@@ -726,6 +727,15 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
 async function randarePagina(res, pagina, locals = {}) {
     const localsRandare = { ...locals };
 
+    if (localsRandare.categoriiProduseMeniu === undefined) {
+        try {
+            localsRandare.categoriiProduseMeniu = await obtineCategoriiProduseMeniu();
+        } catch (eroare) {
+            console.error("Nu s-au putut incarca categoriile pentru meniul de produse:", eroare);
+            localsRandare.categoriiProduseMeniu = obGlobal.categoriiProduseMeniu;
+        }
+    }
+
     try {
         if (localsRandare.galerieStatica === undefined && paginiCuGalerieStatica.has(pagina)) {
             localsRandare.galerieStatica = await obtineGalerieStatica();
@@ -755,7 +765,30 @@ async function randarePagina(res, pagina, locals = {}) {
     });
 }
 
-async function obtineProduse() {
+async function obtineCategoriiProduseMeniu() {
+    if (obGlobal.categoriiProduseMeniu.length) {
+        return obGlobal.categoriiProduseMeniu;
+    }
+
+    const rezultat = await poolPostgres.query(`
+        SELECT
+            unnest(enum_range(NULL::categorie_produs))::text AS categorie
+        ORDER BY categorie
+    `);
+
+    obGlobal.categoriiProduseMeniu = rezultat.rows.map((linie) => linie.categorie);
+    return obGlobal.categoriiProduseMeniu;
+}
+
+async function obtineProduse(categorie = null) {
+    const valori = [];
+    let clauzaWhere = "";
+
+    if (categorie) {
+        clauzaWhere = "WHERE categorie = $1";
+        valori.push(categorie);
+    }
+
     const rezultat = await poolPostgres.query(`
         SELECT
             id,
@@ -770,10 +803,34 @@ async function obtineProduse() {
             taguri,
             editie_limitata
         FROM produse
+        ${clauzaWhere}
         ORDER BY id
-    `);
+    `, valori);
 
     return rezultat.rows;
+}
+
+async function obtineProdusDupaId(idProdus) {
+    const rezultat = await poolPostgres.query(`
+        SELECT
+            id,
+            nume,
+            descriere,
+            imagine,
+            categorie,
+            subcategorie,
+            pret,
+            greutate_grame,
+            data_adaugare,
+            culoare,
+            taguri,
+            editie_limitata,
+            stoc
+        FROM produse
+        WHERE id = $1
+    `, [idProdus]);
+
+    return rezultat.rows[0] || null;
 }
 
 initErori();
@@ -803,10 +860,27 @@ app.get(["/", "/index", "/home"], function (req, res) {
     randarePagina(res, "index");
 });
 
-app.get("/produse", async function (req, res) {
+app.get(["/produse", "/produse/:categorie"], async function (req, res) {
     try {
-        const produse = await obtineProduse();
-        randarePagina(res, "produse", { produse });
+        const categoriiProduseMeniu = await obtineCategoriiProduseMeniu();
+        const categorieCeruta = req.params.categorie || null;
+
+        if (categorieCeruta && !categoriiProduseMeniu.includes(categorieCeruta)) {
+            afisareEroare(
+                res,
+                404,
+                "Categoria nu exista",
+                `Categoria "${categorieCeruta}" nu exista in meniul de produse.`
+            );
+            return;
+        }
+
+        const produse = await obtineProduse(categorieCeruta);
+        randarePagina(res, "produse", {
+            produse,
+            categorieActiva: categorieCeruta,
+            categoriiProduseMeniu
+        });
     } catch (eroare) {
         console.error("Eroare la preluarea produselor din PostgreSQL:", eroare);
         afisareEroare(
@@ -814,6 +888,47 @@ app.get("/produse", async function (req, res) {
             null,
             "Produsele nu pot fi afisate",
             "Nu s-au putut prelua produsele din baza de date. Verifica daca serverul PostgreSQL este pornit si daca scripturile SQL au fost rulate."
+        );
+    }
+});
+
+app.get("/produs/:id", async function (req, res) {
+    try {
+        const idProdus = Number.parseInt(req.params.id, 10);
+
+        if (!Number.isInteger(idProdus) || idProdus <= 0) {
+            afisareEroare(
+                res,
+                404,
+                "Produs inexistent",
+                "Identificatorul produsului nu este valid."
+            );
+            return;
+        }
+
+        const produs = await obtineProdusDupaId(idProdus);
+
+        if (!produs) {
+            afisareEroare(
+                res,
+                404,
+                "Produs inexistent",
+                `Nu exista niciun produs cu id-ul ${idProdus}.`
+            );
+            return;
+        }
+
+        randarePagina(res, "produs", {
+            produs,
+            titluPagina: `${produs.nume} | TheMetalVault`
+        });
+    } catch (eroare) {
+        console.error("Eroare la preluarea produsului din PostgreSQL:", eroare);
+        afisareEroare(
+            res,
+            null,
+            "Produsul nu poate fi afisat",
+            "Nu s-au putut prelua detaliile produsului din baza de date."
         );
     }
 });

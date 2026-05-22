@@ -35,6 +35,17 @@ body {
     margin: 0;
 }
 
+body[data-bs-theme="light"],
+html[data-bs-theme="light"] body {
+    --culoare-fundal: #FFF8EC;
+    --culoare-text: #243012;
+    --culoare-contur: #8C2F64;
+    --culoare-highlight: #B3006F;
+    --culoare-secundara: #E7F5C3;
+    --culoare-tertiara: #F6D7E8;
+    --culoare-link-vizitat: #5A2C85;
+}
+
 p {
     margin-bottom: 1em;
 }
