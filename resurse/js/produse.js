@@ -24,8 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const butonSortareDesc = document.getElementById("btn-sortare-desc");
     const butonCalculeaza = document.getElementById("btn-calculeaza");
     const butonResetare = document.getElementById("btn-reseteaza-filtre");
+    const intarziereAparitieCard = 100;
     let mesajCalculActiv = null;
     let timerMesajCalcul = null;
+    let timereAparitieCarduri = [];
 
     function valoareText(element) {
         return element.value.trim().toLowerCase();
@@ -58,6 +60,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function produseVizibile() {
         return articole.filter((articol) => !articol.classList.contains("produs-ascuns"));
+    }
+
+    function reseteazaAnimatiaCardurilor() {
+        for (const timerAparitie of timereAparitieCarduri) {
+            clearTimeout(timerAparitie);
+        }
+
+        timereAparitieCarduri = [];
+
+        for (const articol of articole) {
+            articol.classList.remove("card-produs--vizibil");
+            articol.classList.add("card-produs--pregatit");
+        }
+    }
+
+    function animeazaAparitiaCardurilor() {
+        reseteazaAnimatiaCardurilor();
+
+        produseVizibile().forEach(function (articol, index) {
+            const timerAparitie = window.setTimeout(function () {
+                articol.classList.add("card-produs--vizibil");
+            }, intarziereAparitieCard * (index + 1));
+
+            timereAparitieCarduri.push(timerAparitie);
+        });
     }
 
     function marcheazaInvalid(element, clasa) {
@@ -149,6 +176,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (const articol of articole) {
             articol.classList.toggle("produs-ascuns", !articolTreceFiltrele(articol));
+            if (articol.classList.contains("produs-ascuns")) {
+                articol.classList.remove("card-produs--pregatit", "card-produs--vizibil");
+            }
         }
     }
 
@@ -249,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         refaceOrdineaInitiala();
         aplicaFiltrele();
+        animeazaAparitiaCardurilor();
     }
 
     sectiuneFiltrare.addEventListener("input", function (eveniment) {
@@ -277,6 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         aplicaFiltrele();
+        animeazaAparitiaCardurilor();
     });
 
     butonSortareAsc.addEventListener("click", function () {
@@ -285,6 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         sorteazaProduse("asc");
+        animeazaAparitiaCardurilor();
     });
 
     butonSortareDesc.addEventListener("click", function () {
@@ -293,6 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         sorteazaProduse("desc");
+        animeazaAparitiaCardurilor();
     });
 
     butonCalculeaza.addEventListener("click", function () {
@@ -306,4 +340,5 @@ document.addEventListener("DOMContentLoaded", function () {
     butonResetare.addEventListener("click", reseteazaFiltrele);
 
     aplicaFiltrele();
+    animeazaAparitiaCardurilor();
 });

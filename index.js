@@ -49,6 +49,12 @@ console.log("__filename:", __filename);
 console.log("process.cwd():", process.cwd());
 console.log("__dirname si process.cwd() sunt egale doar daca serverul este pornit din folderul in care se afla index.js.");
 
+/**
+ * Afiseaza erorile de configurare pentru `erori.json` si opreste procesul.
+ *
+ * @param {string[]} mesaje - Lista mesajelor de eroare care trebuie afisate.
+ * @returns {void}
+ */
 function opresteAplicatiaPentruErori(mesaje) {
     console.error("Configurare invalida pentru erori.json:");
 
@@ -59,6 +65,13 @@ function opresteAplicatiaPentruErori(mesaje) {
     process.exit(1);
 }
 
+/**
+ * Citeste un string JSON pornind de la pozitia ghilimelei de deschidere.
+ *
+ * @param {string} text - Textul JSON complet.
+ * @param {number} pozitieStart - Pozitia ghilimelei de deschidere.
+ * @returns {{valoare: string, pozitieFinal: number}} Stringul extras si pozitia ghilimelei de inchidere.
+ */
 function citesteStringJson(text, pozitieStart) {
     let rezultat = "";
     let pozitie = pozitieStart + 1;
@@ -89,14 +102,32 @@ function citesteStringJson(text, pozitieStart) {
     };
 }
 
+/**
+ * Calculeaza linia 1-indexata corespunzatoare unei pozitii din text.
+ *
+ * @param {string} text - Textul analizat.
+ * @param {number} pozitie - Pozitia in sir.
+ * @returns {number} Numarul liniei.
+ */
 function calculeazaLinie(text, pozitie) {
     return text.substring(0, pozitie).split(/\r?\n/).length;
 }
 
+/**
+ * Detecteaza proprietatile duplicate dintr-un text JSON brut.
+ *
+ * @param {string} text - Continutul JSON analizat.
+ * @returns {string[]} Mesajele de eroare pentru proprietatile duplicate gasite.
+ */
 function gasesteProprietatiDuplicateJson(text) {
     const duplicate = [];
     const stiva = [];
 
+    /**
+     * Marcheaza in contextul parinte faptul ca s-a inchis parsarea unei valori simple.
+     *
+     * @returns {void}
+     */
     function marcheazaValoareInParinte() {
         const parinte = stiva[stiva.length - 1];
 
@@ -175,15 +206,34 @@ function gasesteProprietatiDuplicateJson(text) {
     return duplicate;
 }
 
+/**
+ * Verifica sigur daca un obiect are o proprietate proprie.
+ *
+ * @param {object} obiect - Obiectul verificat.
+ * @param {string} proprietate - Numele proprietatii cautate.
+ * @returns {boolean} `true` daca proprietatea exista direct pe obiect.
+ */
 function areProprietate(obiect, proprietate) {
     return Object.prototype.hasOwnProperty.call(obiect, proprietate);
 }
 
+/**
+ * Converteste o cale relativa de server intr-o cale absoluta pe disc.
+ *
+ * @param {string} caleServer - Calea folosita in configuratii.
+ * @returns {string} Calea absoluta de pe disc.
+ */
 function caleServerCatreDisc(caleServer) {
     const segmente = caleServer.split(/[\\/]+/).filter(Boolean);
     return path.join(__dirname, ...segmente);
 }
 
+/**
+ * Formateaza un obiect de eroare fara proprietatea `identificator`.
+ *
+ * @param {object} eroare - Obiectul de eroare formatat.
+ * @returns {string} Descrierea textuala a proprietatilor relevante.
+ */
 function descrieEroareFaraIdentificator(eroare) {
     return Object.entries(eroare)
         .filter(([cheie]) => cheie !== "identificator")
@@ -191,6 +241,12 @@ function descrieEroareFaraIdentificator(eroare) {
         .join(", ");
 }
 
+/**
+ * Valideaza structura obiectului incarcat din `erori.json`.
+ *
+ * @param {object} erori - Obiectul de configurare pentru erori.
+ * @returns {string[]} Lista mesajelor de validare; lista vida inseamna configuratie valida.
+ */
 function valideazaObiectErori(erori) {
     const mesaje = [];
 
@@ -309,6 +365,12 @@ function valideazaObiectErori(erori) {
     return mesaje;
 }
 
+/**
+ * Afiseaza erorile de configurare pentru `galerie.json` si opreste procesul.
+ *
+ * @param {string[]} mesaje - Lista mesajelor de eroare care trebuie afisate.
+ * @returns {void}
+ */
 function opresteAplicatiaPentruGalerieInvalida(mesaje) {
     console.error("Configurare invalida pentru galerie.json:");
 
@@ -319,6 +381,12 @@ function opresteAplicatiaPentruGalerieInvalida(mesaje) {
     process.exit(1);
 }
 
+/**
+ * Valideaza structura obiectului incarcat din `galerie.json`.
+ *
+ * @param {object} galerie - Obiectul de configurare al galeriei.
+ * @returns {string[]} Lista mesajelor de validare; lista vida inseamna configuratie valida.
+ */
 function valideazaObiectGalerie(galerie) {
     const mesaje = [];
 
@@ -414,6 +482,11 @@ function valideazaObiectGalerie(galerie) {
     return mesaje;
 }
 
+/**
+ * Incarca, valideaza si normalizeaza configuratia galeriei in obiectul global.
+ *
+ * @returns {void}
+ */
 function initGalerie() {
     const caleGalerie = path.join(__dirname, "galerie.json");
 
@@ -468,10 +541,23 @@ function initGalerie() {
     obGlobal.obGalerie = galerie;
 }
 
+/**
+ * Calculeaza sfertul de ora curent pentru o anumita data.
+ *
+ * @param {Date} [data=new Date()] - Data folosita la calcul.
+ * @returns {number} Valoare intre 1 si 4.
+ */
 function calculeazaSfertOraCurent(data = new Date()) {
     return Math.floor(data.getMinutes() / 15) + 1;
 }
 
+/**
+ * Verifica daca o imagine este eligibila pentru sfertul de ora cerut.
+ *
+ * @param {object} imagine - Obiectul imaginii din configuratia galeriei.
+ * @param {number} sfertOra - Sfertul de ora cautat.
+ * @returns {boolean} `true` daca imaginea poate fi afisata.
+ */
 function imagineEsteInSfertOra(imagine, sfertOra) {
     if (!imagine.sfert_ora) {
         return false;
@@ -483,6 +569,13 @@ function imagineEsteInSfertOra(imagine, sfertOra) {
         .includes(String(sfertOra));
 }
 
+/**
+ * Genereaza sau actualizeaza pe disc o varianta redimensionata a unei imagini de galerie.
+ *
+ * @param {object} imagine - Imaginea sursa normalizata.
+ * @param {{nume: string, latime: number}} varianta - Varianta care trebuie generata.
+ * @returns {Promise<string>} Calea de server a variantei generate.
+ */
 async function asiguraVariantaGalerie(imagine, varianta) {
     const numeFisier = path.parse(imagine.cale_imagine).name;
     const extensie = path.extname(imagine.cale_imagine).toLowerCase() || ".jpg";
@@ -508,6 +601,12 @@ async function asiguraVariantaGalerie(imagine, varianta) {
     return caleServerVarianta;
 }
 
+/**
+ * Pregateste toate variantele necesare pentru o imagine de galerie.
+ *
+ * @param {object} imagine - Imaginea sursa normalizata.
+ * @returns {Promise<object>} Imaginea imbogatita cu cai catre variantele generate.
+ */
 async function pregatesteImagineGalerie(imagine) {
     const [caleServerMic, caleServerMediu] = await Promise.all(varianteGalerie.map((varianta) => asiguraVariantaGalerie(imagine, varianta)));
 
@@ -518,6 +617,11 @@ async function pregatesteImagineGalerie(imagine) {
     };
 }
 
+/**
+ * Returneaza galeria statica filtrata dupa sfertul de ora curent.
+ *
+ * @returns {Promise<{sfertOra: number, imagini: object[]}>} Datele necesare randarii galeriei statice.
+ */
 async function obtineGalerieStatica() {
     const sfertOra = calculeazaSfertOraCurent();
 
@@ -538,6 +642,11 @@ async function obtineGalerieStatica() {
     };
 }
 
+/**
+ * Returneaza un subset valid pentru galeria animata.
+ *
+ * @returns {Promise<{numarImagini: number, imagini: object[]}>} Datele necesare randarii galeriei animate.
+ */
 async function obtineGalerieAnimata() {
     if (!obGlobal.obGalerie) {
         return {
@@ -558,6 +667,11 @@ async function obtineGalerieAnimata() {
     };
 }
 
+/**
+ * Incarca, valideaza si normalizeaza configuratia erorilor in obiectul global.
+ *
+ * @returns {void}
+ */
 function initErori() {
     const caleErori = path.join(__dirname, "erori.json");
 
@@ -595,6 +709,11 @@ function initErori() {
     obGlobal.obErori = erori;
 }
 
+/**
+ * Creeaza folderele generate de proiect daca ele lipsesc.
+ *
+ * @returns {void}
+ */
 function creareFoldereGenerate() {
     for (const folder of obGlobal.vect_foldere) {
         const caleFolder = path.join(__dirname, folder);
@@ -605,10 +724,23 @@ function creareFoldereGenerate() {
     }
 }
 
+/**
+ * Rezolva calea absoluta pentru un fisier SCSS.
+ *
+ * @param {string} caleScss - Calea relativa sau absoluta catre fisierul SCSS.
+ * @returns {string} Calea absoluta rezultata.
+ */
 function rezolvaCaleScss(caleScss) {
     return path.isAbsolute(caleScss) ? caleScss : path.join(obGlobal.folderScss, caleScss);
 }
 
+/**
+ * Rezolva calea absoluta pentru fisierul CSS rezultat din compilarea SCSS-ului.
+ *
+ * @param {string} caleScssAbsoluta - Calea absoluta catre fisierul SCSS sursa.
+ * @param {string} [caleCss] - Calea CSS explicita, daca exista.
+ * @returns {string} Calea absoluta a fisierului CSS rezultat.
+ */
 function rezolvaCaleCss(caleScssAbsoluta, caleCss) {
     if (caleCss) {
         return path.isAbsolute(caleCss) ? caleCss : path.join(obGlobal.folderCss, caleCss);
@@ -617,6 +749,12 @@ function rezolvaCaleCss(caleScssAbsoluta, caleCss) {
     return path.join(obGlobal.folderCss, `${path.parse(caleScssAbsoluta).name}.css`);
 }
 
+/**
+ * Copiaza fisierul CSS existent in folderul de backup inainte de recompilare.
+ *
+ * @param {string} caleCss - Calea absoluta catre fisierul CSS.
+ * @returns {void}
+ */
 function copiazaCssInBackup(caleCss) {
     if (!fs.existsSync(caleCss)) {
         return;
@@ -634,6 +772,13 @@ function copiazaCssInBackup(caleCss) {
     }
 }
 
+/**
+ * Compileaza un fisier SCSS in CSS si scrie rezultatul pe disc.
+ *
+ * @param {string} caleScss - Calea relativa sau absoluta catre fisierul SCSS sursa.
+ * @param {string} [caleCss] - Calea relativa sau absoluta catre fisierul CSS rezultat.
+ * @returns {void}
+ */
 function compileazaScss(caleScss, caleCss) {
     const caleScssAbsoluta = rezolvaCaleScss(caleScss);
     const caleCssAbsoluta = rezolvaCaleCss(caleScssAbsoluta, caleCss);
@@ -656,6 +801,11 @@ function compileazaScss(caleScss, caleCss) {
     }
 }
 
+/**
+ * Compileaza toate fisierele SCSS principale din folderul proiectului.
+ *
+ * @returns {void}
+ */
 function compileazaToateScss() {
     if (!fs.existsSync(obGlobal.folderScss)) {
         return;
@@ -668,6 +818,11 @@ function compileazaToateScss() {
     }
 }
 
+/**
+ * Porneste urmarirea fisierelor SCSS si recompilarea lor la modificare.
+ *
+ * @returns {void}
+ */
 function urmaresteScss() {
     if (!fs.existsSync(obGlobal.folderScss)) {
         return;
@@ -694,6 +849,16 @@ function urmaresteScss() {
     });
 }
 
+/**
+ * Randeaza pagina de eroare potrivita pentru un identificator sau foloseste eroarea implicita.
+ *
+ * @param {import("express").Response} res - Obiectul de raspuns Express.
+ * @param {number|null|undefined} identificator - Identificatorul erorii.
+ * @param {string} [titlu] - Titlu personalizat.
+ * @param {string} [text] - Text personalizat.
+ * @param {string} [imagine] - Imagine personalizata.
+ * @returns {void}
+ */
 function afisareEroare(res, identificator, titlu, text, imagine) {
     let eroare = null;
 
@@ -719,6 +884,14 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     });
 }
 
+/**
+ * Randeaza o pagina EJS obisnuita, completand automat locals comuni ai proiectului.
+ *
+ * @param {import("express").Response} res - Obiectul de raspuns Express.
+ * @param {string} pagina - Numele paginii fara extensie.
+ * @param {object} [locals={}] - Datele transmise catre template.
+ * @returns {Promise<void>} Promisiune rezolvata dupa incercarea de randare.
+ */
 async function randarePagina(res, pagina, locals = {}) {
     const localsRandare = { ...locals };
 
@@ -760,6 +933,11 @@ async function randarePagina(res, pagina, locals = {}) {
     });
 }
 
+/**
+ * Citeste din baza de date lista categoriilor de produse si o memoreaza in cache-ul global.
+ *
+ * @returns {Promise<string[]>} Lista categoriilor de produse.
+ */
 async function obtineCategoriiProduseMeniu() {
     if (obGlobal.categoriiProduseMeniu.length) {
         return obGlobal.categoriiProduseMeniu;
@@ -775,6 +953,12 @@ async function obtineCategoriiProduseMeniu() {
     return obGlobal.categoriiProduseMeniu;
 }
 
+/**
+ * Citeste produsele din baza de date, optional filtrate dupa categorie.
+ *
+ * @param {?string} [categorie=null] - Categoria ceruta sau `null` pentru toate produsele.
+ * @returns {Promise<object[]>} Lista produselor gasite.
+ */
 async function obtineProduse(categorie = null) {
     const conditiiAnd = categorie ? ["categorie = $1"] : [];
     const valori = categorie ? [categorie] : [];
@@ -799,6 +983,12 @@ async function obtineProduse(categorie = null) {
     return rezultat.rows;
 }
 
+/**
+ * Citeste din baza de date un singur produs pe baza identificatorului sau.
+ *
+ * @param {number} idProdus - Identificatorul produsului.
+ * @returns {Promise<object|null>} Produsul gasit sau `null`.
+ */
 async function obtineProdusDupaId(idProdus) {
     const rezultat = await accesBD.selectAsync({
         tabel: "produse",
@@ -944,6 +1134,12 @@ app.get("/*pagina", function (req, res) {
     randarePagina(res, pagina);
 });
 
+/**
+ * Porneste serverul Express pe portul cerut si incearca automat un port alternativ local daca 8080 este ocupat.
+ *
+ * @param {number} port - Portul initial cerut pentru server.
+ * @returns {void}
+ */
 function pornesteServer(port) {
     const server = app.listen(port, function () {
         console.log(`Serverul a pornit pe http://localhost:${port}`);

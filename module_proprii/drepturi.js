@@ -2,6 +2,19 @@
  * Obiectul exportat contine drepturile posibile din aplicatie.
  * Numele proprietatilor sunt identificatori de drepturi,
  * iar valorile sunt simboluri unice, dupa modelul din curs13.
+ *
+ * @type {{
+ *  vizualizareUtilizatori: symbol,
+ *  adaugareUtilizatori: symbol,
+ *  modificareUtilizatori: symbol,
+ *  stergereUtilizatori: symbol,
+ *  vizualizareProduse: symbol,
+ *  adaugareProduse: symbol,
+ *  modificareProduse: symbol,
+ *  stergereProduse: symbol,
+ *  cumparareProduse: symbol,
+ *  vizualizareGrafice: symbol
+ * }}
  */
 const Drepturi = {
     vizualizareUtilizatori: Symbol("vizualizareUtilizatori"),

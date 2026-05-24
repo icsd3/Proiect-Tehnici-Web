@@ -118,7 +118,7 @@ header {
     }
 }
 
-@media screen and (min-width: 1001px) {
+@media screen and (min-width: 1200px) {
     #banner {
         transform: translateY(120%);
         opacity: 0;
@@ -588,97 +588,108 @@ html[data-bs-theme="light"] body {
 }
 
 .lista-produse {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
-    gap: var(--spatiu-s);
     margin-top: var(--spatiu-s);
 }
 
 .card-produs {
     min-width: 0;
-    border: var(--bordura-subtire) solid var(--produse-border, var(--culoare-contur));
-    border-radius: var(--raza-mica);
-    background-color: var(--produse-panou-soft, color-mix(in srgb, var(--culoare-tertiara) 82%, black));
-    overflow: hidden;
+    transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
-.card-produs h3 {
-    margin: 0;
-    padding: var(--spatiu-xs);
-    border-bottom: var(--bordura-subtire) solid var(--produse-border, var(--culoare-contur));
-    color: var(--produse-accent, var(--culoare-highlight));
+.card-produs--pregatit {
+    opacity: 0;
+    transform: translateY(1.15rem) scale(0.985);
+}
+
+.card-produs--vizibil {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.card-produs > .card {
+    border-color: var(--produse-border, var(--culoare-contur)) !important;
+    background-color: var(--produse-panou-soft, color-mix(in srgb, var(--culoare-tertiara) 82%, black));
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-produs > .card:hover,
+.card-produs > .card:focus-within {
+    transform: translateY(-0.18rem);
+    box-shadow: 0 1rem 1.8rem rgba(0, 0, 0, 0.24) !important;
+    border-color: color-mix(in srgb, var(--produse-accent, var(--culoare-highlight)) 55%, white) !important;
+}
+
+.card-produs .card-header {
+    border-bottom-color: color-mix(in srgb, var(--produse-border, var(--culoare-contur)) 78%, white);
     background-color: color-mix(in srgb, var(--produse-panou, transparent) 74%, transparent);
 }
 
-.card-produs__titlu-link,
-.card-produs__detalii-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.card-produs__titlu-link:hover,
-.card-produs__titlu-link:focus-visible,
-.card-produs__detalii-link:hover,
-.card-produs__detalii-link:focus-visible {
-    text-decoration: underline;
+.card-produs__categorie {
+    letter-spacing: 0.03em;
+    text-transform: capitalize;
 }
 
 .card-produs__media-link {
-    display: inline-block;
-}
-
-.card-produs__corp {
-    display: grid;
-    grid-template-columns: minmax(12rem, 0.85fr) minmax(14rem, 1fr);
-    gap: var(--spatiu-s);
-    padding: var(--spatiu-xs);
-}
-
-.card-produs__coloana {
-    min-width: 0;
-}
-
-.card-produs__categorie {
-    margin-top: 0;
+    position: relative;
+    display: block;
+    overflow: hidden;
 }
 
 .card-produs img {
     display: block;
     width: 100%;
-    max-width: 20rem;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
-    margin: var(--spatiu-xs) 0;
-    border: var(--bordura-subtire) solid var(--produse-border, var(--culoare-contur));
-    border-radius: var(--raza-mica);
     background-color: rgba(0, 0, 0, 0.35);
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.card-produs__media-link:hover img,
+.card-produs__media-link:focus-visible img {
+    transform: scale(1.04);
+    filter: saturate(1.08);
+}
+
+.card-produs__titlu-link {
+    color: var(--produse-accent, var(--culoare-highlight));
+    position: relative;
+    z-index: 2;
+}
+
+.card-produs__titlu-link:hover,
+.card-produs__titlu-link:focus-visible {
+    color: color-mix(in srgb, var(--produse-accent, var(--culoare-highlight)) 68%, white);
 }
 
 .card-produs__descriere {
-    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
 }
 
-.card-produs__coloana--detalii p {
-    margin: 0 0 var(--spatiu-xs);
+.card-produs__detaliu {
+    height: 100%;
+    border: 1px solid color-mix(in srgb, var(--produse-border, var(--culoare-contur)) 72%, white);
+    background-color: color-mix(in srgb, var(--produse-panou, transparent) 82%, transparent);
 }
 
-.card-produs p b {
+.card-produs__detaliu b {
     display: inline-block;
-    padding: 0.1rem 0.35rem;
-    border-radius: var(--raza-mica);
-    background-color: var(--culoare-highlight);
-    color: var(--culoare-fundal);
+    margin-right: 0.3rem;
+    color: var(--produse-accent, var(--culoare-highlight));
 }
 
-.card-produs p span,
+.card-produs__detaliu span,
+.card-produs .btn,
 .card-produs time {
     color: var(--culoare-text);
 }
 
-@media screen and (max-width:700px) {
-    .card-produs__corp {
-        grid-template-columns: 1fr;
-    }
+.card-produs .card-footer .btn {
+    position: relative;
+    z-index: 2;
 }
 
 .produs-ascuns {
@@ -689,8 +700,7 @@ html[data-bs-theme="light"] body {
     margin-top: 0;
 }
 
-.produs-unic__breadcrumb a,
-.card-produs__detalii-link {
+.produs-unic__breadcrumb a {
     color: var(--culoare-highlight);
     font-weight: 700;
 }

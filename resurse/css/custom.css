@@ -772,7 +772,7 @@ progress {
   --bs-breakpoint-sm: 36rem;
   --bs-breakpoint-md: 52rem;
   --bs-breakpoint-lg: 74rem;
-  --bs-breakpoint-xl: 86rem;
+  --bs-breakpoint-xl: 75rem;
   --bs-breakpoint-xxl: 100rem;
 }
 
@@ -1509,7 +1509,7 @@ progress {
     --bs-gutter-y: 3.3rem;
   }
 }
-@media (min-width: 86rem) {
+@media (min-width: 75rem) {
   .col-xl {
     flex: 1 0 0;
   }

@@ -11,6 +11,12 @@ for (const interval of intervale) {
     }
 }
 
+/**
+ * Genereaza un token aleator compus doar din caractere alfanumerice.
+ *
+ * @param {number} lungime - Numarul de caractere dorit pentru token.
+ * @returns {string} Tokenul generat.
+ */
 function genereazaToken(lungime) {
     let token = "";
 

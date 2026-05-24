@@ -213,12 +213,12 @@
                         </div>
                     </section>
 
-                    <div class="lista-produse">
+                    <div class="lista-produse row row-cols-1 row-cols-lg-5 g-4">
                         <% for (const produs of listaProduse) { %>
                             <% const dataAfisata = dataProdus(produs.data_adaugare); %>
                             <article
                                 id="ar_ent_<%= produs.id %>"
-                                class="card-produs <%= produs.categorie %>"
+                                class="card-produs col <%= produs.categorie %>"
                                 data-nume="<%= produs.nume %>"
                                 data-descriere="<%= produs.descriere %>"
                                 data-categorie="<%= produs.categorie %>"
@@ -228,23 +228,61 @@
                                 data-taguri="<%= produs.taguri %>"
                                 data-editie-limitata="<%= produs.editie_limitata ? "da" : "nu" %>"
                             >
-                                <h3><a class="card-produs__titlu-link" href="/produs/<%= produs.id %>"><%= produs.nume %></a></h3>
-                                <div class="card-produs__corp">
-                                    <div class="card-produs__coloana card-produs__coloana--media">
-                                        <p class="card-produs__categorie"><b>Categorie:</b> <span><%= produs.categorie %></span></p>
-                                        <a class="card-produs__media-link" href="/produs/<%= produs.id %>">
-                                            <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
-                                        </a>
-                                        <p class="card-produs__descriere"><%= produs.descriere %></p>
+                                <div class="card h-100 border-info-subtle shadow-sm bg-body-tertiary">
+                                    <div class="card-header d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                                        <span class="badge text-bg-primary card-produs__categorie"><%= produs.categorie %></span>
+                                        <% if (produs.editie_limitata) { %>
+                                            <span class="badge text-bg-secondary text-dark">Editie limitata</span>
+                                        <% } else { %>
+                                            <span class="badge text-bg-warning text-light">Standard</span>
+                                        <% } %>
                                     </div>
 
-                                    <div class="card-produs__coloana card-produs__coloana--detalii">
-                                        <p><b>Pret:</b> <span><%= Number(produs.pret).toFixed(2) %> lei</span></p>
-                                        <p><b>Tip produs:</b> <span><%= produs.subcategorie %></span></p>
-                                        <p><b>Culoare:</b> <span><%= produs.culoare %></span></p>
-                                        <p><b>Taguri:</b> <span><%= produs.taguri %></span></p>
-                                        <p><b>Data adaugare:</b> <time datetime="<%= dataAfisata.iso %>"><%= dataAfisata.text %></time></p>
-                                        <p><b>Editie limitata:</b> <span><%= produs.editie_limitata ? "da" : "nu" %></span></p>
+                                    <a class="card-produs__media-link" href="/produs/<%= produs.id %>">
+                                        <img class="card-img-top" src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                                    </a>
+
+                                    <div class="card-body d-flex flex-column gap-3">
+                                        <div>
+                                            <h3 class="card-title h5 mb-2">
+                                                <a class="card-produs__titlu-link stretched-link text-decoration-none" href="/produs/<%= produs.id %>"><%= produs.nume %></a>
+                                            </h3>
+                                            <p class="card-produs__descriere card-text text-body-secondary mb-0"><%= produs.descriere %></p>
+                                        </div>
+
+                                        <div class="row row-cols-1 row-cols-sm-2 g-2 small">
+                                            <div class="col">
+                                                <div class="card-produs__detaliu p-2 rounded">
+                                                    <b>Pret:</b> <span><%= Number(produs.pret).toFixed(2) %> lei</span>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-produs__detaliu p-2 rounded">
+                                                    <b>Tip produs:</b> <span><%= produs.subcategorie %></span>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-produs__detaliu p-2 rounded">
+                                                    <b>Culoare:</b> <span><%= produs.culoare %></span>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-produs__detaliu p-2 rounded">
+                                                    <b>Taguri:</b> <span><%= produs.taguri %></span>
+                                                </div>
+                                            </div>
+                                            <div class="col col-sm-12">
+                                                <div class="card-produs__detaliu p-2 rounded">
+                                                    <b>Data adaugare:</b> <time datetime="<%= dataAfisata.iso %>"><%= dataAfisata.text %></time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer bg-transparent border-0 pt-0">
+                                        <a class="btn btn-outline-primary w-100" href="/produs/<%= produs.id %>">
+                                            <i class="bi bi-arrow-right-circle-fill me-2" aria-hidden="true"></i>Vezi pagina produsului
+                                        </a>
                                     </div>
                                 </div>
                             </article>

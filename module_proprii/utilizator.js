@@ -3,6 +3,9 @@ const AccesBD = require("./accesbd.js");
 const parole = require("./parole.js");
 const { RolFactory } = require("./roluri.js");
 
+/**
+ * Modeleaza un utilizator al aplicatiei si operatiile asociate acestuia.
+ */
 class Utilizator {
     static tipConexiune = "local";
     static tabel = "utilizatori";
@@ -28,6 +31,23 @@ class Utilizator {
 
     #eroare = "";
 
+    /**
+     * Creeaza un utilizator din proprietati cu nume omonime coloanelor din tabelul `utilizatori`.
+     *
+     * @param {object} [date={}] - Datele initiale ale utilizatorului.
+     * @param {?number} [date.id=null] - Identificatorul utilizatorului.
+     * @param {string} [date.username=""] - Username-ul utilizatorului.
+     * @param {string} [date.nume=""] - Numele utilizatorului.
+     * @param {string} [date.prenume=""] - Prenumele utilizatorului.
+     * @param {string} [date.email=""] - Adresa de e-mail.
+     * @param {string} [date.parola=""] - Parola in clar sau deja criptata, in functie de context.
+     * @param {string|{cod:string}} [date.rol="comun"] - Codul rolului sau un obiect rol.
+     * @param {string} [date.culoare_chat="black"] - Culoarea preferata in chat.
+     * @param {?Date|string} [date.data_adaugare=null] - Data adaugarii in baza de date.
+     * @param {?string} [date.cod=null] - Cod de confirmare/activare.
+     * @param {boolean} [date.confirmat_mail=false] - Indicatorul de confirmare a e-mailului.
+     * @param {?string} [date.poza=null] - Calea catre poza utilizatorului.
+     */
     constructor({
         id = null,
         username = "",
@@ -56,34 +76,80 @@ class Utilizator {
         this.rol = rol && rol.cod ? RolFactory.creeazaRol(rol.cod) : RolFactory.creeazaRol(rol);
     }
 
+    /**
+     * Returneaza ultimul mesaj de eroare memorat in instanta.
+     *
+     * @returns {string} Mesajul de eroare curent.
+     */
     get eroare() {
         return this.#eroare;
     }
 
+    /**
+     * Salveaza un mesaj de eroare in instanta curenta.
+     *
+     * @param {string} mesaj - Mesajul de eroare.
+     * @returns {void}
+     */
     set eroare(mesaj) {
         this.#eroare = mesaj;
     }
 
+    /**
+     * Verifica daca un nume respecta formatul acceptat de aplicatie.
+     *
+     * @param {string} [nume=this.nume] - Numele verificat.
+     * @returns {boolean} `true` daca numele este valid.
+     */
     verificaNume(nume = this.nume) {
         return typeof nume === "string" && /^[A-ZĂÂÎȘȚ][a-zăâîșț]+(?:[-\s][A-ZĂÂÎȘȚ][a-zăâîșț]+)*$/u.test(nume);
     }
 
+    /**
+     * Verifica daca un prenume respecta formatul acceptat de aplicatie.
+     *
+     * @param {string} [prenume=this.prenume] - Prenumele verificat.
+     * @returns {boolean} `true` daca prenumele este valid.
+     */
     verificaPrenume(prenume = this.prenume) {
         return typeof prenume === "string" && /^[A-ZĂÂÎȘȚ][a-zăâîșț]+(?:[-\s][A-ZĂÂÎȘȚ][a-zăâîșț]+)*$/u.test(prenume);
     }
 
+    /**
+     * Verifica daca un username respecta formatul acceptat.
+     *
+     * @param {string} [username=this.username] - Username-ul verificat.
+     * @returns {boolean} `true` daca username-ul este valid.
+     */
     verificaUsername(username = this.username) {
         return typeof username === "string" && /^[A-Za-z0-9#_./-]{3,50}$/.test(username);
     }
 
+    /**
+     * Verifica daca un e-mail are un format plauzibil.
+     *
+     * @param {string} [email=this.email] - E-mailul verificat.
+     * @returns {boolean} `true` daca e-mailul este valid.
+     */
     verificaEmail(email = this.email) {
         return typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
+    /**
+     * Verifica daca parola respecta lungimea minima impusa de aplicatie.
+     *
+     * @param {string} [parola=this.parola] - Parola verificata.
+     * @returns {boolean} `true` daca parola este valida.
+     */
     verificaParola(parola = this.parola) {
         return typeof parola === "string" && parola.length >= 6;
     }
 
+    /**
+     * Valideaza datele de baza ale utilizatorului si arunca eroare la prima abatere.
+     *
+     * @returns {void}
+     */
     valideazaDateDeBaza() {
         if (!this.verificaUsername()) {
             throw new Error("Username incorect");
@@ -102,10 +168,22 @@ class Utilizator {
         }
     }
 
+    /**
+     * Cripteaza o parola folosind `scrypt`.
+     *
+     * @param {string} parola - Parola in clar.
+     * @returns {string} Parola criptata in format hexazecimal.
+     */
     static criptareParola(parola) {
         return crypto.scryptSync(parola, Utilizator.parolaCriptare, Utilizator.lungimeCod).toString("hex");
     }
 
+    /**
+     * Selecteaza dintr-un obiect doar proprietatile care corespund campurilor utilizatorului.
+     *
+     * @param {object} [obParam={}] - Obiectul sursa.
+     * @returns {Object<string, *>} Obiect filtrat dupa campurile utilizatorului.
+     */
     static mapareCampuri(obParam = {}) {
         const campuri = {};
 
@@ -122,6 +200,12 @@ class Utilizator {
         return campuri;
     }
 
+    /**
+     * Construieste conditii `where` parametrizate plecand de la proprietatile definite intr-un obiect.
+     *
+     * @param {object} [obParam={}] - Obiectul de filtrare.
+     * @returns {{conditiiAnd: string[], valori: Array<*>}} Conditiile si valorile parametrizate rezultate.
+     */
     static construiesteConditiiDinObiect(obParam = {}) {
         const campuri = Utilizator.mapareCampuri(obParam);
         const conditiiAnd = [];
@@ -137,6 +221,12 @@ class Utilizator {
         return { conditiiAnd, valori };
     }
 
+    /**
+     * Actualizeaza utilizatorul curent in baza de date.
+     *
+     * @param {object} [dateNoi={}] - Datele noi care trebuie salvate.
+     * @returns {Promise<import("pg").QueryResult>} Rezultatul query-ului de update.
+     */
     async modifica(dateNoi = {}) {
         if (!this.username) {
             throw new Error("Utilizatorul curent nu are username");
@@ -199,6 +289,11 @@ class Utilizator {
         });
     }
 
+    /**
+     * Salveaza utilizatorul curent in baza de date si incearca sa trimita mailul de confirmare.
+     *
+     * @returns {Promise<import("pg").QueryResult>} Rezultatul query-ului de insert.
+     */
     async salvareUtilizator() {
         this.valideazaDateDeBaza();
 
@@ -260,6 +355,11 @@ class Utilizator {
         });
     }
 
+    /**
+     * Sterge utilizatorul curent din baza de date.
+     *
+     * @returns {Promise<import("pg").QueryResult>} Rezultatul query-ului de stergere.
+     */
     async sterge() {
         if (!this.username) {
             throw new Error("Utilizatorul curent nu are username");
@@ -289,6 +389,14 @@ class Utilizator {
         });
     }
 
+    /**
+     * Cauta sincron, prin callback, un utilizator dupa username.
+     *
+     * @param {string} username - Username-ul cautat.
+     * @param {object} obparam - Parametri auxiliari trimisi mai departe callback-ului.
+     * @param {(utilizator: Utilizator|null, obparam: object, eroare: number|null) => void} proceseazaUtiliz - Functia care proceseaza rezultatul.
+     * @returns {void}
+     */
     static getUtilizDupaUsername(username, obparam, proceseazaUtiliz) {
         if (!username) {
             proceseazaUtiliz(null, obparam, -1);
@@ -318,6 +426,12 @@ class Utilizator {
         );
     }
 
+    /**
+     * Cauta asincron un utilizator dupa username.
+     *
+     * @param {string} username - Username-ul cautat.
+     * @returns {Promise<Utilizator|null>} Utilizatorul gasit sau `null`.
+     */
     static async getUtilizDupaUsernameAsync(username) {
         if (!username) {
             return null;
@@ -343,6 +457,13 @@ class Utilizator {
         }
     }
 
+    /**
+     * Cauta utilizatori dupa proprietatile definite in obiectul primit si livreaza rezultatul prin callback.
+     *
+     * @param {object} obParam - Proprietatile folosite ca filtre.
+     * @param {(err: Error|null, listaUtiliz: Utilizator[]) => void} callback - Functia apelata cu rezultatul cautarii.
+     * @returns {void}
+     */
     static cauta(obParam, callback) {
         const { conditiiAnd, valori } = Utilizator.construiesteConditiiDinObiect(obParam);
 
@@ -365,6 +486,12 @@ class Utilizator {
         );
     }
 
+    /**
+     * Cauta asincron utilizatori dupa proprietatile definite in obiectul primit.
+     *
+     * @param {object} obParam - Proprietatile folosite ca filtre.
+     * @returns {Promise<Utilizator[]>} Lista utilizatorilor gasiti.
+     */
     static async cautaAsync(obParam) {
         const { conditiiAnd, valori } = Utilizator.construiesteConditiiDinObiect(obParam);
         const rezSelect = await AccesBD.getInstanta({ init: Utilizator.tipConexiune }).selectAsync(
@@ -379,10 +506,25 @@ class Utilizator {
         return rezSelect.rows.map((linie) => new Utilizator(linie));
     }
 
+    /**
+     * Verifica daca utilizatorul curent are un anumit drept.
+     *
+     * @param {symbol} drept - Dreptul verificat.
+     * @returns {boolean} `true` daca rolul utilizatorului include dreptul.
+     */
     areDreptul(drept) {
         return this.rol.areDreptul(drept);
     }
 
+    /**
+     * Trimite un e-mail utilizatorului curent.
+     *
+     * @param {string} subiect - Subiectul e-mailului.
+     * @param {string} mesajText - Varianta plain-text a mesajului.
+     * @param {string} mesajHtml - Varianta HTML a mesajului.
+     * @param {Array<object>} [atasamente=[]] - Lista de atasamente pentru `nodemailer`.
+     * @returns {Promise<object>} Rezultatul trimiterii e-mailului.
+     */
     async trimiteMail(subiect, mesajText, mesajHtml, atasamente = []) {
         let nodemailer;
 

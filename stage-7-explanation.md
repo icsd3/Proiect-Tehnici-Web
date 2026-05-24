@@ -9,6 +9,8 @@ At this point, the Stage 7 work covered by this file includes:
 - Task `Drepturi`
 - Task `Roluri`
 - Task `Utilizator`
+- Task `JSDoc`
+- Task `bootstrap_js`
 - the required cookie helper functions `setCookie`, `getCookie`, `deleteCookie`, and `deleteAllCookies`
 - the extra site cookie for the last visited page
 - the temporary 5-second cookie lifetime requested for presentation and testing
@@ -44,6 +46,8 @@ The earlier implementation notes already exist here:
 | Dedicated `Drepturi` object with symbol-based permissions exists and exports at least 7 rights | Done | [module_proprii/drepturi.js](module_proprii/drepturi.js) |
 | Dedicated role hierarchy and factory exist in `roluri.js` | Done | [module_proprii/roluri.js](module_proprii/roluri.js) |
 | Dedicated `Utilizator` class exists with validation, database methods, rights checks, and mail method | Done | [module_proprii/utilizator.js](module_proprii/utilizator.js), [module_proprii/parole.js](module_proprii/parole.js), [sql/03_create_users_schema.sql](sql/03_create_users_schema.sql) |
+| JSDoc added for classes and functions in own modules and for non-callback helper functions from the main program | Done | [module_proprii](module_proprii), [index.js](index.js) |
+| Bootstrap card components are used on the products page and appear progressively through JavaScript timing | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
 
 ## 1. Pattern Reused From `curs13`
 
@@ -452,3 +456,120 @@ So the method is implemented and ready for the expected workflow, but actual mai
 - configuring valid mail credentials
 
 That is the only intentional practical limitation in the current `Utilizator` implementation.
+
+## 18. Task `JSDoc`
+
+The project now includes the required JSDoc coverage for:
+
+- classes and functions from the custom modules inside [module_proprii](module_proprii)
+- the non-callback helper functions defined in [index.js](index.js)
+
+The JSDoc pass was added directly inside the current implementation files instead of generating separate documentation stubs, so the comments stay close to the real code that they explain.
+
+### 18.1 Module Coverage
+
+The following custom modules now contain JSDoc for their own classes and functions:
+
+- [module_proprii/accesbd.js](module_proprii/accesbd.js)
+- [module_proprii/drepturi.js](module_proprii/drepturi.js)
+- [module_proprii/roluri.js](module_proprii/roluri.js)
+- [module_proprii/parole.js](module_proprii/parole.js)
+- [module_proprii/utilizator.js](module_proprii/utilizator.js)
+
+That includes:
+
+- class purpose comments
+- method purpose comments
+- parameter type descriptions
+- return value descriptions
+
+### 18.2 Main Program Coverage
+
+The helper functions from [index.js](index.js) also now have JSDoc, including the groups responsible for:
+
+- JSON parsing and validation
+- gallery loading and processing
+- SCSS compilation
+- shared page rendering
+- product queries
+- server startup
+
+Callback functions passed into Express, `fs.watch()`, or render/query calls were intentionally not documented separately, because the task explicitly excludes callback functions from the main-program requirement.
+
+## 19. Task `bootstrap_js`
+
+The products page now satisfies the Bootstrap card requirement from Stage 7.
+
+Sources:
+
+- [views/pagini/produse.ejs](views/pagini/produse.ejs)
+- [resurse/js/produse.js](resurse/js/produse.js)
+- [resurse/css/general.css](resurse/css/general.css)
+
+### 19.1 What Was Changed
+
+The old custom product layout was replaced with real Bootstrap card components:
+
+- the product list now uses a Bootstrap responsive row layout
+- each product is rendered inside a `.card`
+- each card contains:
+  - a Bootstrap-style header with badges
+  - a `card-img-top` image
+  - a `card-body` with the name, description, and details
+  - a `card-footer` with a button that links to the product page
+
+This matches the requirement that the card should include a link or button to the product's own page.
+
+### 19.2 Progressive Appearance Animation
+
+The task also asks for the cards to appear progressively through JavaScript using `setTimeout()` or `setInterval()`.
+
+That behavior is now implemented in [resurse/js/produse.js](resurse/js/produse.js) with:
+
+- `setTimeout()`
+- a delay step of `100ms`
+- one timer per visible card
+
+So the current behavior is:
+
+| Card position | Delay |
+|---|---:|
+| first visible card | `100ms` |
+| second visible card | `200ms` |
+| third visible card | `300ms` |
+| etc. | `n * 100ms` |
+
+The script applies this staggered reveal:
+
+- on the initial page load
+- after filtering
+- after sorting ascending
+- after sorting descending
+- after resetting the filters
+
+### 19.3 How The Animation Is Rendered
+
+The JavaScript adds and removes helper classes on each product article:
+
+- `card-produs--pregatit`
+- `card-produs--vizibil`
+
+The corresponding transition styles are defined in [resurse/css/general.css](resurse/css/general.css), where the cards:
+
+- start slightly lower on the page
+- start with `opacity: 0`
+- transition into their final visible position
+
+So the reveal is controlled by JavaScript timing and rendered through CSS transitions, which stays faithful to the task statement.
+
+### 19.4 Relation To `curs13`
+
+`curs13` does not contain the exact final Bootstrap-card implementation required by this task, so this part could not be copied one-to-one.
+
+Still, the implementation follows the same project split used there:
+
+- markup in the EJS page
+- shared styling in the CSS resources
+- page behavior in a dedicated browser-side JavaScript file
+
+That keeps the solution aligned with the same architectural pattern even though the card-specific requirement had to be completed directly in the current project.
