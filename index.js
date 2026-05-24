@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const sass = require("sass");
 const sharp = require("sharp");
-const { Pool } = require("pg");
+const AccesBD = require("./module_proprii/accesbd.js");
 
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
 const varianteGalerie = [
@@ -19,13 +19,6 @@ const varianteGalerie = [
 const paginiCuGalerieStatica = new Set(["index", "galerie"]);
 const paginiCuGalerieAnimata = new Set(["galerie"]);
 const numereImaginiGalerieAnimata = [9, 12, 15];
-const poolPostgres = new Pool({
-    host: process.env.PGHOST || "localhost",
-    port: Number(process.env.PGPORT) || 5432,
-    database: process.env.PGDATABASE || "themetalvault",
-    user: process.env.PGUSER || "themetalvault_user",
-    password: process.env.PGPASSWORD || "themetalvault_dev_password"
-});
 const app = express();
 const obGlobal = {
     obErori: null,
@@ -39,6 +32,8 @@ const obGlobal = {
 };
 
 global.obGlobal = obGlobal;
+
+const accesBD = AccesBD.getInstanta();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -770,7 +765,7 @@ async function obtineCategoriiProduseMeniu() {
         return obGlobal.categoriiProduseMeniu;
     }
 
-    const rezultat = await poolPostgres.query(`
+    const rezultat = await accesBD.queryAsync(`
         SELECT
             unnest(enum_range(NULL::categorie_produs))::text AS categorie
         ORDER BY categorie
@@ -781,54 +776,49 @@ async function obtineCategoriiProduseMeniu() {
 }
 
 async function obtineProduse(categorie = null) {
-    const valori = [];
-    let clauzaWhere = "";
-
-    if (categorie) {
-        clauzaWhere = "WHERE categorie = $1";
-        valori.push(categorie);
-    }
-
-    const rezultat = await poolPostgres.query(`
-        SELECT
-            id,
-            nume,
-            descriere,
-            imagine,
-            categorie,
-            subcategorie,
-            pret,
-            data_adaugare,
-            culoare,
-            taguri,
-            editie_limitata
-        FROM produse
-        ${clauzaWhere}
-        ORDER BY id
-    `, valori);
+    const conditiiAnd = categorie ? ["categorie = $1"] : [];
+    const valori = categorie ? [categorie] : [];
+    const rezultat = await accesBD.selectAsync({
+        tabel: "produse",
+        campuri: [
+            "id",
+            "nume",
+            "descriere",
+            "imagine",
+            "categorie",
+            "subcategorie",
+            "pret",
+            "data_adaugare",
+            "culoare",
+            "taguri",
+            "editie_limitata"
+        ],
+        conditiiAnd
+    }, valori);
 
     return rezultat.rows;
 }
 
 async function obtineProdusDupaId(idProdus) {
-    const rezultat = await poolPostgres.query(`
-        SELECT
-            id,
-            nume,
-            descriere,
-            imagine,
-            categorie,
-            subcategorie,
-            pret,
-            greutate_grame,
-            data_adaugare,
-            culoare,
-            taguri,
-            editie_limitata,
-            stoc
-        FROM produse
-        WHERE id = $1
-    `, [idProdus]);
+    const rezultat = await accesBD.selectAsync({
+        tabel: "produse",
+        campuri: [
+            "id",
+            "nume",
+            "descriere",
+            "imagine",
+            "categorie",
+            "subcategorie",
+            "pret",
+            "greutate_grame",
+            "data_adaugare",
+            "culoare",
+            "taguri",
+            "editie_limitata",
+            "stoc"
+        ],
+        conditiiAnd: ["id = $1"]
+    }, [idProdus]);
 
     return rezultat.rows[0] || null;
 }
