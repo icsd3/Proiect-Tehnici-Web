@@ -20,6 +20,9 @@
                         text: `${dataCalendaristica.getDate()}-${luniRo[dataCalendaristica.getMonth()]}-${dataCalendaristica.getFullYear()} [${zileRo[dataCalendaristica.getDay()]}]`
                     };
                     const taguriProdus = produs.taguri.split(",").map((tag) => tag.trim()).filter(Boolean);
+                    const imaginiProdus = Array.isArray(produs.imagini) && produs.imagini.length
+                        ? produs.imagini
+                        : [{ src: produs.imagine, alt: `${produs.nume} - imagine principala` }];
                 %>
 
                 <p class="produs-unic__breadcrumb"><a href="/produse">Inapoi la produse</a></p>
@@ -27,7 +30,42 @@
 
                 <article class="produs-unic__card">
                     <div class="produs-unic__media">
-                        <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                        <div class="produs-unic__galerie" data-galerie-produs>
+                            <img
+                                class="produs-unic__imagine-curenta"
+                                src="<%= imaginiProdus[0].src %>"
+                                alt="<%= imaginiProdus[0].alt %>"
+                                data-galerie-imagine
+                            >
+
+                            <% if (imaginiProdus.length > 1) { %>
+                                <div class="produs-unic__galerie-actiuni" aria-label="Navigare imagini produs">
+                                    <button class="btn btn-outline-primary" type="button" title="Imaginea precedenta" aria-label="Imaginea precedenta" data-galerie-prev>
+                                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="produs-unic__galerie-contor" aria-live="polite" data-galerie-contor>1 / <%= imaginiProdus.length %></span>
+                                    <button class="btn btn-outline-primary" type="button" title="Imaginea urmatoare" aria-label="Imaginea urmatoare" data-galerie-next>
+                                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div class="produs-unic__miniaturi" aria-label="Selectare imagine produs">
+                                    <% imaginiProdus.forEach(function (imagine, index) { %>
+                                        <button
+                                            class="produs-unic__miniatura <%= index === 0 ? "produs-unic__miniatura--activa" : "" %>"
+                                            type="button"
+                                            aria-label="Afiseaza imaginea <%= index + 1 %>"
+                                            aria-pressed="<%= index === 0 ? "true" : "false" %>"
+                                            data-galerie-index="<%= index %>"
+                                            data-galerie-src="<%= imagine.src %>"
+                                            data-galerie-alt="<%= imagine.alt %>"
+                                        >
+                                            <img src="<%= imagine.src %>" alt="">
+                                        </button>
+                                    <% }) %>
+                                </div>
+                            <% } %>
+                        </div>
                     </div>
 
                     <p class="produs-unic__descriere"><%= produs.descriere %></p>
@@ -61,6 +99,7 @@
     </main>
 
     <%- include("../fragmente/footer") %>
+    <script src="/resurse/js/produs.js"></script>
 </body>
 
 </html>

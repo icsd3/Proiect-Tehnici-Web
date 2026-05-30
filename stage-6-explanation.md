@@ -12,6 +12,8 @@ At this point, the Stage 6 work covered by this file includes:
 - Task 8: filter / sort / calculate / reset actions
 - Task 9: reset confirmation and default restoration
 - Task 10: validation before action buttons run
+- Bonus 9: multiple images per product, deduced from each product's own image folder
+- Bonus 11: quick product details modal opened from the product image on `/produse`
 - later responsive refinements for the individual product page
 - later Bootstrap styling refinements for the products page
 - later site-wide light / dark theme toggle
@@ -68,6 +70,8 @@ That foundation matters because the later Stage 6 tasks are built on top of:
 | Reset asks for confirmation and restores default display | Done | [resurse/js/produse.js](resurse/js/produse.js) |
 | Button-triggered filter / sort / calculate operations validate inputs first | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
 | Single-product page keeps site shell and uses responsive 3 / 2 / 1 detail layout | Done | [views/pagini/produs.ejs](views/pagini/produs.ejs), [resurse/css/general.css](resurse/css/general.css) |
+| Bonus 9 product image gallery, with one folder per product | Done | [sql/02_create_products_schema_and_seed.sql](sql/02_create_products_schema_and_seed.sql), [index.js](index.js), [views/pagini/produs.ejs](views/pagini/produs.ejs), [resurse/js/produs.js](resurse/js/produs.js), [resurse/css/general.css](resurse/css/general.css), [resurse/imagini/produse](resurse/imagini/produse) |
+| Bonus 11 product details modal on `/produse` | Done | [index.js](index.js), [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
 | Bootstrap-styled controls on the products page | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/scss/custom.scss](resurse/scss/custom.scss), [resurse/css/custom.css](resurse/css/custom.css), [resurse/css/general.css](resurse/css/general.css) |
 | Site-wide light / dark theme toggle in the shared header | Done | [views/fragmente/header.ejs](views/fragmente/header.ejs), [views/fragmente/head.ejs](views/fragmente/head.ejs), [resurse/js/tema.js](resurse/js/tema.js), [resurse/css/reset.css](resurse/css/reset.css), [resurse/css/general.css](resurse/css/general.css) |
 
@@ -207,7 +211,7 @@ The individual page displays all stored details, including fields that do not ap
 The products listing now links into the individual page through:
 
 - the product title
-- the product image
+- the footer button
 
 Source: [views/pagini/produse.ejs](views/pagini/produse.ejs)
 
@@ -485,9 +489,87 @@ Current behavior:
 
 The previous products-page storage key is also read once as a fallback, then removed when the new site-wide switch is used.
 
+## 16. Bonus 9 Multiple Product Images
+
+Bonus 9 requires every product to support multiple images on its own product page. The current implementation stores the image folder in the product data and deduces the actual images from the files in that folder.
+
+The database now keeps `folder_imagini` on `produse` instead of storing a separate `imagine` path:
+
+```sql
+folder_imagini VARCHAR(255) NOT NULL DEFAULT '/resurse/imagini/produse'
+```
+
+The migration also drops the old `imagine` column and assigns each row to an individual folder:
+
+```sql
+UPDATE produse
+SET folder_imagini = '/resurse/imagini/produse/produs-' || id::text;
+```
+
+Source: [sql/02_create_products_schema_and_seed.sql](sql/02_create_products_schema_and_seed.sql)
+
+The filesystem mirrors that database value. Each product has its own folder under [resurse/imagini/produse](resurse/imagini/produse), for example:
+
+| Product folder | Files |
+|---|---|
+| `produs-1` | `01-principala.jpg`, `02-placeholder_1.svg`, `03-placeholder_2.svg` |
+| `produs-2` | `01-principala.jpg`, `02-placeholder_1.svg`, `03-placeholder_2.svg` |
+| ... | same structure through `produs-20` |
+
+The main product image is therefore the first image in the product folder after filename sorting. It is not read from a hardcoded database image path.
+
+The server helper in [index.js](index.js):
+
+- reads `folder_imagini` for list pages and individual product pages
+- scans the folder on disk
+- keeps only image extensions such as `.jpg`, `.png`, `.svg`, and `.webp`
+- sorts the filenames, so `01-principala...` becomes the main image
+- adds computed `imagine` and `imagini` properties to the product object before rendering EJS
+
+This keeps existing templates simple while removing the stored `imagine` database column.
+
+The individual product page uses the computed `imagini` list in [views/pagini/produs.ejs](views/pagini/produs.ejs). It displays the first image as the current image, then provides:
+
+- previous / next buttons
+- a live image counter
+- thumbnail buttons for direct image selection
+
+The behavior for changing the current image is handled in [resurse/js/produs.js](resurse/js/produs.js). The gallery styling and thumbnail overflow fixes are in [resurse/css/general.css](resurse/css/general.css).
+
+## 17. Bonus 11 Product Details Modal On `/produse`
+
+Bonus 11 requires each product on the products page to be able to show its details directly in a modal box, without forcing the user to navigate away to the separate product page.
+
+The products route now sends the list page enough data to render the same kind of detail body used by the individual product page, including fields such as:
+
+- `greutate_grame`
+- `stoc`
+- `imagini`
+
+Source: [index.js](index.js)
+
+On [views/pagini/produse.ejs](views/pagini/produse.ejs), the product image is now a button instead of a navigation link. Clicking that image button opens the matching `<dialog>` element for the product. The modal body reuses the product detail structure:
+
+- image gallery with current image, counter, previous / next buttons, and thumbnails
+- description
+- main product details
+- secondary product details
+- tag list
+
+The title link and the footer button still go to `/produs/:id`, so the dedicated individual product page remains available.
+
+The modal behavior is handled in [resurse/js/produse.js](resurse/js/produse.js):
+
+- image buttons open the matching modal through `showModal()`
+- the close button closes the modal
+- clicking outside the modal content closes it
+- gallery buttons inside the modal switch the current image
+
+The modal is styled in [resurse/css/general.css](resurse/css/general.css) using the existing site color variables and product-page helper variables, so it follows the same chromatic scheme as the rest of the site.
+
 ## Conclusion
 
-The completed parts of Stage 6 now include Task 2, Task 4, Task 7, Task 8, Task 9, and Task 10, together with the later products-page refinements:
+The completed parts of Stage 6 now include Task 2, Task 4, Task 7, Task 8, Task 9, Task 10, Bonus 9, and Bonus 11, together with the later products-page refinements:
 
 | Completed item | Status |
 |---|---:|
@@ -499,6 +581,8 @@ The completed parts of Stage 6 now include Task 2, Task 4, Task 7, Task 8, Task 
 | Required Stage 6 buttons | Done |
 | Reset confirmation | Done |
 | Validation before button actions | Done |
+| Bonus 9 multiple images per product from individual folders | Done |
+| Bonus 11 product details modal opened from the product image | Done |
 | Responsive 3 / 2 / 1 single-product detail layout | Done |
 | Bootstrap-styled products controls | Done |
 | Site-wide light / dark theme toggle with persistence | Done |

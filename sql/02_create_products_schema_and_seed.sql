@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS produse (
     id INTEGER PRIMARY KEY CHECK (id > 0),
     nume VARCHAR(120) NOT NULL,
     descriere TEXT NOT NULL,
-    imagine VARCHAR(255) NOT NULL,
+    folder_imagini VARCHAR(255) NOT NULL DEFAULT '/resurse/imagini/produse',
     categorie categorie_produs NOT NULL,
     subcategorie VARCHAR(60) NOT NULL,
     pret NUMERIC(8, 2) NOT NULL CHECK (pret >= 0),
@@ -33,11 +33,24 @@ CREATE TABLE IF NOT EXISTS produse (
     stoc INTEGER NOT NULL CHECK (stoc >= 0)
 );
 
+ALTER TABLE produse
+    ADD COLUMN IF NOT EXISTS folder_imagini VARCHAR(255);
+
+ALTER TABLE produse
+    DROP COLUMN IF EXISTS imagine;
+
+UPDATE produse
+SET folder_imagini = '/resurse/imagini/produse/produs-' || id::text
+WHERE folder_imagini IS NULL OR btrim(folder_imagini) = '';
+
+ALTER TABLE produse
+    ALTER COLUMN folder_imagini SET DEFAULT '/resurse/imagini/produse',
+    ALTER COLUMN folder_imagini SET NOT NULL;
+
 INSERT INTO produse (
     id,
     nume,
     descriere,
-    imagine,
     categorie,
     subcategorie,
     pret,
@@ -52,7 +65,6 @@ INSERT INTO produse (
         1,
         'Tricou Blackened Logo',
         'Tricou unisex din bumbac gros, cu logo TheMetalVault si print frontal inspirat de black metal.',
-        '/resurse/imagini/imagine_2.jpg',
         'tricouri',
         'tricou unisex',
         89.99,
@@ -67,7 +79,6 @@ INSERT INTO produse (
         2,
         'Tricou Doom Cathedral',
         'Tricou oversize cu grafica lenta si masiva, potrivit pentru colectii doom si sludge.',
-        '/resurse/imagini/imagine_3.jpg',
         'tricouri',
         'tricou oversize',
         104.50,
@@ -82,7 +93,6 @@ INSERT INTO produse (
         3,
         'Tricou Thrash Riot',
         'Model rosu cu print contrastant, creat pentru fanii thrash si groove metal.',
-        '/resurse/imagini/imagine_4.jpg',
         'tricouri',
         'tricou slim',
         79.90,
@@ -97,7 +107,6 @@ INSERT INTO produse (
         4,
         'Tricou Death Bloom',
         'Tricou negru cu detaliu floral intunecat si logo discret pe spate.',
-        '/resurse/imagini/imagine_5.jpg',
         'tricouri',
         'tricou unisex',
         94.00,
@@ -112,7 +121,6 @@ INSERT INTO produse (
         5,
         'Hanorac Vault Zip',
         'Hanorac cu fermoar, buzunare laterale si broderie mica TheMetalVault.',
-        '/resurse/imagini/imagine_6.jpg',
         'hanorace',
         'hanorac cu fermoar',
         189.99,
@@ -127,7 +135,6 @@ INSERT INTO produse (
         6,
         'Hanorac Funeral Green',
         'Hanorac gros cu imprimeu verde inchis si grafica inspirata de funeral doom.',
-        '/resurse/imagini/imagine_7.jpg',
         'hanorace',
         'hanorac pullover',
         214.90,
@@ -142,7 +149,6 @@ INSERT INTO produse (
         7,
         'Hanorac Tour Crewneck',
         'Bluza crewneck pentru concerte, cu lista fictiva de turneu pe spate.',
-        '/resurse/imagini/imagine_8.jpg',
         'hanorace',
         'crewneck',
         169.50,
@@ -157,7 +163,6 @@ INSERT INTO produse (
         8,
         'Vinyl Midnight Pressing',
         'LP negru de colectie, editie standard, cu coperta gatefold si insert inclus.',
-        '/resurse/imagini/imagine_9.jpg',
         'muzica',
         'vinyl LP',
         139.99,
@@ -172,7 +177,6 @@ INSERT INTO produse (
         9,
         'Vinyl Crimson Splatter',
         'Vinyl color rosu-negru, presare limitata pentru colectii speciale.',
-        '/resurse/imagini/imagine_10.jpg',
         'muzica',
         'vinyl color',
         179.99,
@@ -187,7 +191,6 @@ INSERT INTO produse (
         10,
         'CD Demo Archives',
         'CD cu selectie demo si booklet de 12 pagini, dedicat fanilor de arhive obscure.',
-        '/resurse/imagini/imagine_11.jpg',
         'muzica',
         'CD',
         59.99,
@@ -202,7 +205,6 @@ INSERT INTO produse (
         11,
         'Caseta Tape Ritual',
         'Caseta audio cu carcasa transparenta si sticker lateral pentru colectie.',
-        '/resurse/imagini/imagine_12.jpg',
         'muzica',
         'caseta',
         49.50,
@@ -217,7 +219,6 @@ INSERT INTO produse (
         12,
         'Patch Woven Skull',
         'Patch tesut cu margine surfilata, potrivit pentru veste denim si geci de piele.',
-        '/resurse/imagini/galerie/01.jpg',
         'accesorii',
         'patch',
         24.99,
@@ -232,7 +233,6 @@ INSERT INTO produse (
         13,
         'Set Pin-uri Festival',
         'Set de trei pin-uri metalice cu finisaje diferite pentru rucsac sau geaca.',
-        '/resurse/imagini/galerie/02.jpg',
         'accesorii',
         'pin-uri',
         39.99,
@@ -247,7 +247,6 @@ INSERT INTO produse (
         14,
         'Caciula Vault Beanie',
         'Beanie negru cu eticheta cusuta si material moale pentru sezon rece.',
-        '/resurse/imagini/galerie/03.jpg',
         'accesorii',
         'caciula',
         69.90,
@@ -262,7 +261,6 @@ INSERT INTO produse (
         15,
         'Curea Studded Stage',
         'Curea cu tinte metalice si catarama mata, gandita pentru tinute de concert.',
-        '/resurse/imagini/galerie/04.jpg',
         'accesorii',
         'curea',
         84.90,
@@ -277,7 +275,6 @@ INSERT INTO produse (
         16,
         'Poster Infernal Tour',
         'Poster A2 cu grafica de turneu si finisaj mat, livrat in tub protector.',
-        '/resurse/imagini/galerie/05.jpg',
         'postere',
         'poster A2',
         34.99,
@@ -292,7 +289,6 @@ INSERT INTO produse (
         17,
         'Print Ritual Artwork',
         'Print artistic pe hartie groasa, numerotat manual pentru colectionari.',
-        '/resurse/imagini/galerie/06.jpg',
         'postere',
         'art print',
         119.00,
@@ -307,7 +303,6 @@ INSERT INTO produse (
         18,
         'Poster Festival Grid',
         'Poster decorativ cu layout tip afis de festival si paleta contrastanta.',
-        '/resurse/imagini/galerie/07.jpg',
         'postere',
         'poster A3',
         29.90,
@@ -322,7 +317,6 @@ INSERT INTO produse (
         19,
         'Vinyl Gatefold Doom',
         'Editie vinyl gatefold cu doua discuri si coperta laminata.',
-        '/resurse/imagini/galerie/08.jpg',
         'muzica',
         'vinyl dublu',
         219.99,
@@ -337,7 +331,6 @@ INSERT INTO produse (
         20,
         'Pachet Battle Jacket',
         'Pachet de accesorii pentru vesta: patch mare, doua pin-uri si sticker set.',
-        '/resurse/imagini/galerie/09.jpg',
         'accesorii',
         'pachet merch',
         99.99,
@@ -351,7 +344,7 @@ INSERT INTO produse (
 ON CONFLICT (id) DO UPDATE SET
     nume = EXCLUDED.nume,
     descriere = EXCLUDED.descriere,
-    imagine = EXCLUDED.imagine,
+    folder_imagini = EXCLUDED.folder_imagini,
     categorie = EXCLUDED.categorie,
     subcategorie = EXCLUDED.subcategorie,
     pret = EXCLUDED.pret,
@@ -361,6 +354,9 @@ ON CONFLICT (id) DO UPDATE SET
     taguri = EXCLUDED.taguri,
     editie_limitata = EXCLUDED.editie_limitata,
     stoc = EXCLUDED.stoc;
+
+UPDATE produse
+SET folder_imagini = '/resurse/imagini/produse/produs-' || id::text;
 
 GRANT USAGE ON SCHEMA public TO themetalvault_user;
 GRANT USAGE ON TYPE categorie_produs TO themetalvault_user;

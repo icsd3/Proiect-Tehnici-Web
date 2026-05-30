@@ -213,9 +213,9 @@
                         </div>
                     </section>
 
-                    <div class="lista-produse row row-cols-1 row-cols-lg-5 g-4">
-                        <% for (const produs of listaProduse) { %>
-                            <% const dataAfisata = dataProdus(produs.data_adaugare); %>
+	                    <div class="lista-produse row row-cols-1 row-cols-lg-3 g-4">
+	                        <% for (const produs of listaProduse) { %>
+	                            <% const dataAfisata = dataProdus(produs.data_adaugare); %>
                             <article
                                 id="ar_ent_<%= produs.id %>"
                                 class="card-produs col <%= produs.categorie %>"
@@ -235,20 +235,20 @@
                                             <span class="badge text-bg-secondary text-dark">Editie limitata</span>
                                         <% } else { %>
                                             <span class="badge text-bg-warning text-light">Standard</span>
-                                        <% } %>
-                                    </div>
-
-                                    <a class="card-produs__media-link" href="/produs/<%= produs.id %>">
-                                        <img class="card-img-top" src="<%= produs.imagine %>" alt="<%= produs.nume %>">
-                                    </a>
-
-                                    <div class="card-body d-flex flex-column gap-3">
-                                        <div>
-                                            <h3 class="card-title h5 mb-2">
-                                                <a class="card-produs__titlu-link stretched-link text-decoration-none" href="/produs/<%= produs.id %>"><%= produs.nume %></a>
-                                            </h3>
-                                            <p class="card-produs__descriere card-text text-body-secondary mb-0"><%= produs.descriere %></p>
-                                        </div>
+	                                        <% } %>
+	                                    </div>
+	
+	                                    <button class="card-produs__media-link card-produs__media-buton" type="button" aria-haspopup="dialog" aria-controls="modal-produs-<%= produs.id %>" data-modal-produs="modal-produs-<%= produs.id %>">
+	                                        <img class="card-img-top" src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+	                                    </button>
+	
+	                                    <div class="card-body d-flex flex-column gap-3">
+	                                        <div>
+	                                            <h3 class="card-title h5 mb-2">
+	                                                <a class="card-produs__titlu-link text-decoration-none" href="/produs/<%= produs.id %>"><%= produs.nume %></a>
+	                                            </h3>
+	                                            <p class="card-produs__descriere card-text text-body-secondary mb-0"><%= produs.descriere %></p>
+	                                        </div>
 
                                         <div class="row row-cols-1 row-cols-sm-2 g-2 small">
                                             <div class="col">
@@ -285,12 +285,101 @@
                                         </a>
                                     </div>
                                 </div>
-                            </article>
-                        <% } %>
-                    </div>
-                <% } else { %>
-                    <p>Nu exista produse de afisat momentan.</p>
-                <% } %>
+	                            </article>
+	                        <% } %>
+	                    </div>
+
+	                    <div class="modale-produse" aria-label="Detalii rapide produse">
+	                        <% for (const produs of listaProduse) { %>
+	                            <%
+	                                const dataAfisata = dataProdus(produs.data_adaugare);
+	                                const taguriProdus = produs.taguri.split(",").map((tag) => tag.trim()).filter(Boolean);
+	                                const imaginiProdus = Array.isArray(produs.imagini) && produs.imagini.length
+	                                    ? produs.imagini
+	                                    : [{ src: produs.imagine, alt: `${produs.nume} - imagine principala` }];
+	                            %>
+	                            <dialog class="modal-produs" id="modal-produs-<%= produs.id %>" aria-labelledby="titlu-modal-produs-<%= produs.id %>">
+	                                <div class="modal-produs__continut">
+	                                    <header class="modal-produs__header">
+	                                        <h3 id="titlu-modal-produs-<%= produs.id %>"><%= produs.nume %></h3>
+	                                        <button class="modal-produs__inchide" type="button" aria-label="Inchide detaliile produsului" data-modal-inchide>
+	                                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+	                                        </button>
+	                                    </header>
+
+	                                    <article class="produs-unic__card modal-produs__card">
+	                                        <div class="produs-unic__media">
+	                                            <div class="produs-unic__galerie" data-galerie-produs>
+	                                                <img
+	                                                    class="produs-unic__imagine-curenta"
+	                                                    src="<%= imaginiProdus[0].src %>"
+	                                                    alt="<%= imaginiProdus[0].alt %>"
+	                                                    data-galerie-imagine
+	                                                >
+
+	                                                <% if (imaginiProdus.length > 1) { %>
+	                                                    <div class="produs-unic__galerie-actiuni" aria-label="Navigare imagini produs">
+	                                                        <button class="btn btn-outline-primary" type="button" title="Imaginea precedenta" aria-label="Imaginea precedenta" data-galerie-prev>
+	                                                            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+	                                                        </button>
+	                                                        <span class="produs-unic__galerie-contor" aria-live="polite" data-galerie-contor>1 / <%= imaginiProdus.length %></span>
+	                                                        <button class="btn btn-outline-primary" type="button" title="Imaginea urmatoare" aria-label="Imaginea urmatoare" data-galerie-next>
+	                                                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+	                                                        </button>
+	                                                    </div>
+
+	                                                    <div class="produs-unic__miniaturi" aria-label="Selectare imagine produs">
+	                                                        <% imaginiProdus.forEach(function (imagine, index) { %>
+	                                                            <button
+	                                                                class="produs-unic__miniatura <%= index === 0 ? "produs-unic__miniatura--activa" : "" %>"
+	                                                                type="button"
+	                                                                aria-label="Afiseaza imaginea <%= index + 1 %>"
+	                                                                aria-pressed="<%= index === 0 ? "true" : "false" %>"
+	                                                                data-galerie-index="<%= index %>"
+	                                                                data-galerie-src="<%= imagine.src %>"
+	                                                                data-galerie-alt="<%= imagine.alt %>"
+	                                                            >
+	                                                                <img src="<%= imagine.src %>" alt="">
+	                                                            </button>
+	                                                        <% }) %>
+	                                                    </div>
+	                                                <% } %>
+	                                            </div>
+	                                        </div>
+
+	                                        <p class="produs-unic__descriere"><%= produs.descriere %></p>
+
+	                                        <div class="produs-unic__detalii produs-unic__detalii--principale">
+	                                            <p><b>ID:</b> <span><%= produs.id %></span></p>
+	                                            <p><b>Categorie:</b> <span><%= produs.categorie %></span></p>
+	                                            <p><b>Subcategorie:</b> <span><%= produs.subcategorie %></span></p>
+	                                            <p><b>Pret:</b> <span><%= Number(produs.pret).toFixed(2) %> lei</span></p>
+	                                        </div>
+
+	                                        <div class="produs-unic__detalii produs-unic__detalii--secundare">
+	                                            <p><b>Greutate:</b> <span><%= produs.greutate_grame %> g</span></p>
+	                                            <p><b>Data adaugare:</b> <time datetime="<%= dataAfisata.iso %>"><%= dataAfisata.text %></time></p>
+	                                            <p><b>Culoare:</b> <span><%= produs.culoare %></span></p>
+	                                            <p><b>Editie limitata:</b> <span><%= produs.editie_limitata ? "da" : "nu" %></span></p>
+	                                            <p><b>Stoc disponibil:</b> <span><%= produs.stoc %></span></p>
+
+	                                            <div class="produs-unic__taguri">
+	                                                <b>Taguri:</b>
+	                                                <ul>
+	                                                    <% for (const tag of taguriProdus) { %>
+	                                                        <li><%= tag %></li>
+	                                                    <% } %>
+	                                                </ul>
+	                                            </div>
+	                                        </div>
+	                                    </article>
+	                                </div>
+	                            </dialog>
+	                        <% } %>
+	                    </div>
+	                <% } else { %>
+	                    <p>Nu exista produse de afisat momentan.</p>
+	                <% } %>
             </section>
         </div>
     </main>

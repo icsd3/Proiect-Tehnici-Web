@@ -633,6 +633,12 @@ html[data-bs-theme="light"] body {
 .card-produs__media-link {
     position: relative;
     display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
     overflow: hidden;
 }
 
@@ -696,6 +702,75 @@ html[data-bs-theme="light"] body {
     display: none;
 }
 
+.modale-produse {
+    display: contents;
+}
+
+.modal-produs {
+    width: min(72rem, calc(100vw - 2rem));
+    max-height: min(46rem, calc(100vh - 2rem));
+    padding: 0;
+    border: var(--bordura-medie) solid var(--culoare-contur);
+    border-radius: var(--raza-medie);
+    background-color: var(--produse-panou, var(--culoare-fundal));
+    color: var(--culoare-text);
+    box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+}
+
+.modal-produs::backdrop {
+    background-color: color-mix(in srgb, var(--culoare-fundal) 72%, transparent);
+    backdrop-filter: blur(0.15rem);
+}
+
+.modal-produs__continut {
+    max-height: inherit;
+    overflow: auto;
+}
+
+.modal-produs__header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spatiu-s);
+    padding: var(--spatiu-s) var(--spatiu-m);
+    border-bottom: var(--bordura-subtire) solid var(--culoare-contur);
+    background-color: color-mix(in srgb, var(--produse-panou, var(--culoare-fundal)) 88%, black);
+}
+
+.modal-produs__header h3 {
+    margin: 0;
+    color: var(--culoare-highlight);
+    font-size: 1.25rem;
+}
+
+.modal-produs__inchide {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    aspect-ratio: 1 / 1;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: var(--culoare-fundal);
+    color: var(--culoare-highlight);
+    cursor: pointer;
+}
+
+.modal-produs__inchide:hover,
+.modal-produs__inchide:focus-visible {
+    border-color: var(--culoare-highlight);
+    color: var(--culoare-text);
+}
+
+.modal-produs__card {
+    margin: 0;
+    padding: var(--spatiu-m);
+}
+
 .produs-unic__breadcrumb {
     margin-top: 0;
 }
@@ -718,17 +793,93 @@ html[data-bs-theme="light"] body {
 
 .produs-unic__media {
     grid-area: media;
+    min-width: 0;
 }
 
-.produs-unic__media img {
+.produs-unic__galerie {
+    display: grid;
+    gap: var(--spatiu-xs);
+    width: min(100%, 30rem);
+    max-width: 100%;
+    min-width: 0;
+}
+
+.produs-unic__imagine-curenta {
     display: block;
     width: 100%;
-    max-width: 30rem;
+    max-width: 100%;
+    min-width: 0;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border: var(--bordura-subtire) solid var(--culoare-contur);
     border-radius: var(--raza-mica);
     background-color: rgba(0, 0, 0, 0.35);
+}
+
+.produs-unic__galerie-actiuni {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--spatiu-xs);
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.produs-unic__galerie-actiuni .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    aspect-ratio: 1 / 1;
+}
+
+.produs-unic__galerie-contor {
+    justify-self: center;
+    color: var(--culoare-highlight);
+    font-weight: 700;
+}
+
+.produs-unic__miniaturi {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spatiu-xs);
+    width: 100%;
+    min-width: 0;
+}
+
+.produs-unic__miniatura {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 0.2rem;
+    border: var(--bordura-subtire) solid var(--culoare-contur);
+    border-radius: var(--raza-mica);
+    background-color: var(--culoare-fundal);
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.produs-unic__miniatura:hover,
+.produs-unic__miniatura:focus-visible,
+.produs-unic__miniatura--activa {
+    border-color: var(--culoare-highlight);
+    box-shadow: inset 0 0 0 0.15rem rgba(var(--bs-primary-rgb), 0.2);
+}
+
+.produs-unic__miniatura:hover,
+.produs-unic__miniatura:focus-visible {
+    transform: translateY(-0.08rem);
+}
+
+.produs-unic__miniatura img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    object-fit: fill;
+    border-radius: calc(var(--raza-mica) - 0.15rem);
 }
 
 .produs-unic__descriere {
@@ -1315,6 +1466,45 @@ math[display="block"] msub > mi:last-child {
         page-break-inside: avoid;
     }
 
+    .pagina-produse .filtre-produse,
+    .pagina-produse .rezultat-calcul-produse {
+        display: none !important;
+    }
+
+    .pagina-produse .lista-produse {
+        display: block !important;
+        margin: 0 !important;
+    }
+
+    .pagina-produse #produse {
+        break-inside: auto !important;
+        page-break-inside: auto !important;
+    }
+
+    .pagina-produse .card-produs {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        flex: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+
+    .pagina-produse .card-produs.produs-ascuns {
+        display: none !important;
+    }
+
+    .pagina-produse .card-produs:not(.produs-ascuns) ~ .card-produs:not(.produs-ascuns) {
+        break-before: page;
+        page-break-before: always;
+    }
+
+    .pagina-produse .card-produs > .card {
+        box-shadow: none !important;
+    }
+
     #diverse,
     #ghiduri {
         height: auto;
@@ -1394,7 +1584,7 @@ math[display="block"] msub > mi:last-child {
     .produs-unic__card {
         grid-template-columns: minmax(16rem, 1fr) minmax(16rem, 1fr);
         grid-template-areas:
-            "media pricipale"
+            "media principale"
             "media principale"
             "media secundare"
             "descriere secundare";
@@ -1474,7 +1664,8 @@ math[display="block"] msub > mi:last-child {
             "secundare";
     }
 
-    .produs-unic__media img {
+    .produs-unic__galerie,
+    .produs-unic__imagine-curenta {
         max-width: 100%;
     }
 }

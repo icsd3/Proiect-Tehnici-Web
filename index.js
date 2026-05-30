@@ -19,6 +19,7 @@ const varianteGalerie = [
 const paginiCuGalerieStatica = new Set(["index", "galerie"]);
 const paginiCuGalerieAnimata = new Set(["galerie"]);
 const numereImaginiGalerieAnimata = [9, 12, 15];
+const extensiiImaginiProdus = new Set([".avif", ".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"]);
 const app = express();
 const obGlobal = {
     obErori: null,
@@ -968,19 +969,21 @@ async function obtineProduse(categorie = null) {
             "id",
             "nume",
             "descriere",
-            "imagine",
+            "folder_imagini",
             "categorie",
             "subcategorie",
             "pret",
+            "greutate_grame",
             "data_adaugare",
             "culoare",
             "taguri",
-            "editie_limitata"
+            "editie_limitata",
+            "stoc"
         ],
         conditiiAnd
     }, valori);
 
-    return rezultat.rows;
+    return rezultat.rows.map(completeazaImaginiProdus);
 }
 
 /**
@@ -996,7 +999,7 @@ async function obtineProdusDupaId(idProdus) {
             "id",
             "nume",
             "descriere",
-            "imagine",
+            "folder_imagini",
             "categorie",
             "subcategorie",
             "pret",
@@ -1010,7 +1013,114 @@ async function obtineProdusDupaId(idProdus) {
         conditiiAnd: ["id = $1"]
     }, [idProdus]);
 
-    return rezultat.rows[0] || null;
+    const produs = rezultat.rows[0] || null;
+
+    if (produs) {
+        completeazaImaginiProdus(produs);
+    }
+
+    return produs;
+}
+
+/**
+ * Adauga pe obiectul produs imaginile deduse din folderul sau.
+ *
+ * @param {object} produs - Produsul citit din baza de date.
+ * @returns {object} Acelasi produs, completat cu `imagine` si `imagini`.
+ */
+function completeazaImaginiProdus(produs) {
+    produs.imagini = construiesteImaginiProdus(produs);
+    produs.imagine = produs.imagini[0]?.src || `/resurse/imagini/produse/produs-${produs.id}/01-principala.jpg`;
+
+    return produs;
+}
+
+/**
+ * Construieste lista imaginilor pentru pagina proprie a produsului.
+ *
+ * @param {object} produs - Produsul citit din baza de date.
+ * @returns {{src: string, alt: string}[]} Lista imaginilor afisabile.
+ */
+function construiesteImaginiProdus(produs) {
+    const folderImagini = typeof produs.folder_imagini === "string" && produs.folder_imagini.trim()
+        ? produs.folder_imagini.trim().replace(/\/+$/, "")
+        : `/resurse/imagini/produse/produs-${produs.id}`;
+    const imaginiDinFolder = obtineImaginiDinFolderProdus(folderImagini);
+
+    if (imaginiDinFolder.length) {
+        return imaginiDinFolder.map(function (src, index) {
+            return {
+                src,
+                alt: index === 0
+                    ? `${produs.nume} - imagine principala`
+                    : `${produs.nume} - imagine secundara ${index}`
+            };
+        });
+    }
+
+    return [
+        {
+            src: `${folderImagini}/01-principala.jpg`,
+            alt: `${produs.nume} - imagine principala`
+        },
+        {
+            src: `${folderImagini}/02-placeholder_1.svg`,
+            alt: `${produs.nume} - imagine secundara 1`
+        },
+        {
+            src: `${folderImagini}/03-placeholder_2.svg`,
+            alt: `${produs.nume} - imagine secundara 2`
+        }
+    ];
+}
+
+/**
+ * Citeste imaginile existente intr-un folder de produs.
+ *
+ * @param {string} folderImagini - Calea de server catre folderul produsului.
+ * @returns {string[]} Lista cailor de server, sortata dupa numele fisierului.
+ */
+function obtineImaginiDinFolderProdus(folderImagini) {
+    const caleServerFolder = normalizeazaCaleServer(folderImagini);
+
+    if (!caleServerFolder) {
+        return [];
+    }
+
+    const caleDiscFolder = caleServerCatreDisc(caleServerFolder);
+
+    try {
+        if (!fs.existsSync(caleDiscFolder) || !fs.statSync(caleDiscFolder).isDirectory()) {
+            return [];
+        }
+
+        return fs.readdirSync(caleDiscFolder, { withFileTypes: true })
+            .filter(function (intrare) {
+                return intrare.isFile() && extensiiImaginiProdus.has(path.extname(intrare.name).toLowerCase());
+            })
+            .map((intrare) => intrare.name)
+            .sort((a, b) => a.localeCompare(b, "ro"))
+            .map((numeFisier) => path.posix.join(caleServerFolder, numeFisier));
+    } catch (eroare) {
+        console.warn(`Nu s-au putut citi imaginile produsului din ${caleServerFolder}:`, eroare.message);
+        return [];
+    }
+}
+
+/**
+ * Normalizeaza o cale de server simpla si refuza traversarea prin "..".
+ *
+ * @param {string} caleServer - Calea de server de normalizat.
+ * @returns {string} Calea normalizata sau string vid daca este invalida.
+ */
+function normalizeazaCaleServer(caleServer) {
+    const segmente = String(caleServer || "").split(/[\\/]+/).filter(Boolean);
+
+    if (!segmente.length || segmente.includes("..")) {
+        return "";
+    }
+
+    return `/${segmente.join("/")}`;
 }
 
 initErori();

@@ -21,13 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const mesajValidare = document.getElementById("mesaj-validare-filtre");
     const butonFiltrare = document.getElementById("btn-filtreaza");
     const butonSortareAsc = document.getElementById("btn-sortare-asc");
-    const butonSortareDesc = document.getElementById("btn-sortare-desc");
-    const butonCalculeaza = document.getElementById("btn-calculeaza");
-    const butonResetare = document.getElementById("btn-reseteaza-filtre");
-    const intarziereAparitieCard = 100;
-    let mesajCalculActiv = null;
-    let timerMesajCalcul = null;
-    let timereAparitieCarduri = [];
+	const butonSortareDesc = document.getElementById("btn-sortare-desc");
+	const butonCalculeaza = document.getElementById("btn-calculeaza");
+	const butonResetare = document.getElementById("btn-reseteaza-filtre");
+	const butoaneModalProdus = Array.from(document.querySelectorAll("[data-modal-produs]"));
+	const modaleProdus = Array.from(document.querySelectorAll(".modal-produs"));
+	const galeriiProdus = Array.from(document.querySelectorAll("[data-galerie-produs]"));
+	const intarziereAparitieCard = 100;
+	let mesajCalculActiv = null;
+	let timerMesajCalcul = null;
+	let timereAparitieCarduri = [];
 
     function valoareText(element) {
         return element.value.trim().toLowerCase();
@@ -215,28 +218,102 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function afiseazaMesajCalcul(text) {
-        if (timerMesajCalcul) {
-            clearTimeout(timerMesajCalcul);
-        }
+	function seteazaImagineGalerie(galerie, indexNou) {
+		const imagineCurenta = galerie.querySelector("[data-galerie-imagine]");
+		const contor = galerie.querySelector("[data-galerie-contor]");
+		const butoaneMiniaturi = Array.from(galerie.querySelectorAll("[data-galerie-index]"));
 
-        if (mesajCalculActiv) {
-            mesajCalculActiv.remove();
-        }
+		if (!imagineCurenta || !butoaneMiniaturi.length) {
+			return;
+		}
 
-        mesajCalculActiv = document.createElement("div");
-        mesajCalculActiv.className = "rezultat-calcul-produse";
-        mesajCalculActiv.textContent = text;
-        document.body.appendChild(mesajCalculActiv);
+		const indexCurent = (indexNou + butoaneMiniaturi.length) % butoaneMiniaturi.length;
+		const butonActiv = butoaneMiniaturi[indexCurent];
+		imagineCurenta.src = butonActiv.dataset.galerieSrc;
+		imagineCurenta.alt = butonActiv.dataset.galerieAlt;
+		galerie.dataset.indexCurent = String(indexCurent);
 
-        timerMesajCalcul = window.setTimeout(function () {
-            if (mesajCalculActiv) {
-                mesajCalculActiv.remove();
-                mesajCalculActiv = null;
-            }
-            timerMesajCalcul = null;
-        }, 2000);
-    }
+		if (contor) {
+			contor.textContent = `${indexCurent + 1} / ${butoaneMiniaturi.length}`;
+		}
+
+		butoaneMiniaturi.forEach(function (buton, index) {
+			const esteActiv = index === indexCurent;
+			buton.classList.toggle("produs-unic__miniatura--activa", esteActiv);
+			buton.setAttribute("aria-pressed", esteActiv ? "true" : "false");
+		});
+	}
+
+	function initializeazaGalerieProdus(galerie) {
+		const butonAnterior = galerie.querySelector("[data-galerie-prev]");
+		const butonUrmator = galerie.querySelector("[data-galerie-next]");
+		const butoaneMiniaturi = Array.from(galerie.querySelectorAll("[data-galerie-index]"));
+
+		if (butoaneMiniaturi.length < 2) {
+			return;
+		}
+
+		galerie.dataset.indexCurent = "0";
+
+		butonAnterior?.addEventListener("click", function () {
+			seteazaImagineGalerie(galerie, Number(galerie.dataset.indexCurent) - 1);
+		});
+
+		butonUrmator?.addEventListener("click", function () {
+			seteazaImagineGalerie(galerie, Number(galerie.dataset.indexCurent) + 1);
+		});
+
+		butoaneMiniaturi.forEach(function (buton, index) {
+			buton.addEventListener("click", function () {
+				seteazaImagineGalerie(galerie, index);
+			});
+		});
+	}
+
+	function deschideModalProdus(idModal) {
+		const modal = document.getElementById(idModal);
+
+		if (!modal || modal.open) {
+			return;
+		}
+
+		if (typeof modal.showModal === "function") {
+			modal.showModal();
+		} else {
+			modal.setAttribute("open", "");
+		}
+	}
+
+	function inchideModalProdus(modal) {
+		if (typeof modal.close === "function") {
+			modal.close();
+		} else {
+			modal.removeAttribute("open");
+		}
+	}
+
+	function afiseazaMesajCalcul(text) {
+		if (timerMesajCalcul) {
+			clearTimeout(timerMesajCalcul);
+		}
+
+		if (mesajCalculActiv) {
+			mesajCalculActiv.remove();
+		}
+
+		mesajCalculActiv = document.createElement("div");
+		mesajCalculActiv.className = "rezultat-calcul-produse";
+		mesajCalculActiv.textContent = text;
+		document.body.appendChild(mesajCalculActiv);
+
+		timerMesajCalcul = window.setTimeout(function () {
+			if (mesajCalculActiv) {
+				mesajCalculActiv.remove();
+				mesajCalculActiv = null;
+			}
+			timerMesajCalcul = null;
+		}, 2000);
+	}
 
     function calculeazaSumaProduseVizibile() {
         aplicaFiltrele();
@@ -329,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
         animeazaAparitiaCardurilor();
     });
 
-    butonCalculeaza.addEventListener("click", function () {
+	butonCalculeaza.addEventListener("click", function () {
         if (!valideazaFiltre()) {
             return;
         }
@@ -337,8 +414,29 @@ document.addEventListener("DOMContentLoaded", function () {
         calculeazaSumaProduseVizibile();
     });
 
-    butonResetare.addEventListener("click", reseteazaFiltrele);
+	butonResetare.addEventListener("click", reseteazaFiltrele);
 
-    aplicaFiltrele();
-    animeazaAparitiaCardurilor();
+	butoaneModalProdus.forEach(function (buton) {
+		buton.addEventListener("click", function () {
+			deschideModalProdus(buton.dataset.modalProdus);
+		});
+	});
+
+	modaleProdus.forEach(function (modal) {
+		modal.addEventListener("click", function (eveniment) {
+			if (eveniment.target === modal) {
+				inchideModalProdus(modal);
+			}
+		});
+
+		const butonInchidere = modal.querySelector("[data-modal-inchide]");
+		butonInchidere?.addEventListener("click", function () {
+			inchideModalProdus(modal);
+		});
+	});
+
+	galeriiProdus.forEach(initializeazaGalerieProdus);
+
+	aplicaFiltrele();
+	animeazaAparitiaCardurilor();
 });
