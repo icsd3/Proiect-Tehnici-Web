@@ -591,6 +591,32 @@ html[data-bs-theme="light"] body {
     margin-top: var(--spatiu-s);
 }
 
+.produse-contor {
+    width: fit-content;
+    margin: var(--spatiu-s) 0 0;
+    padding: 0.45rem 0.8rem;
+    border: var(--bordura-subtire) solid color-mix(in srgb, var(--produse-border, var(--culoare-contur)) 72%, white);
+    border-radius: 0.35rem;
+    background-color: color-mix(in srgb, var(--produse-panou, transparent) 84%, transparent);
+    color: var(--produse-text, var(--culoare-text));
+    font-weight: 700;
+}
+
+.produse-contor span {
+    color: var(--produse-accent, var(--culoare-highlight));
+}
+
+.produse-fara-rezultate {
+    margin: 0;
+    padding: 1.25rem;
+    border: var(--bordura-subtire) dashed color-mix(in srgb, var(--produse-border, var(--culoare-contur)) 78%, white);
+    border-radius: 0.5rem;
+    background-color: color-mix(in srgb, var(--produse-panou, transparent) 86%, transparent);
+    color: var(--produse-text, var(--culoare-text));
+    font-weight: 700;
+    text-align: center;
+}
+
 .card-produs {
     min-width: 0;
     transition: opacity 0.45s ease, transform 0.45s ease;

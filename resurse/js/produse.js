@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const listaProduse = document.querySelector(".lista-produse");
     const articole = Array.from(document.querySelectorAll("#produse article[id^='ar_ent_']"));
+	const numarProduseAfisate = document.getElementById("numar-produse-afisate");
+	const mesajProduseFaraRezultate = document.getElementById("mesaj-produse-fara-rezultate");
     const ordineInitiala = new Map(articole.map((articol, index) => [articol.id, index]));
     const filtruText = document.getElementById("filtru-text");
     const filtruNume = document.getElementById("filtru-nume");
@@ -19,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const filtruDescriere = document.getElementById("filtru-descriere");
     const filtruTaguri = document.getElementById("filtru-taguri");
     const mesajValidare = document.getElementById("mesaj-validare-filtre");
-    const butonFiltrare = document.getElementById("btn-filtreaza");
     const butonSortareAsc = document.getElementById("btn-sortare-asc");
 	const butonSortareDesc = document.getElementById("btn-sortare-desc");
 	const butonCalculeaza = document.getElementById("btn-calculeaza");
@@ -64,6 +65,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function produseVizibile() {
         return articole.filter((articol) => !articol.classList.contains("produs-ascuns"));
     }
+
+	function actualizeazaNumarProduseAfisate() {
+		const numarVizibile = produseVizibile().length;
+
+		if (numarProduseAfisate) {
+			numarProduseAfisate.textContent = String(numarVizibile);
+		}
+
+		if (mesajProduseFaraRezultate) {
+			mesajProduseFaraRezultate.hidden = numarVizibile > 0;
+		}
+	}
 
     function reseteazaAnimatiaCardurilor() {
         for (const timerAparitie of timereAparitieCarduri) {
@@ -183,7 +196,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 articol.classList.remove("card-produs--pregatit", "card-produs--vizibil");
             }
         }
+
+		actualizeazaNumarProduseAfisate();
     }
+
+	function aplicaFiltreleDacaSuntValide() {
+		if (!valideazaFiltre()) {
+			return false;
+		}
+
+		aplicaFiltrele();
+		animeazaAparitiaCardurilor();
+		return true;
+	}
+
+	function esteFiltruLocal(element) {
+		return element === filtruText
+			|| element === filtruNume
+			|| element === filtruPret
+			|| element === filtruCuloare
+			|| element === filtruEditieLimitata
+			|| element === filtruDescriere
+			|| element === filtruTaguri
+			|| element.name === "filtru-subcategorie";
+	}
 
     function comparaProduse(articolA, articolB) {
         const comparatieSubcategorie = articolA.dataset.subcategorie.localeCompare(articolB.dataset.subcategorie, "ro", { sensitivity: "base" });
@@ -364,28 +400,20 @@ document.addEventListener("DOMContentLoaded", function () {
             actualizeazaAfisajPret();
         }
 
-        if (eveniment.target === filtruText || eveniment.target === filtruDescriere) {
-            curataValidarea();
-        }
+		if (esteFiltruLocal(eveniment.target)) {
+			aplicaFiltreleDacaSuntValide();
+		}
     });
 
     sectiuneFiltrare.addEventListener("change", function (eveniment) {
         if (eveniment.target && eveniment.target.name === "filtru-categorie") {
             navigheazaLaCategorie(categorieSelectata());
+			return;
         }
 
-        if (eveniment.target && eveniment.target.name === "filtru-subcategorie") {
-            curataValidarea();
-        }
-    });
-
-    butonFiltrare.addEventListener("click", function () {
-        if (!valideazaFiltre()) {
-            return;
-        }
-
-        aplicaFiltrele();
-        animeazaAparitiaCardurilor();
+		if (esteFiltruLocal(eveniment.target)) {
+			aplicaFiltreleDacaSuntValide();
+		}
     });
 
     butonSortareAsc.addEventListener("click", function () {

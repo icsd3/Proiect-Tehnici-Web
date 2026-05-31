@@ -12,8 +12,11 @@ At this point, the Stage 6 work covered by this file includes:
 - Task 8: filter / sort / calculate / reset actions
 - Task 9: reset confirmation and default restoration
 - Task 10: validation before action buttons run
+- Bonus 3: message when current filters match no products
+- Bonus 4: filtering happens immediately when filter values change
 - Bonus 9: multiple images per product, deduced from each product's own image folder
 - Bonus 11: quick product details modal opened from the product image on `/produse`
+- Bonus 15: live count of displayed products
 - later responsive refinements for the individual product page
 - later Bootstrap styling refinements for the products page
 - later site-wide light / dark theme toggle
@@ -64,14 +67,16 @@ That foundation matters because the later Stage 6 tasks are built on top of:
 | Subcategory checkbox group, checked by default | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js) |
 | Multiselect excludes unwanted values | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js) |
 | Category radio switches to the corresponding server-side subpage | Done | [resurse/js/produse.js](resurse/js/produse.js) |
-| `filtreaza` button present and functional | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js) |
+| Bonus 4 filtering applies automatically when filter values change | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js) |
 | Two-key sort buttons present and functional | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js) |
 | Calculation button with dynamic fixed popup for 2 seconds | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
 | Reset asks for confirmation and restores default display | Done | [resurse/js/produse.js](resurse/js/produse.js) |
-| Button-triggered filter / sort / calculate operations validate inputs first | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
+| Filter changes, sort buttons, and calculation validate inputs first | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
+| Bonus 3 no-products message after filtering | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
 | Single-product page keeps site shell and uses responsive 3 / 2 / 1 detail layout | Done | [views/pagini/produs.ejs](views/pagini/produs.ejs), [resurse/css/general.css](resurse/css/general.css) |
 | Bonus 9 product image gallery, with one folder per product | Done | [sql/02_create_products_schema_and_seed.sql](sql/02_create_products_schema_and_seed.sql), [index.js](index.js), [views/pagini/produs.ejs](views/pagini/produs.ejs), [resurse/js/produs.js](resurse/js/produs.js), [resurse/css/general.css](resurse/css/general.css), [resurse/imagini/produse](resurse/imagini/produse) |
 | Bonus 11 product details modal on `/produse` | Done | [index.js](index.js), [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
+| Bonus 15 live displayed-products count | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/js/produse.js](resurse/js/produse.js), [resurse/css/general.css](resurse/css/general.css) |
 | Bootstrap-styled controls on the products page | Done | [views/pagini/produse.ejs](views/pagini/produse.ejs), [resurse/scss/custom.scss](resurse/scss/custom.scss), [resurse/css/custom.css](resurse/css/custom.css), [resurse/css/general.css](resurse/css/general.css) |
 | Site-wide light / dark theme toggle in the shared header | Done | [views/fragmente/header.ejs](views/fragmente/header.ejs), [views/fragmente/head.ejs](views/fragmente/head.ejs), [resurse/js/tema.js](resurse/js/tema.js), [resurse/css/reset.css](resurse/css/reset.css), [resurse/css/general.css](resurse/css/general.css) |
 
@@ -298,13 +303,28 @@ Result:
 | `/produse/<categorie>` | switches to another `/produse/<alta-categorie>` page |
 | reset from category page | returns to `/produse` |
 
-## 11. Task 8 Buttons
+## 11. Task 8 Actions
 
-Task 8 requires four button-driven operations alongside the filters.
+Task 8 originally grouped the filter controls with the sort, calculate, and reset actions.
 
-### 11.1 The `filtreaza` Button
+### 11.1 Bonus 4 Automatic Filtering On Change
 
-The button is present in [views/pagini/produse.ejs](views/pagini/produse.ejs), and its action applies all currently active local filters through [resurse/js/produse.js](resurse/js/produse.js).
+Bonus 4 asks for the filtering effect to happen immediately when filter values change, instead of waiting for a separate button click.
+
+The products page no longer uses a separate `filtreaza` button. Instead, [resurse/js/produse.js](resurse/js/produse.js) listens to `input` and `change` events on the local filter controls and immediately applies the active filters when their values change.
+
+This covers:
+
+- tag text input
+- product name input
+- color select
+- price range
+- limited-edition checkbox
+- subcategory checkbox group
+- description textarea
+- excluded-tags multiselect
+
+The category radio group keeps its server-side behavior: changing the selected category navigates to `/produse` or `/produse/<categorie>`, because the server sends only the products for the selected category.
 
 ### 11.2 Sorting By Subcategory, Then Price
 
@@ -349,9 +369,9 @@ After confirmation:
 
 Source: [resurse/js/produse.js](resurse/js/produse.js)
 
-## 13. Task 10 Validation Before Button Actions
+## 13. Task 10 Validation Before Actions
 
-Task 10 asks for validation before filtering, sorting, or calculation buttons execute.
+Task 10 asks for validation before filtering, sorting, or calculation actions execute.
 
 The products page now includes an integrated warning area in [views/pagini/produse.ejs](views/pagini/produse.ejs).
 
@@ -372,9 +392,9 @@ It:
 - writes a relevant in-page warning message
 - blocks the action until the data is valid
 
-The three button-based actions now all call validation first:
+The current behavior validates both automatic filtering and the remaining button-based actions:
 
-- filter
+- local filter changes
 - sort ascending
 - sort descending
 - calculate
@@ -385,7 +405,35 @@ Main files:
 - [resurse/js/produse.js](resurse/js/produse.js)
 - [resurse/css/general.css](resurse/css/general.css)
 
-## 14. Bootstrap Customization For The Products Page
+## 14. Bonus 3 And Bonus 15 Filter Feedback
+
+### 14.1 Bonus 3 No Products Message
+
+Bonus 3 requires a clear message when the current filters leave no products to display.
+
+The products grid in [views/pagini/produse.ejs](views/pagini/produse.ejs) includes a hidden message:
+
+```html
+Nu exista produse conform filtrarii curente.
+```
+
+[resurse/js/produse.js](resurse/js/produse.js) updates that message after every valid filter pass. When the visible product count becomes `0`, the message is shown in place of product cards. When at least one product matches again, it is hidden.
+
+The visual styling is in [resurse/css/general.css](resurse/css/general.css), using the existing products-page color variables.
+
+### 14.2 Bonus 15 Displayed Products Count
+
+Bonus 15 requires the page to show how many products are currently displayed.
+
+The products page now renders a live counter above the grid:
+
+```html
+<span id="numar-produse-afisate">...</span> produse afisate
+```
+
+The same JavaScript update step that toggles the Bonus 3 message also writes the current visible count into that span. This means the counter reaches `0` when no product matches the current filters.
+
+## 15. Bootstrap Customization For The Products Page
 
 After the Stage 6 task logic was already complete, the products page controls were upgraded to use Bootstrap components styled through the project's own SCSS customizations.
 
@@ -443,7 +491,7 @@ The Bootstrap controls are not left at stock defaults. The page still preserves 
 - the temporary calculation popup
 - the products cards themselves
 
-## 15. Site-Wide Light / Dark Theme Toggle
+## 16. Site-Wide Light / Dark Theme Toggle
 
 The theme selector was first implemented only on the products page, but it has now been moved into the shared header so it is available site-wide.
 
@@ -489,7 +537,7 @@ Current behavior:
 
 The previous products-page storage key is also read once as a fallback, then removed when the new site-wide switch is used.
 
-## 16. Bonus 9 Multiple Product Images
+## 17. Bonus 9 Multiple Product Images
 
 Bonus 9 requires every product to support multiple images on its own product page. The current implementation stores the image folder in the product data and deduces the actual images from the files in that folder.
 
@@ -536,7 +584,7 @@ The individual product page uses the computed `imagini` list in [views/pagini/pr
 
 The behavior for changing the current image is handled in [resurse/js/produs.js](resurse/js/produs.js). The gallery styling and thumbnail overflow fixes are in [resurse/css/general.css](resurse/css/general.css).
 
-## 17. Bonus 11 Product Details Modal On `/produse`
+## 18. Bonus 11 Product Details Modal On `/produse`
 
 Bonus 11 requires each product on the products page to be able to show its details directly in a modal box, without forcing the user to navigate away to the separate product page.
 
@@ -569,7 +617,7 @@ The modal is styled in [resurse/css/general.css](resurse/css/general.css) using 
 
 ## Conclusion
 
-The completed parts of Stage 6 now include Task 2, Task 4, Task 7, Task 8, Task 9, Task 10, Bonus 9, and Bonus 11, together with the later products-page refinements:
+The completed parts of Stage 6 now include Task 2, Task 4, Task 7, Task 8, Task 9, Task 10, Bonus 3, Bonus 4, Bonus 9, Bonus 11, and Bonus 15, together with the later products-page refinements:
 
 | Completed item | Status |
 |---|---:|
@@ -578,11 +626,14 @@ The completed parts of Stage 6 now include Task 2, Task 4, Task 7, Task 8, Task 
 | Server-side category pages | Done |
 | Required Stage 6 filter rules | Done |
 | Category-switch navigation fix | Done |
-| Required Stage 6 buttons | Done |
+| Bonus 3 no-products message after filtering | Done |
+| Bonus 4 automatic filtering on change | Done |
+| Sort, calculate, and reset action buttons | Done |
 | Reset confirmation | Done |
-| Validation before button actions | Done |
+| Validation before filter changes and action buttons | Done |
 | Bonus 9 multiple images per product from individual folders | Done |
 | Bonus 11 product details modal opened from the product image | Done |
+| Bonus 15 live displayed-products count | Done |
 | Responsive 3 / 2 / 1 single-product detail layout | Done |
 | Bootstrap-styled products controls | Done |
 | Site-wide light / dark theme toggle with persistence | Done |

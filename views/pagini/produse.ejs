@@ -187,10 +187,6 @@
 
                                 <div class="col-12">
                                     <div class="filtre-produse__actiuni d-grid gap-2 d-sm-flex justify-content-sm-end">
-                                        <button id="btn-filtreaza" class="btn btn-primary" type="button" aria-label="Filtreaza produsele">
-                                            <i class="bi bi-funnel-fill" aria-hidden="true"></i>
-                                            <span class="filtre-produse__btn-text d-none d-sm-inline">Filtreaza</span>
-                                        </button>
                                         <button id="btn-sortare-asc" class="btn btn-outline-primary" type="button" aria-label="Sorteaza ascendent">
                                             <i class="bi bi-sort-alpha-down" aria-hidden="true"></i>
                                             <span class="filtre-produse__btn-text d-none d-sm-inline">Sorteaza ascendent</span>
@@ -213,7 +209,14 @@
                         </div>
                     </section>
 
+	                    <p class="produse-contor" aria-live="polite">
+	                        <span id="numar-produse-afisate"><%= listaProduse.length %></span> produse afisate
+	                    </p>
+
 	                    <div class="lista-produse row row-cols-1 row-cols-lg-3 g-4">
+	                        <p class="produse-fara-rezultate col-12" id="mesaj-produse-fara-rezultate" aria-live="polite" hidden>
+	                            Nu exista produse conform filtrarii curente.
+	                        </p>
 	                        <% for (const produs of listaProduse) { %>
 	                            <% const dataAfisata = dataProdus(produs.data_adaugare); %>
                             <article
