@@ -421,7 +421,7 @@ html[data-bs-theme="light"] body {
 
 .filtre-produse__grup-titlu {
     margin: 0 0 0.85rem;
-    color: var(--produse-accent);
+    color: var(--produse-primary);
     font-size: 1rem;
     font-weight: 700;
 }
