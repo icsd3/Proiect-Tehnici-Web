@@ -1,4 +1,4 @@
-<% const dateGalerieAnimata = typeof galerieAnimata !== "undefined" ? galerieAnimata : { numarImagini: 0, imagini: [] }; %>
+<% const dateGalerieAnimata = typeof locals.galerieAnimata !== "undefined" ? locals.galerieAnimata : { numarImagini: 0, imagini: [] }; %>
 
 <% if (dateGalerieAnimata.imagini.length) { %>
     <section id="galerie-animata" class="galerie-animata galerie-animata--<%= dateGalerieAnimata.numarImagini %>">

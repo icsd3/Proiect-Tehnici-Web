@@ -416,7 +416,7 @@
 
         <section id="galerie-statica-acasa" class="container-galerie-statica">
             <h2>Galerie statica</h2>
-            <%- include("../fragmente/galerie-statica", { galerieStatica: typeof galerieStatica !== "undefined" ? galerieStatica : { imagini: [] } }) %>
+            <%- include("../fragmente/galerie-statica", { galerieStatica: typeof locals.galerieStatica !== "undefined" ? locals.galerieStatica : { imagini: [] } }) %>
         </section>
     </main>
 

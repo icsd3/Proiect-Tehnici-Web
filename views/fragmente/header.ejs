@@ -1,5 +1,5 @@
 <header>
-        <% const categoriiMeniuProduse = Array.isArray(categoriiProduseMeniu) ? categoriiProduseMeniu : []; %>
+        <% const categoriiMeniuProduse = Array.isArray(locals.categoriiProduseMeniu) ? locals.categoriiProduseMeniu : []; %>
         <div class="header-principal">
             <!-- Task 2.5: icon animat -->
             <h1>TheMetalVault <i class="fa-solid fa-compact-disc fa-spin"></i></h1>
@@ -121,6 +121,6 @@
     
         <section id="date-utilizator" aria-label="Date utilizator">
             <h2>Date utilizator</h2>
-            <p>IP utilizator: <strong><%= typeof ipUtilizator !== "undefined" ? ipUtilizator : "necunoscut" %></strong></p>
+            <p>IP utilizator: <strong><%= typeof locals.ipUtilizator !== "undefined" ? locals.ipUtilizator : "necunoscut" %></strong></p>
         </section>
     </header>

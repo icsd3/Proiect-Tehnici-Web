@@ -2,7 +2,7 @@
 <html lang="ro">
 
 <head>
-    <%- include("../fragmente/head", { titluPagina: titlu }) %>
+    <%- include("../fragmente/head", { titluPagina: locals.titlu }) %>
 </head>
 
 <body id="top">
@@ -10,9 +10,9 @@
 
     <main>
         <section id="eroare">
-            <h2><%= titlu %></h2>
-            <p><%= text %></p>
-            <img src="<%= imagine %>" alt="<%= titlu %>" width="640" height="420">
+            <h2><%= locals.titlu %></h2>
+            <p><%= locals.text %></p>
+            <img src="<%= locals.imagine %>" alt="<%= locals.titlu %>" width="640" height="420">
             <p><a href="/">Inapoi la pagina principala</a></p>
         </section>
     </main>

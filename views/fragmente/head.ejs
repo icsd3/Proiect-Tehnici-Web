@@ -6,7 +6,7 @@
         content="TheMetalVault - magazin online de merch metal și rock: tricouri, hanorace, patch-uri, vinyl/CD/casete și accesorii.">
     <meta name="keywords"
         content="metal merch, band merch, vinyl metal, tricouri metal, tricouri trupe, hanorace metal, hanorace trupe, CD metal, casete metal, patch-uri metal, accesorii metal, colectii metal, magazin merch metal online, produse oficiale trupe, vinyl metal editie speciala, merch exclusiv, articole populare metal, noutati merch">
-    <title><%= typeof titluPagina !== "undefined" ? titluPagina : "TheMetalVault" %></title>
+    <title><%= typeof locals.titluPagina !== "undefined" ? locals.titluPagina : "TheMetalVault" %></title>
     <script>
         (function () {
             let tema = "dark";
@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="/resurse/css/custom.css" type="text/css">
     <link rel="stylesheet" href="/resurse/css/reset.css" type="text/css">
     <link rel="stylesheet" href="/resurse/css/general.css" type="text/css">
-    <% if (typeof cssGalerieAnimata !== "undefined" && cssGalerieAnimata) { %>
+    <% if (typeof locals.cssGalerieAnimata !== "undefined" && locals.cssGalerieAnimata) { %>
         <link rel="stylesheet" href="/resurse/css/galerie-animata.css" type="text/css">
     <% } %>
     <link rel="stylesheet" href="/resurse/css/menu.css" type="text/css">

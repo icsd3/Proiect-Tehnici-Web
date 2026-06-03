@@ -11,9 +11,9 @@
     <main>
         <div id="grid-pagina">
             <section id="produse">
-                <% const categorieActivaCurenta = typeof categorieActiva === "string" ? categorieActiva : ""; %>
+                <% const categorieActivaCurenta = typeof locals.categorieActiva === "string" ? locals.categorieActiva : ""; %>
                 <h2><%= categorieActivaCurenta ? `Produse - ${categorieActivaCurenta}` : "Produse" %></h2>
-                <% const listaProduse = typeof produse !== "undefined" ? produse : []; %>
+                <% const listaProduse = typeof locals.produse !== "undefined" ? locals.produse : []; %>
                 <%
                     const luniRo = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
                     const zileRo = ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"];
@@ -26,8 +26,8 @@
                         };
                     }
 
-                    const categoriiProduse = Array.isArray(categoriiProduseMeniu) && categoriiProduseMeniu.length
-                        ? categoriiProduseMeniu
+                    const categoriiProduse = Array.isArray(locals.categoriiProduseMeniu) && locals.categoriiProduseMeniu.length
+                        ? locals.categoriiProduseMeniu
                         : [...new Set(listaProduse.map((produs) => produs.categorie))].sort();
                     const culoriProduse = [...new Set(listaProduse.map((produs) => produs.culoare))].sort();
                     const subcategoriiProduse = [...new Set(listaProduse.map((produs) => produs.subcategorie))].sort();
