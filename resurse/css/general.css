@@ -904,7 +904,7 @@ html[data-bs-theme="light"] body {
     max-width: 100%;
     min-width: 0;
     aspect-ratio: 1 / 1;
-    object-fit: fill;
+    object-fit: cover;
     border-radius: calc(var(--raza-mica) - 0.15rem);
 }
 
